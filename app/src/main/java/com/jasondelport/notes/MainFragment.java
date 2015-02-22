@@ -26,7 +26,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        setRetainInstance(true); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
         lifecycle("onCreate");
         // initialise data here
         state.setNote(new Note());
