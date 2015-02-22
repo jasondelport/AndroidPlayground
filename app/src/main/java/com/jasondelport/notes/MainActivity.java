@@ -15,19 +15,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
 
-/*
-        if (savedInstanceState != null) {
-            fragment = (MainFragment) getFragmentManager().getFragment(savedInstanceState, Constants.MAIN_FRAGMENT_TAG);
-        } else {
-            fragment = (MainFragment) getFragmentManager().findFragmentByTag(Constants.MAIN_FRAGMENT_TAG);
-        }
-*/
-
-        if (fragment == null) {
+        if (savedInstanceState == null) {
             fragment = new MainFragment();
-            fragment.setArguments(getIntent().getExtras());
+            if (getIntent() != null) {
+                fragment.setArguments(getIntent().getExtras());
+            }
             getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
+        } else {
+            fragment = (MainFragment) getFragmentManager().getFragment(savedInstanceState, Constants.MAIN_FRAGMENT_TAG);
         }
+
     }
 
     @Override
