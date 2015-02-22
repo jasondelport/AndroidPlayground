@@ -7,7 +7,7 @@ import timber.log.Timber;
 /**
  * Created by jasondelport on 22/02/2015.
  */
-public class NoteApp extends Application {
+public class NotesApp extends Application {
 
     @Override
     public void onCreate() {

@@ -86,6 +86,7 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="dagger-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="parceler-0.2.15" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.2.0" level="project" />
@@ -93,6 +94,7 @@
     <orderEntry type="library" exported="" name="timber-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="parceler-api-0.2.15" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="okio-1.2.0" level="project" />
   </component>

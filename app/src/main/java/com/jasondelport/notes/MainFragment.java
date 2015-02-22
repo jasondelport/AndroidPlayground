@@ -3,9 +3,12 @@ package com.jasondelport.notes;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.parceler.Parcels;
 
 import timber.log.Timber;
 
@@ -13,24 +16,26 @@ import timber.log.Timber;
 public class MainFragment extends Fragment {
 
     private Activity activity;
-    private String value;
+
+    private MainFragmentState state = MainFragmentState.getInstance();
 
     public MainFragment() {
-        notify("constructor");
+        lifecycle("constructor");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        notify("onCreate");
+        lifecycle("onCreate");
         // initialise data here
-        value = "value";
+        state.setNote(new Note());
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        notify("onCreateView");
+        lifecycle("onCreateView");
         // initialise view here
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -38,35 +43,37 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        notify("onActivityCreated");
+        lifecycle("onActivityCreated");
         if (savedInstanceState != null) {
-            value = savedInstanceState.getString("key");
+            Note note = Parcels.unwrap(savedInstanceState.getParcelable("note"));
+            state.setNote(note);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        notify("onSaveInstanceState");
-        outState.putString("key", value);
+        lifecycle("onSaveInstanceState");
+        Parcelable wrappedNote = Parcels.wrap(state.getNote());
+        outState.putParcelable("note", wrappedNote);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        notify("onStart");
+        lifecycle("onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        notify("onStop");
+        lifecycle("onStop");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        notify("onResume");
+        lifecycle("onResume");
 
         if (isAdded() || activity!=null) {
             // some task that involves getActivity(), use activity instead
@@ -76,23 +83,23 @@ public class MainFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        notify("onPause");
+        lifecycle("onPause");
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        notify("onAttach");
+        lifecycle("onAttach");
         this.activity = activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        notify("onDetach");
+        lifecycle("onDetach");
     }
 
-    private void notify(String methodName) {
+    private void lifecycle(String methodName) {
         Timber.d("Method Name -> %s", methodName);
     }
 
