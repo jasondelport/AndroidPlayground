@@ -2,7 +2,8 @@ package com.jasondelport.notes;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+
+import timber.log.Timber;
 
 
 public class MainActivity extends Activity {
@@ -21,7 +22,7 @@ public class MainActivity extends Activity {
         }
 
         if (fragment == null) {
-            Log.d("ACTIVITY", "Fragment is null.");
+            Timber.d("Fragment is null");
             fragment = new MainFragment();
             getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
         }
@@ -62,10 +63,10 @@ public class MainActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         notify("onSaveInstanceState");
-        getFragmentManager().putFragment(outState, "mContent", fragment);
+        getFragmentManager().putFragment(outState, Constants.MAIN_FRAGMENT_TAG, fragment);
     }
 
     private void notify(String methodName) {
-        Log.d("ACTIVITY", methodName);
+        Timber.d("Method Name -> %s", methodName);
     }
 }
