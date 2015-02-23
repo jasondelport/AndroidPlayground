@@ -7,9 +7,12 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.parceler.Parcels;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import timber.log.Timber;
 
 
@@ -18,6 +21,10 @@ public class MainFragment extends Fragment {
     private Activity activity;
 
     private MainFragmentState state = MainFragmentState.getInstance();
+
+    @InjectView(R.id.text)
+    TextView text;
+
 
     public MainFragment() {
         lifecycle("constructor");
@@ -36,8 +43,14 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         lifecycle("onCreateView");
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        ButterKnife.inject(this, view);
+
         // initialise view here
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        text.setText(BuildConfig.URL);
+
+
+        return view;
     }
 
     @Override

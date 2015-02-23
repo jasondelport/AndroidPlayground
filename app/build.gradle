@@ -4,6 +4,9 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.1"
 
+    def Properties properties = new Properties()
+    properties.load(new FileInputStream(file('project.properties')))
+
     defaultConfig {
         applicationId "com.jasondelport.notes"
         minSdkVersion 21
@@ -12,9 +15,24 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "URL",properties['url']
+            resValue "string", "url", properties['url']
+        }
+
         release {
+            buildConfigField "String", "URL",properties['url']
+            resValue "string", "url", properties['url']
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'debug'
+            keyPassword 'android'
         }
     }
 }
