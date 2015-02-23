@@ -15,6 +15,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
 
+//        NotesClient client = new NotesClient();
+//        client.getNotes();
+
         if (savedInstanceState == null) {
             fragment = new MainFragment();
             if (getIntent() != null) {

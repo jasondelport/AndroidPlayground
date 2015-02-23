@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jasondelport.notes.model.Note;
+
 import org.parceler.Parcels;
 
 import butterknife.ButterKnife;
@@ -91,6 +93,7 @@ public class MainFragment extends Fragment {
         if (isAdded() || activity!=null) {
             // some task that involves getActivity(), use activity instead
         }
+
     }
 
     @Override

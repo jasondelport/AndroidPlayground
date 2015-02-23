@@ -5,7 +5,6 @@ android {
     buildToolsVersion "21.1.1"
 
     def Properties properties = new Properties()
-    properties.load(new FileInputStream(file('project.properties')))
 
     defaultConfig {
         applicationId "com.jasondelport.notes"
@@ -16,12 +15,14 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "URL",properties['url']
+            properties.load(new FileInputStream(file('/Users/jasondelport/Code/AndroidProjectTemplate/AndroidProjectTemplate.properties')))
+            buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
         }
 
         release {
-            buildConfigField "String", "URL",properties['url']
+            properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidProjectTemplate.properties')))
+            buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

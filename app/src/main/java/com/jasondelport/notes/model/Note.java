@@ -1,27 +1,16 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.model;
 
 import org.parceler.Parcel;
 
 /**
- * Created by jasondelport on 22/02/2015.
+ * Created by jasondelport on 23/02/2015.
  */
 @Parcel
 public class Note {
-    private String key;
     private long added;
     private long updated;
+    private String key;
     private String text;
-
-    public Note() {
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
 
     public long getAdded() {
         return added;
@@ -39,6 +28,14 @@ public class Note {
         this.updated = updated;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getText() {
         return text;
     }
@@ -46,4 +43,5 @@ public class Note {
     public void setText(String text) {
         this.text = text;
     }
+
 }

@@ -1,5 +1,7 @@
 package com.jasondelport.notes;
 
+import com.jasondelport.notes.model.Note;
+
 /**
  * Created by jasondelport on 22/02/2015.
  */
