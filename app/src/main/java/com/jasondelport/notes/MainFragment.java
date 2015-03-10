@@ -5,6 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ public class MainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
+        setHasOptionsMenu(true);
         lifecycle("onCreate");
         // initialise data here
         state.setNote(new Note());
@@ -97,6 +101,30 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        lifecycle("onOptionsItemSelected");
+        inflater.inflate(R.menu.menu_fragment_main, menu);
+    }
+
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        lifecycle("onPrepareOptionsMenu");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        lifecycle("onOptionsItemSelected");
+        switch (item.getItemId()) {
+            case R.id.action_fragment_settings:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         lifecycle("onPause");
@@ -116,7 +144,7 @@ public class MainFragment extends Fragment {
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("Method Name -> %s", methodName);
+        Timber.d("Fragment (%s)", methodName);
     }
 
 }

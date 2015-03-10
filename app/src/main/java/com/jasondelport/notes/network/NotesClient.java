@@ -1,4 +1,4 @@
-package com.jasondelport.notes.data;
+package com.jasondelport.notes.network;
 
 import com.jasondelport.notes.BuildConfig;
 
