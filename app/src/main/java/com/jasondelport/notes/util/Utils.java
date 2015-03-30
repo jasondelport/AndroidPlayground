@@ -44,9 +44,9 @@ public class Utils {
         return new Point(configuration.screenWidthDp, configuration.screenHeightDp);
     }
 
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillis = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillis, TimeUnit.MILLISECONDS);
+    public static int getDateDiff(Date startDate, Date endDate, TimeUnit timeUnit) {
+        long diffInMillis = endDate.getTime() - startDate.getTime();
+        return (int) timeUnit.convert(diffInMillis, TimeUnit.MILLISECONDS);
     }
 
     public static boolean isEmptyString(String string) {
@@ -73,6 +73,7 @@ public class Utils {
             imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
     }
+	
 
     public static void makeToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();

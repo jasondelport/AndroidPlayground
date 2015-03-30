@@ -55,7 +55,6 @@ public class MainFragment extends Fragment {
         // initialise view here
         text.setText(BuildConfig.URL);
 
-
         return view;
     }
 
