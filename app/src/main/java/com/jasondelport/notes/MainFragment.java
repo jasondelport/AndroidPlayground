@@ -2,19 +2,16 @@ package com.jasondelport.notes;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-
-import com.jasondelport.notes.model.Note;
-
-import org.parceler.Parcels;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,16 +20,33 @@ import timber.log.Timber;
 
 public class MainFragment extends Fragment {
 
-    private Activity activity;
+    private String value1;
+    private int value2;
+    private OnEventListener listener;
 
-    private MainFragmentState state = MainFragmentState.getInstance();
+    public interface OnEventListener {
+        public void onEvent(String data);
+    }
 
     @InjectView(R.id.text)
     TextView text;
 
+    @InjectView(R.id.main_button_drawer)
+    Button button;
+
 
     public MainFragment() {
         lifecycle("constructor");
+    }
+
+    // the recommended google way of instantiating new fragments via a static factory method
+    public static MainFragment newInstance(String value1, int value2) {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        args.putString("value1", value1);
+        args.putInt("value2", value2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -41,8 +55,10 @@ public class MainFragment extends Fragment {
         setRetainInstance(true); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
         setHasOptionsMenu(true);
         lifecycle("onCreate");
-        // initialise data here
-        state.setNote(new Note());
+        if (getArguments() != null) {
+            value1 = getArguments().getString("value1", "default value");
+            value2 = getArguments().getInt("value2", 0);
+        }
     }
 
 
@@ -52,8 +68,15 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.inject(this, view);
 
-        // initialise view here
+        // setup view data here
         text.setText(BuildConfig.URL);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DrawerActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -62,18 +85,13 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         lifecycle("onActivityCreated");
-        if (savedInstanceState != null) {
-            Note note = Parcels.unwrap(savedInstanceState.getParcelable("note"));
-            state.setNote(note);
-        }
+        // first time the fragment may have been created
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         lifecycle("onSaveInstanceState");
-        Parcelable wrappedNote = Parcels.wrap(state.getNote());
-        outState.putParcelable("note", wrappedNote);
     }
 
     @Override
@@ -92,11 +110,6 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         lifecycle("onResume");
-
-        if (isAdded() || activity!=null) {
-            // some task that involves getActivity(), use activity instead
-        }
-
     }
 
     @Override
@@ -116,7 +129,6 @@ public class MainFragment extends Fragment {
         lifecycle("onOptionsItemSelected");
         switch (item.getItemId()) {
             case R.id.action_fragment_settings:
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -133,13 +145,20 @@ public class MainFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         lifecycle("onAttach");
-        this.activity = activity;
+        if (activity instanceof MainActivity) {
+            listener = (OnEventListener) activity;
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         lifecycle("onDetach");
+    }
+
+    // communicate with the activity via a listener
+    private void doSomeThing(String data) {
+        listener.onEvent(data);
     }
 
     private void lifecycle(String methodName) {

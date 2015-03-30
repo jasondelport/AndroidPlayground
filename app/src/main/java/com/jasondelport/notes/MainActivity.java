@@ -1,7 +1,7 @@
 package com.jasondelport.notes;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,26 +9,17 @@ import android.view.MenuItem;
 import timber.log.Timber;
 
 
-public class MainActivity extends Activity {
-
-    private MainFragment fragment;
+public class MainActivity extends ActionBarActivity implements MainFragment.OnEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
 
-//        NotesClient client = new NotesClient();
-//        client.getNotes();
-
         if (savedInstanceState == null) {
-            fragment = new MainFragment();
-            if (getIntent() != null) {
-                fragment.setArguments(getIntent().getExtras());
-            }
+            MainFragment fragment = MainFragment.newInstance("hello", 0);
+            fragment.setArguments(getIntent().getExtras());
             getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
-        } else {
-            fragment = (MainFragment) getFragmentManager().getFragment(savedInstanceState, Constants.MAIN_FRAGMENT_TAG);
         }
 
     }
@@ -94,19 +85,20 @@ public class MainActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         lifecycle("onRestoreInstanceState");
-        if (savedInstanceState != null) {
-            fragment = (MainFragment) getFragmentManager().getFragment(savedInstanceState, Constants.MAIN_FRAGMENT_TAG);
-        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         lifecycle("onSaveInstanceState");
-        getFragmentManager().putFragment(outState, Constants.MAIN_FRAGMENT_TAG, fragment);
     }
 
     private void lifecycle(String methodName) {
         Timber.d("Activity (%s)", methodName);
+    }
+
+    @Override
+    public void onEvent(String data) {
+        // listener method from  fragment
     }
 }
