@@ -86,8 +86,8 @@
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="dagger-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="picasso-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="okio-1.2.0" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="core.cache-0.6.3" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
     <orderEntry type="library" exported="" name="auto-common-0.3" level="project" />
@@ -111,8 +111,8 @@
     <orderEntry type="library" exported="" name="icepick-3.0.2" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="quoin-0.1.2" level="project" />
-    <orderEntry type="library" exported="" name="parceler-0.2.15" level="project" />
     <orderEntry type="library" exported="" name="clojure-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="parceler-0.2.15" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="auto-service-1.0-rc2" level="project" />
   </component>
