@@ -45,7 +45,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
     @Override
     public int getItemViewType(int position) {
         return position % 2 * 2;
@@ -53,13 +52,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
+        //Timber.d("type -> %d", getItemViewType(position));
+        switch (getItemViewType(position)) {
             case 0:
                 ViewHolder0 h0 = (ViewHolder0) holder;
                 h0.mTextView.setText(mPlanetTitles[position]);
+                break;
             default:
                 ViewHolder2 h2 = (ViewHolder2) holder;
                 h2.mTextView.setText(mPlanetTitles[position]);
+                break;
         }
     }
 
