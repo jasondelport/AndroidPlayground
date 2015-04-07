@@ -32,8 +32,10 @@ public class MainFragment extends Fragment {
     TextView text;
 
     @InjectView(R.id.main_button_drawer)
-    Button button;
+    Button button1;
 
+    @InjectView(R.id.main_button_recyclerview)
+    Button button2;
 
     public MainFragment() {
         lifecycle("constructor");
@@ -70,10 +72,18 @@ public class MainFragment extends Fragment {
 
         // setup view data here
         text.setText(BuildConfig.URL);
-        button.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DrawerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecyclerViewActivity.class);
                 startActivity(intent);
             }
         });
