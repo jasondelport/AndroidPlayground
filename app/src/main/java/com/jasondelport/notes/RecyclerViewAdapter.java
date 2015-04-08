@@ -6,8 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jasondelport.notes.model.Note;
+
+import java.util.List;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private String[] mPlanetTitles;
+    private List<Note> mNotes;
 
     public static class ViewHolder0 extends RecyclerView.ViewHolder {
         public TextView mTextView;
@@ -27,8 +31,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public RecyclerViewAdapter(String[] mPlanetTitles) {
-        this.mPlanetTitles = mPlanetTitles;
+    public RecyclerViewAdapter(List<Note> mNotes) {
+        this.mNotes = mNotes;
     }
 
     @Override
@@ -56,17 +60,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (getItemViewType(position)) {
             case 0:
                 ViewHolder0 h0 = (ViewHolder0) holder;
-                h0.mTextView.setText(mPlanetTitles[position]);
+                h0.mTextView.setText(mNotes.get(position).getText());
                 break;
             default:
                 ViewHolder2 h2 = (ViewHolder2) holder;
-                h2.mTextView.setText(mPlanetTitles[position]);
+                h2.mTextView.setText(mNotes.get(position).getText());
                 break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return mPlanetTitles.length;
+        return mNotes.size();
     }
 }

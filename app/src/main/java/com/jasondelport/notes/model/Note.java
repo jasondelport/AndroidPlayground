@@ -1,15 +1,22 @@
 package com.jasondelport.notes.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.parceler.Parcel;
 
-/**
- * Created by jasondelport on 23/02/2015.
- */
 @Parcel
 public class Note {
+
+    @SerializedName("added")
     private long added;
+
+    @SerializedName("updated")
     private long updated;
+
+    @SerializedName("key")
     private String key;
+
+    @SerializedName("text")
     private String text;
 
     public long getAdded() {

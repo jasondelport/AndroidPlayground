@@ -30,7 +30,7 @@ android {
 
     buildTypes {
         debug {
-            properties.load(new FileInputStream(file('/Users/jasondelport/Code/AndroidProjectTemplate/AndroidProjectTemplate.properties')))
+            properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidProjectTemplate.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
         }
