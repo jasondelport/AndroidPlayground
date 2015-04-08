@@ -19,6 +19,9 @@ public class Note {
     @SerializedName("text")
     private String text;
 
+    @SerializedName("note")
+    private String note;
+
     public long getAdded() {
         return added;
     }
@@ -51,4 +54,11 @@ public class Note {
         this.text = text;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }

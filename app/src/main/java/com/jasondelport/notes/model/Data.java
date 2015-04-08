@@ -13,7 +13,9 @@ import java.util.List;
 public class Data {
 
     @SerializedName("notes")
-    private List<Note> notes;
+    List<Note> notes;
+
+    public Data(){}
 
     public List<Note> getNotes() {
         return notes;

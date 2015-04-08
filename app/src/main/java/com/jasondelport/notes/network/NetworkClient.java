@@ -9,7 +9,7 @@ import retrofit.client.OkClient;
 /**
  * Created by jasondelport on 23/02/2015.
  */
-public class RestClient {
+public class NetworkClient {
 
     private static Api api;
 
@@ -23,9 +23,9 @@ public class RestClient {
         api = restAdapter.create(Api.class);
     }
 
-    private RestClient() {}
+    private NetworkClient() {}
 
-    public static Api getApiService() {
+    public static Api getService() {
         return api;
     }
 

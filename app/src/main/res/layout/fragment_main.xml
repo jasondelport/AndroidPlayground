@@ -24,4 +24,11 @@
         android:layout_margin="10dp"
         android:text="@string/example_recyclerview" />
 
+    <Button
+        android:id="@+id/main_button_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/example_location" />
+
 </LinearLayout>

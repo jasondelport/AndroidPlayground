@@ -37,6 +37,9 @@ public class MainFragment extends Fragment {
     @InjectView(R.id.main_button_recyclerview)
     Button button2;
 
+    @InjectView(R.id.main_button_location)
+    Button button3;
+
     public MainFragment() {
         lifecycle("constructor");
     }
@@ -84,6 +87,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RecyclerViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
                 startActivity(intent);
             }
         });
