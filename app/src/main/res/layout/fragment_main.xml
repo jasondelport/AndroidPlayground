@@ -31,4 +31,11 @@
         android:layout_margin="10dp"
         android:text="@string/example_location" />
 
+    <Button
+        android:id="@+id/main_button_postnote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/post_note" />
+
 </LinearLayout>

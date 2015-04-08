@@ -13,4 +13,5 @@
     <string name="drawer_example">Drawer Example</string>
     <string name="example_recyclerview">RecyclerView Example</string>
     <string name="example_location">Fused Location Example</string>
+    <string name="post_note">Post Note</string>
 </resources>

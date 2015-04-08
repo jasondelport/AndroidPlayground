@@ -40,6 +40,9 @@ public class MainFragment extends Fragment {
     @InjectView(R.id.main_button_location)
     Button button3;
 
+    @InjectView(R.id.main_button_postnote)
+    Button button4;
+
     public MainFragment() {
         lifecycle("constructor");
     }
@@ -95,6 +98,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PostNoteActivity.class);
                 startActivity(intent);
             }
         });
