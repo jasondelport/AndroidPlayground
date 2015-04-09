@@ -62,8 +62,7 @@ public class LocationProvider implements
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-        else {
+        } else {
             mLocationCallback.showLocation(location);
         }
     }
@@ -77,7 +76,7 @@ public class LocationProvider implements
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (connectionResult.hasResolution() && mContext instanceof Activity) {
             try {
-                Activity activity = (Activity)mContext;
+                Activity activity = (Activity) mContext;
                 connectionResult.startResolutionForResult(activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
             } catch (IntentSender.SendIntentException e) {
                 e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.jasondelport.notes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -22,6 +23,7 @@ public class MainActivity extends ActionBarActivity implements MainFragment.OnEv
             getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
         }
 
+        addShortCut();
     }
 
     @Override
@@ -99,6 +101,19 @@ public class MainActivity extends ActionBarActivity implements MainFragment.OnEv
 
     @Override
     public void onEvent(String data) {
-        // listener method from  fragment
+        // listener method from fragment
+    }
+
+    private void addShortCut(){
+        Intent shortcutIntent = new Intent(getApplicationContext(), PostNoteActivity.class);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Note");
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher));
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        getApplicationContext().sendBroadcast(addIntent);
     }
 }

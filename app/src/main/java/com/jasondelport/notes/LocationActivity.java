@@ -3,7 +3,7 @@ package com.jasondelport.notes;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.jasondelport.notes.location.LocationProvider;
 
-public class LocationActivity extends FragmentActivity implements OnMapReadyCallback, LocationProvider.LocationCallback {
+public class LocationActivity extends ActionBarActivity implements OnMapReadyCallback, LocationProvider.LocationCallback {
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
 

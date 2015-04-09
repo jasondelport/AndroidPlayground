@@ -7,18 +7,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jasondelport.notes.model.Note;
+import com.jasondelport.notes.util.Utils;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Note> mNotes;
 
+    public class ItemViewType {
+        private static final int VIEWTYPE0 = 0, VIEWTYPE2 = 1;
+    }
+
     public static class ViewHolder0 extends RecyclerView.ViewHolder {
         public TextView mTextView;
 
         public ViewHolder0(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.textView);
+            mTextView = (TextView) v.findViewById(R.id.note);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.makeToast(v.getContext(), "clicked");
+                }
+            });
         }
     }
 
@@ -27,7 +38,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public ViewHolder2(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.textView);
+            mTextView = (TextView) v.findViewById(R.id.note);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.makeToast(v.getContext(), "clicked");
+                }
+            });
         }
     }
 
@@ -38,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case 0:
+            case ItemViewType.VIEWTYPE0:
                 View v0 = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recyclerview, parent, false);
                 ViewHolder0 vh0 = new ViewHolder0(v0);
                 return vh0;
@@ -58,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         //Timber.d("type -> %d", getItemViewType(position));
         switch (getItemViewType(position)) {
-            case 0:
+            case ItemViewType.VIEWTYPE0:
                 ViewHolder0 h0 = (ViewHolder0) holder;
                 h0.mTextView.setText(mNotes.get(position).getText());
                 break;
