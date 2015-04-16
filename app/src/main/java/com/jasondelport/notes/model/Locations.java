@@ -42,7 +42,7 @@ public class Locations {
         camdentown.setAudio(R.raw.yourmom);
 
         CustomLocation inverness = new CustomLocation ("Top of Inverness Street");
-        inverness.setLatitudeLongitude(51.539692, -0.143480);
+        inverness.setLatitudeLongitude(51.539726, -0.143530);
         inverness.setAudio(R.raw.bikehorn);
 
         locations.add(sainsburys);

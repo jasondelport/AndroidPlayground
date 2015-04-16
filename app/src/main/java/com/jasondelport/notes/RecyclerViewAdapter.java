@@ -90,4 +90,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return mNotes.size();
     }
+
+
 }

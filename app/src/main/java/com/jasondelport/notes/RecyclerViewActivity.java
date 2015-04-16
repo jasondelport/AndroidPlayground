@@ -39,6 +39,8 @@ public class RecyclerViewActivity extends ActionBarActivity {
             mData = Parcels.unwrap(savedInstanceState.getParcelable("data"));
         }
 
+
+
     }
 
     @Override
