@@ -1,6 +1,5 @@
 package com.jasondelport.notes.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,12 +8,13 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.jasondelport.notes.Constants;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +26,6 @@ import timber.log.Timber;
  * Created by jasondelport on 06/02/2015.
  */
 public class Utils {
-    public static int dpToPx(Resources resources, int dp) {
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        return Math.round(dp * (metrics.densityDpi / 160f));
-    }
 
     public static int dpToPx(int dp) {
         return Math.round(dp * Resources.getSystem().getDisplayMetrics().density);
@@ -44,13 +40,28 @@ public class Utils {
         return new Point(configuration.screenWidthDp, configuration.screenHeightDp);
     }
 
+    // this had issues, use cautiously
     public static int getDateDiff(Date startDate, Date endDate, TimeUnit timeUnit) {
         long diffInMillis = endDate.getTime() - startDate.getTime();
         return (int) timeUnit.convert(diffInMillis, TimeUnit.MILLISECONDS);
     }
 
+    public static long daysBetween(Date startDate, Date endDate) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startDate);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endDate);
+        Calendar date = (Calendar) start.clone();
+        long daysBetween = 0;
+        while (date.before(end)) {
+            date.add(Calendar.DAY_OF_MONTH, 1);
+            daysBetween++;
+        }
+        return daysBetween;
+    }
+
     public static boolean isEmptyString(String string) {
-        return (TextUtils.isEmpty(string) || string.toString().equalsIgnoreCase("null"));
+        return string == null || TextUtils.isEmpty(string) || string.toString().equalsIgnoreCase("null");
     }
 
     public static boolean isEmptyList(List list) {
@@ -67,13 +78,17 @@ public class Utils {
         return number;
     }
 
-    public static void hideKeyboard(Activity activity) {
-        if (activity != null && activity.getCurrentFocus() != null) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-        }
+    public static void showKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInputFromWindow(view.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+
     }
-	
+
+    public static void hideKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
     public static void makeToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
