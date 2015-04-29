@@ -8,39 +8,36 @@ import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 
 public class LocationProvider implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
-
-    public abstract interface LocationCallback {
-        public void showLocation(Location location);
-    }
+        GoogleApiClient.OnConnectionFailedListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-
-    private LocationCallback mLocationCallback;
+    private CustomLocationCallback mCustomLocationCallback;
     private Context mContext;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private FusedLocationCallback mFusedLocationCallback = new FusedLocationCallback();
 
-    public LocationProvider(Context context, LocationCallback callback) {
+    public LocationProvider(Context context, CustomLocationCallback callback) {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
 
-        mLocationCallback = callback;
+        mCustomLocationCallback = callback;
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(4 * 1000)
+                .setInterval(3 * 1000)
                 .setFastestInterval(1 * 1000);
 
         mContext = context;
@@ -52,7 +49,7 @@ public class LocationProvider implements
 
     public void disconnect() {
         if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mFusedLocationCallback);
             mGoogleApiClient.disconnect();
         }
     }
@@ -60,11 +57,10 @@ public class LocationProvider implements
     @Override
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        } else {
-            mLocationCallback.showLocation(location);
+        if (location != null) {
+            mCustomLocationCallback.showLocation(location);
         }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mFusedLocationCallback, null);
     }
 
     @Override
@@ -84,8 +80,22 @@ public class LocationProvider implements
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        mLocationCallback.showLocation(location);
+    public abstract interface CustomLocationCallback {
+        public void showLocation(Location location);
+    }
+
+    private class FusedLocationCallback extends LocationCallback {
+        private boolean isAvailable;
+
+        public void onLocationAvailability(LocationAvailability locationAvailability) {
+            isAvailable = locationAvailability.isLocationAvailable();
+        }
+
+        public void onLocationResult(LocationResult result) {
+            if (isAvailable) {
+                mCustomLocationCallback.showLocation(result.getLastLocation());
+            }
+        }
+
     }
 }

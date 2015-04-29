@@ -20,7 +20,7 @@ import com.jasondelport.notes.util.Utils;
 
 import timber.log.Timber;
 
-public class LocationActivity extends ActionBarActivity implements OnMapReadyCallback, LocationProvider.LocationCallback {
+public class LocationActivity extends ActionBarActivity implements OnMapReadyCallback, LocationProvider.CustomLocationCallback {
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
     private MediaPlayer mp;
@@ -57,15 +57,15 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        float [] dist = new float[1];
+        float[] dist = new float[1];
         for (CustomLocation cl : Locations.getLocations()) {
             Location.distanceBetween(
-                    location.getLatitude(),location.getLongitude(),
-                    cl.getLatitude(),cl.getLongitude(),
+                    location.getLatitude(), location.getLongitude(),
+                    cl.getLatitude(), cl.getLongitude(),
                     dist);
             if (dist[0] < 25) {
                 Utils.makeToast(this, cl.getName());
-                playAudio(cl.getAudio());
+                //playAudio(cl.getAudio());
             }
         }
 
@@ -96,7 +96,6 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
                     .title(loc.getName()));
         }
 
-
     }
 
     @Override
@@ -110,7 +109,7 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.normal_map:
                 mType = GoogleMap.MAP_TYPE_NORMAL;
                 break;
