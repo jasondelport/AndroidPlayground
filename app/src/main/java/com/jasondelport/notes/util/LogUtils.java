@@ -11,7 +11,7 @@ import java.util.Calendar;
  */
 public class LogUtils {
     public static void appendLog(String text) {
-        File logFile = new File("sdcard/log.txt");
+        File logFile = new File("sdcard/location_log.txt");
         if (!logFile.exists()) {
             try {
                 logFile.createNewFile();

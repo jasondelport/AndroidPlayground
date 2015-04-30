@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.jasondelport.notes.location.LocationProvider;
 import com.jasondelport.notes.model.CustomLocation;
 import com.jasondelport.notes.model.Locations;
+import com.jasondelport.notes.util.LogUtils;
 import com.jasondelport.notes.util.Utils;
 
 import timber.log.Timber;
@@ -25,6 +26,8 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
     private LocationProvider mLocationProvider;
     private MediaPlayer mp;
     private int mType = GoogleMap.MAP_TYPE_NORMAL;
+    private static boolean zoomed;
+    private static String mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
         mLocationProvider = new LocationProvider(this, this);
+
     }
 
     private void playAudio(int id) {
@@ -52,6 +56,21 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
     }
 
     public void showLocation(Location location) {
+        int bearing;
+        int accuracy = 25;
+        String provider = location.getProvider();
+        Timber.d("provider -> %s", provider);
+        boolean hasBearing = location.hasBearing();
+        boolean hasAccuracy = location.hasAccuracy();
+        if (hasAccuracy) {
+            accuracy = (int) location.getAccuracy();
+            Timber.d("accuracy -> %d", accuracy);
+        }
+        if (hasBearing) {
+            bearing = (int) location.getBearing();
+            Timber.d("bearing -> %d", bearing);
+        }
+
         Timber.d(String.valueOf(location));
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
@@ -63,14 +82,31 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
                     location.getLatitude(), location.getLongitude(),
                     cl.getLatitude(), cl.getLongitude(),
                     dist);
-            if (dist[0] < 25) {
-                Utils.makeToast(this, cl.getName());
+            if (dist[0] < accuracy) {
+                if (!cl.getName().equals(mCurrentLocation)) {
+                    Utils.makeToast(this, cl.getName());
+                    mCurrentLocation = cl.getName();
+                    if (!cl.getName().equals("My Jol")) {
+                        LogUtils.appendLog(cl.getName());
+                    }
+                }
                 //playAudio(cl.getAudio());
             }
         }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        /*
+        mMap.addCircle(new CircleOptions()
+                .center(new LatLng(location.getLatitude(), location.getLongitude()))
+                .radius(accuracy)
+                .strokeWidth(0.5f)
+                .strokeColor(getResources().getColor(R.color.light_blue))
+                .fillColor(getResources().getColor(R.color.translucent_light_blue)));
+        */
+        if (!zoomed) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+            zoomed = true;
+        }
     }
 
     @Override

@@ -26,6 +26,10 @@ public class LocationProvider implements
     private LocationRequest mLocationRequest;
     private FusedLocationCallback mFusedLocationCallback = new FusedLocationCallback();
 
+    public abstract interface CustomLocationCallback {
+        public void showLocation(Location location);
+    }
+
     public LocationProvider(Context context, CustomLocationCallback callback) {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
@@ -37,8 +41,9 @@ public class LocationProvider implements
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(3 * 1000)
-                .setFastestInterval(1 * 1000);
+                .setInterval(4 * 1000)
+                .setMaxWaitTime(8 * 1000)
+                .setFastestInterval(2 * 1000);
 
         mContext = context;
     }
@@ -78,10 +83,6 @@ public class LocationProvider implements
                 e.printStackTrace();
             }
         }
-    }
-
-    public abstract interface CustomLocationCallback {
-        public void showLocation(Location location);
     }
 
     private class FusedLocationCallback extends LocationCallback {

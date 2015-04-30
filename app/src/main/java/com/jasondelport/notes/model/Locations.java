@@ -41,10 +41,15 @@ public class Locations {
         camdentown.setLatitudeLongitude(51.539136, -0.142625);
         camdentown.setAudio(R.raw.yourmom);
 
-        CustomLocation inverness = new CustomLocation ("Top of Inverness Street");
+        CustomLocation inverness = new CustomLocation("Top of Inverness Street");
         inverness.setLatitudeLongitude(51.539726, -0.143530);
         inverness.setAudio(R.raw.bikehorn);
 
+        CustomLocation flying = new CustomLocation("Top of Inverness Street");
+        flying.setLatitudeLongitude(51.531091, -0.120888);
+        flying.setAudio(R.raw.bikehorn);
+
+        locations.add(flying);
         locations.add(sainsburys);
         locations.add(mixer);
         locations.add(zensai);
