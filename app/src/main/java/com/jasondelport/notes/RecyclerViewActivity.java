@@ -67,7 +67,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     @Subscribe
     public void onNetworkSuccess(NetworkSuccessEvent<NoteData> event) {
-        Timber.d("network success");
+        Timber.d("network success -> %s", event.getResponse().toString());
         mNoteData = event.getData();
         setData();
     }

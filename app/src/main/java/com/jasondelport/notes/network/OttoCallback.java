@@ -18,7 +18,7 @@ public class OttoCallback<T> implements Callback<T> {
     @Override
     public void success(T t, Response response) {
         Timber.d("callback network success");
-        App.getEventBus().post(new NetworkSuccessEvent(t));
+        App.getEventBus().post(new NetworkSuccessEvent(t, response));
     }
 
     @Override

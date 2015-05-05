@@ -2,7 +2,7 @@ package com.jasondelport.notes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import timber.log.Timber;
 
 
-public class MainActivity extends ActionBarActivity implements MainFragment.OnEventListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

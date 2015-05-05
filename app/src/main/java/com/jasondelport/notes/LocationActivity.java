@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,7 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.jasondelport.notes.event.LocationChangedEvent;
+import com.jasondelport.notes.event.LocationUpdateEvent;
 import com.jasondelport.notes.location.LocationProvider;
 import com.jasondelport.notes.model.CustomLocation;
 import com.jasondelport.notes.model.Locations;
@@ -26,20 +26,22 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import icepick.Icepick;
 import timber.log.Timber;
 
-public class LocationActivity extends ActionBarActivity implements OnMapReadyCallback {
+public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static boolean zoomed;
     private static String mCurrentLocation;
+    private static List<Location> locationHistory;
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
     private MediaPlayer mp;
     private int mType = GoogleMap.MAP_TYPE_NORMAL;
-    private List<Location> locationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_location);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -64,24 +66,11 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
     }
 
     @Subscribe
-    public void onLocationChanged(LocationChangedEvent event) {
+    public void onLocationUpdate(LocationUpdateEvent event) {
         Location location = event.getLocation();
-        if (locationHistory == null) {
-            locationHistory = new ArrayList<>();
-            locationHistory.add(location);
-        } else {
-            Location lastLocation = locationHistory.get(locationHistory.size() - 1);
-            float[] dist = new float[1];
-            Location.distanceBetween(
-                    location.getLatitude(), location.getLongitude(),
-                    lastLocation.getLatitude(), lastLocation.getLongitude(),
-                    dist);
-            if (dist[0] > 20) {
-                locationHistory.add(location);
-            }
-        }
+
         int bearing;
-        int accuracy;
+        int accuracy = 100;
         String provider = location.getProvider();
         Timber.d("provider -> %s", provider);
         boolean hasBearing = location.hasBearing();
@@ -93,6 +82,21 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
         if (hasBearing) {
             bearing = (int) location.getBearing();
             Timber.d("bearing -> %d", bearing);
+        }
+
+        if (locationHistory == null) {
+            locationHistory = new ArrayList<>();
+            locationHistory.add(location);
+        } else {
+            Location lastLocation = locationHistory.get(locationHistory.size() - 1);
+            float[] dist = new float[1];
+            Location.distanceBetween(
+                    location.getLatitude(), location.getLongitude(),
+                    lastLocation.getLatitude(), lastLocation.getLongitude(),
+                    dist);
+            if (dist[0] > 25 && accuracy < 15) {
+                locationHistory.add(location);
+            }
         }
 
         Timber.d(String.valueOf(location));
@@ -119,12 +123,12 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
             }
         }
 
-        PolylineOptions rectLine = new PolylineOptions().width(1).color(Color.BLACK);
+        PolylineOptions options = new PolylineOptions().width(1).color(Color.BLACK);
         for (int i = 0; i < locationHistory.size(); i++) {
             Location loc = locationHistory.get(i);
-            rectLine.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
+            options.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
         }
-        mMap.addPolyline(rectLine);
+        mMap.addPolyline(options);
 
         /*
         mMap.addCircle(new CircleOptions()
@@ -199,5 +203,11 @@ public class LocationActivity extends ActionBarActivity implements OnMapReadyCal
 
         mMap.setMapType(mType);
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
     }
 }

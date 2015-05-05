@@ -3,7 +3,7 @@ package com.jasondelport.notes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +21,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class PostNoteActivity extends ActionBarActivity {
+public class PostNoteActivity extends AppCompatActivity {
 
     private final static int RESULT_SPEECH = 1;
 

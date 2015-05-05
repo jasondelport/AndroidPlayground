@@ -14,7 +14,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.jasondelport.notes.App;
-import com.jasondelport.notes.event.LocationChangedEvent;
+import com.jasondelport.notes.event.LocationUpdateEvent;
 
 
 public class LocationProvider implements
@@ -62,7 +62,7 @@ public class LocationProvider implements
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
-            App.getEventBus().post(new LocationChangedEvent(location));
+            App.getEventBus().post(new LocationUpdateEvent(location));
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mFusedLocationCallback, null);
     }
@@ -93,7 +93,7 @@ public class LocationProvider implements
 
         public void onLocationResult(LocationResult result) {
             if (isAvailable) {
-                App.getEventBus().post(new LocationChangedEvent(result.getLastLocation()));
+                App.getEventBus().post(new LocationUpdateEvent(result.getLastLocation()));
             }
         }
 
