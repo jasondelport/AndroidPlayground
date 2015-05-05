@@ -2,25 +2,26 @@ package com.jasondelport.notes;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.jasondelport.notes.model.Data;
+import com.jasondelport.notes.event.NetworkErrorEvent;
+import com.jasondelport.notes.event.NetworkSuccessEvent;
+import com.jasondelport.notes.model.NoteData;
 import com.jasondelport.notes.network.NetworkClient;
+import com.jasondelport.notes.network.OttoCallback;
+import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import timber.log.Timber;
 
-public class RecyclerViewActivity extends ActionBarActivity {
+public class RecyclerViewActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Data mData;
+    private NoteData mNoteData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +32,22 @@ public class RecyclerViewActivity extends ActionBarActivity {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(this,2);
+        mLayoutManager = new GridLayoutManager(this, 2);
         //mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         if (savedInstanceState != null) {
-            mData = Parcels.unwrap(savedInstanceState.getParcelable("data"));
+            mNoteData = Parcels.unwrap(savedInstanceState.getParcelable("data"));
         }
-
-
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mData != null) {
+        Timber.d("registering event bus");
+        App.getEventBus().register(this);
+        if (mNoteData != null) {
             setData();
         } else {
             getData();
@@ -55,30 +56,38 @@ public class RecyclerViewActivity extends ActionBarActivity {
 
     private void setData() {
         Timber.d("setting data");
-        mAdapter = new RecyclerViewAdapter(mData.getNotes());
+        mAdapter = new RecyclerViewAdapter(mNoteData.getNotes());
         mRecyclerView.setAdapter(mAdapter);
     }
 
     private void getData() {
         Timber.d("getting data");
-        NetworkClient.getService().getNotes(new Callback<Data>() {
-            @Override
-            public void success(Data data, Response response) {
-                mData = data;
-                setData();
-            }
+        NetworkClient.getService().getNotes(new OttoCallback<NoteData>());
+    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Timber.d("error -> %s", error.toString());
-            }
-        });
+    @Subscribe
+    public void onNetworkSuccess(NetworkSuccessEvent<NoteData> event) {
+        Timber.d("network success");
+        mNoteData = event.getData();
+        setData();
+    }
+
+    @Subscribe
+    public void onNetworkError(NetworkErrorEvent event) {
+        Timber.e(event.getError(), "Connection Error");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Timber.d("unregistering event bus");
+        App.getEventBus().unregister(this);
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Parcelable parcelData = Parcels.wrap(mData);
+        Parcelable parcelData = Parcels.wrap(mNoteData);
         outState.putParcelable("data", parcelData);
         super.onSaveInstanceState(outState);
     }

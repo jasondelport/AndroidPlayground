@@ -10,12 +10,13 @@ import java.util.List;
  * Created by jasondelport on 08/04/15.
  */
 @Parcel
-public class Data {
+public class NoteData {
 
     @SerializedName("notes")
     List<Note> notes;
 
-    public Data(){}
+    public NoteData() {
+    }
 
     public List<Note> getNotes() {
         return notes;

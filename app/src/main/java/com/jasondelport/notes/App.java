@@ -2,12 +2,23 @@ package com.jasondelport.notes;
 
 import android.app.Application;
 
+import com.squareup.otto.Bus;
+
 import timber.log.Timber;
 
 /**
  * Created by jasondelport on 22/02/2015.
  */
-public class NotesApp extends Application {
+public class App extends Application {
+
+    private static Bus eventBus;
+
+    public static Bus getEventBus() {
+        if (eventBus == null) {
+            eventBus = new com.squareup.otto.Bus();
+        }
+        return eventBus;
+    }
 
     @Override
     public void onCreate() {

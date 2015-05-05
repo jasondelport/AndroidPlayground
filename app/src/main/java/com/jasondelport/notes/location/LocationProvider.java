@@ -13,6 +13,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.jasondelport.notes.App;
+import com.jasondelport.notes.event.LocationChangedEvent;
 
 
 public class LocationProvider implements
@@ -20,24 +22,19 @@ public class LocationProvider implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private CustomLocationCallback mCustomLocationCallback;
     private Context mContext;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private FusedLocationCallback mFusedLocationCallback = new FusedLocationCallback();
 
-    public abstract interface CustomLocationCallback {
-        public void showLocation(Location location);
-    }
 
-    public LocationProvider(Context context, CustomLocationCallback callback) {
+    public LocationProvider(Context context) {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
 
-        mCustomLocationCallback = callback;
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -50,6 +47,7 @@ public class LocationProvider implements
 
     public void connect() {
         mGoogleApiClient.connect();
+        App.getEventBus().register(this);
     }
 
     public void disconnect() {
@@ -57,13 +55,14 @@ public class LocationProvider implements
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mFusedLocationCallback);
             mGoogleApiClient.disconnect();
         }
+        App.getEventBus().unregister(this);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
-            mCustomLocationCallback.showLocation(location);
+            App.getEventBus().post(new LocationChangedEvent(location));
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mFusedLocationCallback, null);
     }
@@ -94,7 +93,7 @@ public class LocationProvider implements
 
         public void onLocationResult(LocationResult result) {
             if (isAvailable) {
-                mCustomLocationCallback.showLocation(result.getLastLocation());
+                App.getEventBus().post(new LocationChangedEvent(result.getLastLocation()));
             }
         }
 
