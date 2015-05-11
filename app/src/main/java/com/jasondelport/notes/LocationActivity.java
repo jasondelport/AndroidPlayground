@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,9 +31,9 @@ import icepick.Icepick;
 import timber.log.Timber;
 
 public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private static boolean zoomed;
-    private static String mCurrentLocation;
     private static List<Location> locationHistory;
+    private boolean zoomed;
+    private String mCurrentLocation;
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
     private MediaPlayer mp;
@@ -41,6 +42,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_location);
 
@@ -48,7 +50,10 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mLocationProvider = new LocationProvider(this);
+        zoomed = false;
+        if (mLocationProvider != null) {
+            mLocationProvider = new LocationProvider(this);
+        }
 
     }
 
@@ -111,7 +116,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                     location.getLatitude(), location.getLongitude(),
                     cl.getLatitude(), cl.getLongitude(),
                     dist);
-            if (dist[0] < 25) {
+            if (dist[0] < 15) {
                 if (!cl.getName().equals(mCurrentLocation)) {
                     Utils.makeToast(this, cl.getName());
                     mCurrentLocation = cl.getName();
@@ -123,7 +128,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
             }
         }
 
-        PolylineOptions options = new PolylineOptions().width(1).color(Color.BLACK);
+        PolylineOptions options = new PolylineOptions().width(2).color(Color.BLACK);
         for (int i = 0; i < locationHistory.size(); i++) {
             Location loc = locationHistory.get(i);
             options.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
@@ -146,15 +151,15 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         mLocationProvider.connect();
         App.getEventBus().register(this);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         mLocationProvider.disconnect();
         App.getEventBus().unregister(this);
     }
