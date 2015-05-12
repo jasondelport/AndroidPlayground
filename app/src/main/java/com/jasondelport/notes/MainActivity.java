@@ -1,5 +1,6 @@
 package com.jasondelport.notes;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +13,22 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnEventListener {
 
+    private Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
 
         if (savedInstanceState == null) {
-            MainFragment fragment = MainFragment.newInstance("hello", 0);
+            fragment = MainFragment.newInstance("hello", 0);
             fragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
+        } else {
+            fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
+
+        getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
+
 
         addShortCut();
     }
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnEv
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         lifecycle("onSaveInstanceState");
+        getFragmentManager().putFragment(outState, "fragment", fragment);
     }
 
     private void lifecycle(String methodName) {

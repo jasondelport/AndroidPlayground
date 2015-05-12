@@ -20,36 +20,27 @@ import timber.log.Timber;
 
 public class MainFragment extends Fragment {
 
+    @InjectView(R.id.text)
+    TextView text;
+    @InjectView(R.id.main_button_drawer)
+    Button button1;
+    @InjectView(R.id.main_button_recyclerview)
+    Button button2;
+    @InjectView(R.id.main_button_location)
+    Button button3;
+    @InjectView(R.id.main_button_postnote)
+    Button button4;
     private String value1;
     private int value2;
     private OnEventListener listener;
-
-    public interface OnEventListener {
-        public void onEvent(String data);
-    }
-
-    @InjectView(R.id.text)
-    TextView text;
-
-    @InjectView(R.id.main_button_drawer)
-    Button button1;
-
-    @InjectView(R.id.main_button_recyclerview)
-    Button button2;
-
-    @InjectView(R.id.main_button_location)
-    Button button3;
-
-    @InjectView(R.id.main_button_postnote)
-    Button button4;
 
     public MainFragment() {
         lifecycle("constructor");
     }
 
     // the recommended google way of instantiating new fragments via a static factory method
-    public static MainFragment newInstance(String value1, int value2) {
-        MainFragment fragment = new MainFragment();
+    public static Fragment newInstance(String value1, int value2) {
+        Fragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString("value1", value1);
         args.putInt("value2", value2);
@@ -68,7 +59,6 @@ public class MainFragment extends Fragment {
             value2 = getArguments().getInt("value2", 0);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,7 +140,6 @@ public class MainFragment extends Fragment {
         inflater.inflate(R.menu.menu_fragment_main, menu);
     }
 
-
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         lifecycle("onPrepareOptionsMenu");
@@ -195,6 +184,10 @@ public class MainFragment extends Fragment {
 
     private void lifecycle(String methodName) {
         Timber.d("Fragment (%s)", methodName);
+    }
+
+    public interface OnEventListener {
+        public void onEvent(String data);
     }
 
 }

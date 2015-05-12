@@ -1,6 +1,5 @@
 package com.jasondelport.notes;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.jasondelport.notes.event.LocationUpdateEvent;
 import com.jasondelport.notes.location.LocationProvider;
 import com.jasondelport.notes.model.CustomLocation;
@@ -27,23 +25,21 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import icepick.Icepick;
 import timber.log.Timber;
 
 public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private static List<Location> locationHistory;
+    private List<LatLng> locationHistory;
     private boolean zoomed;
     private String mCurrentLocation;
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
-    private MediaPlayer mp;
+    private MediaPlayer mMediaPlayer;
     private int mType = GoogleMap.MAP_TYPE_NORMAL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_location);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -51,7 +47,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
         zoomed = false;
-        if (mLocationProvider != null) {
+        if (mLocationProvider == null) {
             mLocationProvider = new LocationProvider(this);
         }
 
@@ -59,20 +55,21 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void playAudio(int id) {
         cleanUpAudio();
-        mp = MediaPlayer.create(this, id);
-        mp.start();
+        mMediaPlayer = MediaPlayer.create(this, id);
+        mMediaPlayer.start();
     }
 
     private void cleanUpAudio() {
-        if (mp != null) {
-            mp.stop();
-            mp.release();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
         }
     }
 
     @Subscribe
     public void onLocationUpdate(LocationUpdateEvent event) {
         Location location = event.getLocation();
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         int bearing;
         int accuracy = 100;
@@ -91,49 +88,50 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
         if (locationHistory == null) {
             locationHistory = new ArrayList<>();
-            locationHistory.add(location);
+            locationHistory.add(latLng);
         } else {
-            Location lastLocation = locationHistory.get(locationHistory.size() - 1);
+            LatLng lastLocation = locationHistory.get(locationHistory.size() - 1);
             float[] dist = new float[1];
             Location.distanceBetween(
                     location.getLatitude(), location.getLongitude(),
-                    lastLocation.getLatitude(), lastLocation.getLongitude(),
+                    lastLocation.latitude, lastLocation.longitude,
                     dist);
             if (dist[0] > 25 && accuracy < 15) {
-                locationHistory.add(location);
+                locationHistory.add(latLng);
             }
         }
 
         Timber.d(String.valueOf(location));
 
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
 
         float[] dist = new float[1];
-        for (CustomLocation cl : Locations.getLocations()) {
+        for (CustomLocation customLocation : Locations.getLocations()) {
             Location.distanceBetween(
                     location.getLatitude(), location.getLongitude(),
-                    cl.getLatitude(), cl.getLongitude(),
+                    customLocation.getLatitude(), customLocation.getLongitude(),
                     dist);
             if (dist[0] < 15) {
-                if (!cl.getName().equals(mCurrentLocation)) {
-                    Utils.makeToast(this, cl.getName());
-                    mCurrentLocation = cl.getName();
-                    if (!cl.getName().equals("My Jol")) {
-                        LogUtils.appendLog(cl.getName());
+                if (!customLocation.getName().equals(mCurrentLocation)) {
+                    Utils.makeToast(this, customLocation.getName());
+                    mCurrentLocation = customLocation.getName();
+                    if (!customLocation.getName().equals("My Jol")) {
+                        LogUtils.appendLog(customLocation.getName());
                     }
                 }
                 //playAudio(cl.getAudio());
             }
         }
 
+        /*
         PolylineOptions options = new PolylineOptions().width(2).color(Color.BLACK);
         for (int i = 0; i < locationHistory.size(); i++) {
-            Location loc = locationHistory.get(i);
-            options.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
+            LatLng historyLatLng = locationHistory.get(i);
+            options.add(historyLatLng);
         }
+
         mMap.addPolyline(options);
+        */
 
         /*
         mMap.addCircle(new CircleOptions()
@@ -148,6 +146,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
             zoomed = true;
         }
+        location.reset();
     }
 
     @Override
@@ -162,19 +161,30 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         super.onPause();
         mLocationProvider.disconnect();
         App.getEventBus().unregister(this);
+
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLocationProvider != null) {
+            mLocationProvider = null;
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         map.setMyLocationEnabled(true);
-        mMap = map;
-
         for (CustomLocation loc : Locations.getLocations()) {
-            mMap.addMarker(new MarkerOptions()
+            map.addMarker(new MarkerOptions()
                     .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                     .title(loc.getName()));
         }
-
+        mMap = map;
     }
 
     @Override
@@ -213,6 +223,10 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Icepick.saveInstanceState(this, outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
     }
 }
