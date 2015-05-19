@@ -1,52 +1,21 @@
 package com.jasondelport.notes;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jasondelport.notes.dialog.ConfirmDeleteDialogFragment;
 import com.jasondelport.notes.model.Note;
-import com.jasondelport.notes.util.Utils;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Note> mNotes;
-
-    public class ItemViewType {
-        private static final int VIEWTYPE0 = 0, VIEWTYPE2 = 1;
-    }
-
-    public static class ViewHolder0 extends RecyclerView.ViewHolder {
-        public TextView mTextView;
-
-        public ViewHolder0(View v) {
-            super(v);
-            mTextView = (TextView) v.findViewById(R.id.note);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.makeToast(v.getContext(), "clicked");
-                }
-            });
-        }
-    }
-
-    public static class ViewHolder2 extends RecyclerView.ViewHolder {
-        public TextView mTextView;
-
-        public ViewHolder2(View v) {
-            super(v);
-            mTextView = (TextView) v.findViewById(R.id.note);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.makeToast(v.getContext(), "clicked");
-                }
-            });
-        }
-    }
 
     public RecyclerViewAdapter(List<Note> mNotes) {
         this.mNotes = mNotes;
@@ -56,12 +25,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case ItemViewType.VIEWTYPE0:
-                View v0 = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recyclerview, parent, false);
-                ViewHolder0 vh0 = new ViewHolder0(v0);
+                View view0 = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recyclerview, parent, false);
+                ViewHolder0 vh0 = new ViewHolder0(view0);
                 return vh0;
             default:
-                View v2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recyclerview_alternate, parent, false);
-                ViewHolder2 vh2 = new ViewHolder2(v2);
+                View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recyclerview_alternate, parent, false);
+                ViewHolder2 vh2 = new ViewHolder2(view2);
                 return vh2;
         }
     }
@@ -72,16 +41,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        //Timber.d("type -> %d", getItemViewType(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (getItemViewType(position)) {
             case ItemViewType.VIEWTYPE0:
                 ViewHolder0 h0 = (ViewHolder0) holder;
                 h0.mTextView.setText(mNotes.get(position).getText());
+                h0.setNote(mNotes.get(position));
                 break;
             default:
                 ViewHolder2 h2 = (ViewHolder2) holder;
                 h2.mTextView.setText(mNotes.get(position).getText());
+                h2.setNote(mNotes.get(position));
                 break;
         }
     }
@@ -89,6 +59,54 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return mNotes.size();
+    }
+
+    public static class ViewHolder0 extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView mTextView;
+        private Note note;
+
+        public ViewHolder0(View view) {
+            super(view);
+            view.setOnClickListener(this);
+            mTextView = (TextView) view.findViewById(R.id.note);
+        }
+
+        public void setNote(Note note) {
+            this.note = note;
+        }
+
+        @Override
+        public void onClick(View view) {
+            DialogFragment confirmDialog = ConfirmDeleteDialogFragment.newInstance(note.getKey());
+            FragmentTransaction ft = ((Activity) view.getContext()).getFragmentManager().beginTransaction();
+            confirmDialog.show(ft, "dialog");
+        }
+    }
+
+    public static class ViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView mTextView;
+        private Note note;
+
+        public ViewHolder2(View view) {
+            super(view);
+            view.setOnClickListener(this);
+            mTextView = (TextView) view.findViewById(R.id.note);
+        }
+
+        public void setNote(Note note) {
+            this.note = note;
+        }
+
+        @Override
+        public void onClick(View view) {
+            DialogFragment confirmDialog = ConfirmDeleteDialogFragment.newInstance(note.getKey());
+            FragmentTransaction ft = ((Activity) view.getContext()).getFragmentManager().beginTransaction();
+            confirmDialog.show(ft, "dialog");
+        }
+    }
+
+    public class ItemViewType {
+        private static final int VIEWTYPE0 = 0, VIEWTYPE2 = 1;
     }
 
 

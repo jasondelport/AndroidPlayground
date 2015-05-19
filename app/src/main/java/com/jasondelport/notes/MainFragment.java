@@ -107,13 +107,17 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         lifecycle("onActivityCreated");
-        // first time the fragment may have been created
+        if (savedInstanceState != null) {
+            //Restore the fragment's state here
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         lifecycle("onSaveInstanceState");
+
+        //Save the fragment's state here
     }
 
     @Override
@@ -170,6 +174,7 @@ public class MainFragment extends Fragment {
             listener = (OnEventListener) activity;
         }
     }
+
 
     @Override
     public void onDetach() {

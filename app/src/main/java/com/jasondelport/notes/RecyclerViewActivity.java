@@ -5,6 +5,8 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
@@ -22,12 +24,14 @@ public class RecyclerViewActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private NoteData mNoteData;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -56,24 +60,34 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     private void setData() {
         Timber.d("setting data");
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
         mAdapter = new RecyclerViewAdapter(mNoteData.getNotes());
         mRecyclerView.setAdapter(mAdapter);
     }
 
     private void getData() {
         Timber.d("getting data");
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
         NetworkClient.getService().getNotes(new OttoCallback<NoteData>());
     }
 
     @Subscribe
     public void onNetworkSuccess(NetworkSuccessEvent<NoteData> event) {
         Timber.d("network success -> %s", event.getResponse().toString());
-        mNoteData = event.getData();
-        setData();
+        if (event.getData() instanceof NoteData) {
+            mNoteData = event.getData();
+            setData();
+        } else {
+            Timber.w("item deleted");
+            getData();
+        }
     }
 
     @Subscribe
     public void onNetworkError(NetworkErrorEvent event) {
+        mProgressBar.setVisibility(View.GONE);
         Timber.e(event.getError(), "Connection Error");
     }
 

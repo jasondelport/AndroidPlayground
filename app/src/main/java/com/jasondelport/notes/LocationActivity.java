@@ -23,12 +23,14 @@ import com.jasondelport.notes.util.Utils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import icepick.Icepick;
+import icepick.Icicle;
 import timber.log.Timber;
 
 public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private List<LatLng> locationHistory;
+    @Icicle
+    ArrayList<LatLng> locationHistory;
     private boolean zoomed;
     private String mCurrentLocation;
     private GoogleMap mMap;
@@ -39,6 +41,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Icepick.restoreInstanceState(this, savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_location);
 
@@ -223,6 +226,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
     }
 
     @Override
