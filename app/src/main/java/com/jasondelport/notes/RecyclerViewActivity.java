@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.jasondelport.notes.dialog.ConfirmDeleteDialogFragment;
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
 import com.jasondelport.notes.model.NoteData;
@@ -19,7 +20,8 @@ import org.parceler.Parcels;
 
 import timber.log.Timber;
 
-public class RecyclerViewActivity extends AppCompatActivity {
+public class RecyclerViewActivity extends AppCompatActivity implements ConfirmDeleteDialogFragment.DialogListener {
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -104,5 +106,10 @@ public class RecyclerViewActivity extends AppCompatActivity {
         Parcelable parcelData = Parcels.wrap(mNoteData);
         outState.putParcelable("data", parcelData);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfirmDelete() {
+        Timber.d("confirm delete listener");
     }
 }

@@ -1,8 +1,6 @@
 package com.jasondelport.notes;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,9 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(View view) {
-            DialogFragment confirmDialog = ConfirmDeleteDialogFragment.newInstance(note.getKey());
-            FragmentTransaction ft = ((Activity) view.getContext()).getFragmentManager().beginTransaction();
-            confirmDialog.show(ft, "dialog");
+            ConfirmDeleteDialogFragment.newInstance(note.getKey()).show(((Activity) view.getContext()).getFragmentManager(), "dialog");
         }
     }
 
@@ -99,9 +95,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(View view) {
-            DialogFragment confirmDialog = ConfirmDeleteDialogFragment.newInstance(note.getKey());
-            FragmentTransaction ft = ((Activity) view.getContext()).getFragmentManager().beginTransaction();
-            confirmDialog.show(ft, "dialog");
+            ConfirmDeleteDialogFragment.newInstance(note.getKey()).show(((Activity) view.getContext()).getFragmentManager(), "dialog");
         }
     }
 
