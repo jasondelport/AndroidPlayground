@@ -42,9 +42,29 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        /*
+        DialogFragment.STYLE_NO_TITLE;
+        DialogFragment.STYLE_NO_FRAME;
+        DialogFragment.STYLE_NORMAL;
+        DialogFragment.STYLE_NO_INPUT;
+
+        android.R.style.Theme_Holo;
+        android.R.style.Theme_Holo_Light_Dialog;
+        android.R.style.Theme_Holo_Light;
+        android.R.style.Theme_Holo_Light_Panel;
+        android.R.style.Theme_Holo_Light;
+        */
+
+        setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme_Material_Dialog);
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
-                .setTitle("Confirmation Required")
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //LayoutInflater inflater = getActivity().getLayoutInflater();
+        //builder.setView(inflater.inflate(R.layout.dialog_signin, null));
+        builder.setTitle("Confirmation Required")
                 .setMessage("Are you sure you want to delete this note?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -57,6 +77,17 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dismiss();
                     }
-                }).create();
+                });
+
+        return builder.create();
     }
+
+    /*
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_dialog, container, false);
+        return view;
+    }
+    */
+
 }
