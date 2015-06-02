@@ -12,6 +12,10 @@ public class Locations {
 
     private static List<CustomLocation> locations = new ArrayList<>();
 
+    public Locations() {
+
+    }
+
     public static void createLocations() {
         CustomLocation sainsburys = new CustomLocation("Sainsburys");
         sainsburys.setLatitudeLongitude(51.540161, -0.141069);
@@ -45,11 +49,6 @@ public class Locations {
         inverness.setLatitudeLongitude(51.539726, -0.143530);
         inverness.setAudio(R.raw.bikehorn);
 
-        CustomLocation flying = new CustomLocation("Top of Inverness Street");
-        flying.setLatitudeLongitude(51.531091, -0.120888);
-        flying.setAudio(R.raw.bikehorn);
-
-        locations.add(flying);
         locations.add(sainsburys);
         locations.add(mixer);
         locations.add(zensai);
@@ -58,10 +57,6 @@ public class Locations {
         locations.add(diner);
         locations.add(camdentown);
         locations.add(inverness);
-    }
-
-    public Locations() {
-
     }
 
     public static List<CustomLocation> getLocations() {
