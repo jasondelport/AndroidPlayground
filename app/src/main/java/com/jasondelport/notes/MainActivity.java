@@ -85,6 +85,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnEv
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        lifecycle("onNewIntent");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         lifecycle("onDestroy");
