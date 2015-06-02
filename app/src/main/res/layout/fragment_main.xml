@@ -38,4 +38,11 @@
         android:layout_margin="10dp"
         android:text="@string/post_note" />
 
+    <Button
+        android:id="@+id/main_button_keep_awake"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/keep_awake_tests" />
+
 </LinearLayout>

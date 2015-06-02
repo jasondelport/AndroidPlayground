@@ -30,6 +30,9 @@ public class MainFragment extends Fragment {
     Button button3;
     @InjectView(R.id.main_button_postnote)
     Button button4;
+    @InjectView(R.id.main_button_keep_awake)
+    Button button5;
+
     private String value1;
     private int value2;
     private OnEventListener listener;
@@ -96,6 +99,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PostNoteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), KeepAwakeActivity.class);
                 startActivity(intent);
             }
         });

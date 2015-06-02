@@ -14,4 +14,5 @@
     <string name="example_recyclerview">RecyclerView Example</string>
     <string name="example_location">Fused Location Example</string>
     <string name="post_note">Post Note</string>
+    <string name="keep_awake_tests">Keep Awake Tests</string>
 </resources>

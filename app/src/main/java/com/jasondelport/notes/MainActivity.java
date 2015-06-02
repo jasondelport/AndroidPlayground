@@ -104,9 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnEv
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("Activity (%s)", methodName);
+        Timber.d("%s (%s)", getClass().getSimpleName(), methodName);
     }
-
     @Override
     public void onEvent(String data) {
         // listener method from fragment

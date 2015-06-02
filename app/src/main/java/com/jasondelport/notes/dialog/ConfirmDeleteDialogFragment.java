@@ -16,11 +16,15 @@ import com.jasondelport.notes.network.OttoCallback;
  */
 public class ConfirmDeleteDialogFragment extends DialogFragment {
 
-    public interface DialogListener {
-        void onConfirmDelete();
-    }
-
     DialogListener mListener;
+
+    public static ConfirmDeleteDialogFragment newInstance(String key) {
+        ConfirmDeleteDialogFragment f = new ConfirmDeleteDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("key", key);
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -33,16 +37,9 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
         }
     }
 
-    public static ConfirmDeleteDialogFragment newInstance(String key) {
-        ConfirmDeleteDialogFragment f = new ConfirmDeleteDialogFragment();
-        Bundle args = new Bundle();
-        args.putString("key", key);
-        f.setArguments(args);
-        return f;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         /*
         DialogFragment.STYLE_NO_TITLE;
         DialogFragment.STYLE_NO_FRAME;
@@ -80,6 +77,10 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
                 });
 
         return builder.create();
+    }
+
+    public interface DialogListener {
+        void onConfirmDelete();
     }
 
     /*
