@@ -1,1 +1,1 @@
-Android Project Template
+Android Playground
