@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -59,8 +60,16 @@ public class KeepAwakeActivity extends AppCompatActivity {
                 int minute = calendar.get(Calendar.MINUTE);
                 setWakeAlarm(hour, minute + 1);
                 setSleepAlarm(hour, minute + 2);
-                button3.setText("Alarms Set");
-                Toast.makeText(KeepAwakeActivity.this, "Alarm Set", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences.Editor prefs = KeepAwakeActivity.this.getSharedPreferences("uk.co.keytree.matrix", Context.MODE_PRIVATE).edit();
+                prefs.putInt("wakeAlarmHour", hour);
+                prefs.putInt("wakeAlarmMinute", 31);
+                prefs.putInt("sleepAlarmHour", hour);
+                prefs.putInt("sleepAlarmMinute", 32);
+                prefs.apply();
+
+                button3.setText("Alarms Set & Saved");
+                Toast.makeText(KeepAwakeActivity.this, "Alarms Set & Saved", Toast.LENGTH_SHORT).show();
                 allowSleep();
             }
         });
