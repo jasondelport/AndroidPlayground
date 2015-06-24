@@ -15,4 +15,10 @@
     <string name="example_location">Fused Location Example</string>
     <string name="post_note">Post Note</string>
     <string name="keep_awake_tests">Keep Awake Tests</string>
+    <string name="title_activity_rxjava">RXJavaActivity</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rxjava_tests">RXJava Tests</string>
 </resources>

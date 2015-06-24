@@ -45,4 +45,11 @@
         android:layout_margin="10dp"
         android:text="@string/keep_awake_tests" />
 
+    <Button
+        android:id="@+id/main_button_rxjava"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/rxjava_tests" />
+
 </LinearLayout>

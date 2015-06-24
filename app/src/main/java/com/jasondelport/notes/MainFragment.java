@@ -32,6 +32,8 @@ public class MainFragment extends Fragment {
     Button button4;
     @InjectView(R.id.main_button_keep_awake)
     Button button5;
+    @InjectView(R.id.main_button_rxjava)
+    Button button6;
 
     private String value1;
     private int value2;
@@ -107,6 +109,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), KeepAwakeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RXJavaActivity.class);
                 startActivity(intent);
             }
         });
