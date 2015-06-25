@@ -30,13 +30,13 @@ android {
 
     buildTypes {
         debug {
-            properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidProjectTemplate.properties')))
+            properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
         }
 
         release {
-            properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidProjectTemplate.properties')))
+            properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
             minifyEnabled false
