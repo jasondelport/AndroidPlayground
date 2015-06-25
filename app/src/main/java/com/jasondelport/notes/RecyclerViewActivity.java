@@ -13,11 +13,13 @@ import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
 import com.jasondelport.notes.model.NoteData;
 import com.jasondelport.notes.network.NetworkClient;
-import com.jasondelport.notes.network.OttoCallback;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class RecyclerViewActivity extends AppCompatActivity implements ConfirmDeleteDialogFragment.DialogListener {
@@ -27,6 +29,29 @@ public class RecyclerViewActivity extends AppCompatActivity implements ConfirmDe
     private RecyclerView.LayoutManager mLayoutManager;
     private NoteData mNoteData;
     private ProgressBar mProgressBar;
+
+
+    // Subscriber implements Observer
+    Subscriber<NoteData> subscriber = new Subscriber<NoteData>() {
+        @Override
+        public void onNext(NoteData data) {
+            Timber.d("RXJava onNext");
+
+            mNoteData = data;
+            setData();
+        }
+
+        @Override
+        public void onCompleted() {
+            // called after onNext
+            Timber.d("RXJava onCompleted");
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Timber.e(e, "RXJava onError: %s", e.getMessage());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +97,21 @@ public class RecyclerViewActivity extends AppCompatActivity implements ConfirmDe
         Timber.d("getting data");
         mProgressBar.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
-        NetworkClient.getService().getNotes(new OttoCallback<NoteData>());
+        //NetworkClient.getService().getNotes(new OttoCallback<NoteData>());
+
+        // RXJava Version
+
+        NetworkClient.getService().getNotes()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
     }
 
     @Subscribe
     public void onNetworkSuccess(NetworkSuccessEvent<NoteData> event) {
         Timber.d("network success -> %s", event.getResponse().toString());
-        if (event.getData() instanceof NoteData) {
+        if (event.getData() != null && event.getData() instanceof NoteData) {
             mNoteData = event.getData();
             setData();
         } else {
