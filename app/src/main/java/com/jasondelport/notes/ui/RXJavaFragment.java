@@ -1,10 +1,12 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.jasondelport.notes.R;
 
 import rx.Observable;
 import rx.Subscriber;

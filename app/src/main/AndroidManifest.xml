@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,28 +34,28 @@
         </activity>
 
         <activity
-            android:name=".DrawerActivity"
+            android:name=".ui.DrawerActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".RecyclerViewActivity"
+            android:name=".ui.RecyclerViewActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".LocationActivity"
+            android:name=".ui.LocationActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".RXJavaActivity"
+            android:name=".ui.RXJavaActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".KeepAwakeActivity"
+            android:name=".ui.KeepAwakeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".PostNoteActivity"
+            android:name=".ui.PostNoteActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
@@ -73,9 +73,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBsjZNxhc_QzKcrOZifl01hjwe9QfuvSI4" />
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name=".receiver.AlarmReceiver" />
 
-        <receiver android:name=".BootReceiver" >
+        <receiver android:name=".receiver.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

@@ -1,8 +1,10 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.jasondelport.notes.Constants;
 
 
 public class RXJavaActivity extends AppCompatActivity {

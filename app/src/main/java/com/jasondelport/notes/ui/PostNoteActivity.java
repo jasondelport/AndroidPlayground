@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.DataManager;
 import com.jasondelport.notes.model.Note;
 import com.jasondelport.notes.util.Utils;

@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.receiver;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

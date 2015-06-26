@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.jasondelport.notes.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;

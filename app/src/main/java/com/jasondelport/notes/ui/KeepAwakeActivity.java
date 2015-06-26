@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.jasondelport.notes.receiver.AlarmReceiver;
+import com.jasondelport.notes.R;
 
 import java.util.Calendar;
 

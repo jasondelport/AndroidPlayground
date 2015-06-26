@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.jasondelport.notes.Constants;
+import com.jasondelport.notes.R;
 
 import timber.log.Timber;
 

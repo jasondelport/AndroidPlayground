@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.location.Location;
 import android.media.MediaPlayer;
@@ -14,6 +14,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jasondelport.notes.App;
+import com.jasondelport.notes.R;
 import com.jasondelport.notes.event.LocationUpdateEvent;
 import com.jasondelport.notes.location.LocationProvider;
 import com.jasondelport.notes.model.CustomLocation;

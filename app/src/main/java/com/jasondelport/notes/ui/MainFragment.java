@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.jasondelport.notes.BuildConfig;
+import com.jasondelport.notes.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

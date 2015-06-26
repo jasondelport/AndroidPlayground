@@ -1,4 +1,4 @@
-package com.jasondelport.notes;
+package com.jasondelport.notes.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
