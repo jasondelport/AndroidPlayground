@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.jasondelport.notes.data.DataManager;
 import com.jasondelport.notes.model.Note;
-import com.jasondelport.notes.network.NetworkClient;
 import com.jasondelport.notes.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,6 +59,11 @@ public class PostNoteActivity extends AppCompatActivity {
                 startActivityForResult(intent, RESULT_SPEECH);
             }
         });
+
+        int flags = getWindow().getAttributes().flags;
+        if ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION) != 0) {
+
+        }
     }
 
     @Override
@@ -69,6 +76,11 @@ public class PostNoteActivity extends AppCompatActivity {
                     ArrayList<String> text = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     note.setText(text.get(0));
+
+                    Calendar calendar = Calendar.getInstance();
+                    if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+                        calendar.add(Calendar.DAY_OF_YEAR, 1);
+                    }
                 }
                 break;
             }
@@ -86,7 +98,7 @@ public class PostNoteActivity extends AppCompatActivity {
             Note nn = new Note();
             nn.setNote(note.getText().toString());
 
-            NetworkClient.getService().addNote(nn, new Callback<Note>() {
+            DataManager.getInstance().addNote(nn, new Callback<Note>() {
                 @Override
                 public void success(Note note, Response response) {
                     Timber.d("new note -> %s", note.getText());

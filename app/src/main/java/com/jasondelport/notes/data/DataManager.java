@@ -1,4 +1,4 @@
-package com.jasondelport.notes.network;
+package com.jasondelport.notes.data;
 
 import com.jasondelport.notes.BuildConfig;
 import com.squareup.okhttp.OkHttpClient;
@@ -9,9 +9,9 @@ import retrofit.client.OkClient;
 /**
  * Created by jasondelport on 23/02/2015.
  */
-public class NetworkClient {
+public class DataManager {
 
-    private static Api api;
+    private static RestApi api;
 
     static {
         RestAdapter.Builder builder = new RestAdapter.Builder()
@@ -20,12 +20,12 @@ public class NetworkClient {
                 .setLogLevel(RestAdapter.LogLevel.FULL);
 
         RestAdapter restAdapter = builder.build();
-        api = restAdapter.create(Api.class);
+        api = restAdapter.create(RestApi.class);
     }
 
-    private NetworkClient() {}
+    private DataManager() {}
 
-    public static Api getService() {
+    public static RestApi getInstance() {
         return api;
     }
 

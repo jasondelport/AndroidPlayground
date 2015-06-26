@@ -12,7 +12,7 @@ import com.jasondelport.notes.dialog.ConfirmDeleteDialogFragment;
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
 import com.jasondelport.notes.model.NoteData;
-import com.jasondelport.notes.network.NetworkClient;
+import com.jasondelport.notes.data.DataManager;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
@@ -97,15 +97,14 @@ public class RecyclerViewActivity extends AppCompatActivity implements ConfirmDe
         Timber.d("getting data");
         mProgressBar.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
-        //NetworkClient.getService().getNotes(new OttoCallback<NoteData>());
+        //NetworkClient.getInstance().getNotes(new OttoCallback<NoteData>());
 
         // RXJava Version
 
-        NetworkClient.getService().getNotes()
+        DataManager.getInstance().getNotes()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-
     }
 
     @Subscribe

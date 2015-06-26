@@ -8,8 +8,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.jasondelport.notes.model.ServerResponse;
-import com.jasondelport.notes.network.NetworkClient;
-import com.jasondelport.notes.network.OttoCallback;
+import com.jasondelport.notes.data.DataManager;
+import com.jasondelport.notes.data.OttoCallback;
 
 /**
  * Created by jasondelport on 19/05/15.
@@ -65,7 +65,7 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
                 .setMessage("Are you sure you want to delete this note?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        NetworkClient.getService().deleteNote(getArguments().getString("key"), new OttoCallback<ServerResponse>());
+                        DataManager.getInstance().deleteNote(getArguments().getString("key"), new OttoCallback<ServerResponse>());
                         mListener.onConfirmDelete();
                         dismiss();
                     }

@@ -1,4 +1,4 @@
-package com.jasondelport.notes.network;
+package com.jasondelport.notes.data;
 
 import com.jasondelport.notes.model.Note;
 import com.jasondelport.notes.model.NoteData;
@@ -11,7 +11,7 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
 
-public interface Api {
+public interface RestApi {
     //@GET("/notes")
     //void getNotes(Callback<NoteData> callback);
 

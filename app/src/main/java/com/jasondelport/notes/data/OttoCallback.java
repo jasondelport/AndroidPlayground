@@ -1,4 +1,4 @@
-package com.jasondelport.notes.network;
+package com.jasondelport.notes.data;
 
 import com.jasondelport.notes.App;
 import com.jasondelport.notes.event.NetworkErrorEvent;
