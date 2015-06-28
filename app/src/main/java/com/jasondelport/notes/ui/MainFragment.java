@@ -16,27 +16,26 @@ import android.widget.TextView;
 import com.jasondelport.notes.BuildConfig;
 import com.jasondelport.notes.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 
 public class MainFragment extends Fragment {
 
-    @InjectView(R.id.text)
+    @Bind(R.id.text)
     TextView text;
-    @InjectView(R.id.main_button_drawer)
+    @Bind(R.id.main_button_drawer)
     Button button1;
-    @InjectView(R.id.main_button_recyclerview)
+    @Bind(R.id.main_button_recyclerview)
     Button button2;
-    @InjectView(R.id.main_button_location)
+    @Bind(R.id.main_button_location)
     Button button3;
-    @InjectView(R.id.main_button_postnote)
+    @Bind(R.id.main_button_postnote)
     Button button4;
-    @InjectView(R.id.main_button_keep_awake)
+    @Bind(R.id.main_button_keep_awake)
     Button button5;
-    @InjectView(R.id.main_button_rxjava)
-    Button button6;
 
     private String value1;
     private int value2;
@@ -72,7 +71,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         lifecycle("onCreateView");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         // setup view data here
         text.setText(BuildConfig.URL);
@@ -116,15 +115,22 @@ public class MainFragment extends Fragment {
             }
         });
 
+        /*
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RXJavaActivity.class);
-                startActivity(intent);
+
             }
         });
+        */
 
         return view;
+    }
+
+    @OnClick(R.id.main_button_rxjava)
+    void loadActivity(View view) {
+        Intent intent = new Intent(getActivity(), RXJavaActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -197,6 +203,12 @@ public class MainFragment extends Fragment {
         if (activity instanceof MainActivity) {
             listener = (OnEventListener) activity;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
 
