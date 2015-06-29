@@ -11,5 +11,5 @@ import org.parceler.Parcel;
 public class ServerResponse {
 
     @SerializedName("status")
-    private String status;
+    public String status;
 }

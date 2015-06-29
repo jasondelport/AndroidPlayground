@@ -3,7 +3,6 @@ package com.jasondelport.notes.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,31 +16,31 @@ import com.jasondelport.notes.util.Utils;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class PostNoteActivity extends AppCompatActivity {
+public class PostNoteActivity extends BaseActivity {
 
     private final static int RESULT_SPEECH = 1;
 
-    @InjectView(R.id.note)
+    @Bind(R.id.note)
     EditText note;
 
-    @InjectView(R.id.button)
+    @Bind(R.id.button)
     Button button;
 
-    @InjectView(R.id.speechtotext_button)
+    @Bind(R.id.speechtotext_button)
     Button button1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postnote);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

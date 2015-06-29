@@ -50,6 +50,10 @@
             android:label="@string/app_name" />
 
         <activity
+            android:name=".ui.PercentActivity"
+            android:label="@string/app_name" />
+
+        <activity
             android:name=".ui.KeepAwakeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />

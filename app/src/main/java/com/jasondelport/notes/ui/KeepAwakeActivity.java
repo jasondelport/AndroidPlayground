@@ -8,28 +8,27 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.jasondelport.notes.receiver.AlarmReceiver;
 import com.jasondelport.notes.R;
+import com.jasondelport.notes.receiver.AlarmReceiver;
 
 import java.util.Calendar;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import timber.log.Timber;
 
-public class KeepAwakeActivity extends AppCompatActivity {
+public class KeepAwakeActivity extends BaseActivity {
 
-    @InjectView(R.id.button_keep_awake)
+    @Bind(R.id.button_keep_awake)
     Button button1;
-    @InjectView(R.id.button_sleep)
+    @Bind(R.id.button_sleep)
     Button button2;
-    @InjectView(R.id.button_alarm)
+    @Bind(R.id.button_alarm)
     Button button3;
     private BroadcastReceiver receiver;
 
@@ -38,7 +37,7 @@ public class KeepAwakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
         setContentView(R.layout.activity_keepawake);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

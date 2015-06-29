@@ -3,7 +3,6 @@ package com.jasondelport.notes.ui;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -30,7 +29,7 @@ import icepick.Icepick;
 import icepick.Icicle;
 import timber.log.Timber;
 
-public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class LocationActivity extends BaseActivity implements OnMapReadyCallback {
     @Icicle
     ArrayList<LatLng> locationHistory;
     private boolean zoomed;

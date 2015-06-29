@@ -1,6 +1,5 @@
 package com.jasondelport.notes.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class RXJavaFragment extends Fragment {
+public class RXJavaFragment extends BaseFragment {
 
     Subscriber<String> subscriber = new Subscriber<String>() {
         @Override

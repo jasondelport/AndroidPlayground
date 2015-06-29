@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.jasondelport.notes.BuildConfig;
@@ -22,20 +21,10 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 
-public class MainFragment extends Fragment {
+public class MainFragment extends BaseFragment {
 
     @Bind(R.id.text)
     TextView text;
-    @Bind(R.id.main_button_drawer)
-    Button button1;
-    @Bind(R.id.main_button_recyclerview)
-    Button button2;
-    @Bind(R.id.main_button_location)
-    Button button3;
-    @Bind(R.id.main_button_postnote)
-    Button button4;
-    @Bind(R.id.main_button_keep_awake)
-    Button button5;
 
     private String value1;
     private int value2;
@@ -73,63 +62,50 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
-        // setup view data here
         text.setText(BuildConfig.URL);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DrawerActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RecyclerViewActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LocationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PostNoteActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), KeepAwakeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        /*
-        button6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        */
 
         return view;
     }
 
+    @OnClick(R.id.main_button_drawer)
+    void loadDrawer(View view) {
+        Intent intent = new Intent(getActivity(), DrawerActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_recyclerview)
+    void loadRecyclerView(View view) {
+        Intent intent = new Intent(getActivity(), RecyclerViewActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_location)
+    void loadLocation(View view) {
+        Intent intent = new Intent(getActivity(), LocationActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_postnote)
+    void loadPostNote(View view) {
+        Intent intent = new Intent(getActivity(), PostNoteActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_keep_awake)
+    void loadKeepAwake(View view) {
+        Intent intent = new Intent(getActivity(), KeepAwakeActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.main_button_rxjava)
-    void loadActivity(View view) {
+    void loadRXJava(View view) {
         Intent intent = new Intent(getActivity(), RXJavaActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_percents)
+    void loadPercents(View view) {
+        Intent intent = new Intent(getActivity(), PercentActivity.class);
         startActivity(intent);
     }
 

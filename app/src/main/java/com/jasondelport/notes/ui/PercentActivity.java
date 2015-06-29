@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.jasondelport.notes.Constants;
 
 
-public class RXJavaActivity extends BaseActivity {
+public class PercentActivity extends BaseActivity {
 
     private Fragment fragment;
 
@@ -15,13 +15,13 @@ public class RXJavaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            fragment = RXJavaFragment.newInstance();
+            fragment = PercentFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
 
-        getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.RXJAVA_FRAGMENT_TAG).commit();
+        getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.PERCENT_FRAGMENT_TAG).commit();
 
     }
 

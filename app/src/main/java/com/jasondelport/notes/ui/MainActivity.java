@@ -3,7 +3,6 @@ package com.jasondelport.notes.ui;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,7 +13,7 @@ import com.jasondelport.notes.R;
 import timber.log.Timber;
 
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnEventListener {
+public class MainActivity extends BaseActivity implements MainFragment.OnEventListener {
 
     private Fragment fragment;
 

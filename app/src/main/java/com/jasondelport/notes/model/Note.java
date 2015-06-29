@@ -8,19 +8,19 @@ import org.parceler.Parcel;
 public class Note {
 
     @SerializedName("added")
-    private long added;
+    public long added;
 
     @SerializedName("updated")
-    private long updated;
+    public long updated;
 
     @SerializedName("key")
-    private String key;
+    public String key;
 
     @SerializedName("text")
-    private String text;
+    public String text;
 
     @SerializedName("note")
-    private String note;
+    public String note;
 
     public long getAdded() {
         return added;

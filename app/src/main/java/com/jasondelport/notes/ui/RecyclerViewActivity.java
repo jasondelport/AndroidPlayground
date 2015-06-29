@@ -25,7 +25,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class RecyclerViewActivity extends AppCompatActivity implements ConfirmDeleteDialogFragment.DialogListener {
+public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteDialogFragment.DialogListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
