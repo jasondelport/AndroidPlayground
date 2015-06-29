@@ -41,9 +41,9 @@ public class Utils {
     }
 
     // this had issues, use cautiously
-    public static int getDateDiff(Date startDate, Date endDate, TimeUnit timeUnit) {
+    public static long getDateDiff(Date startDate, Date endDate, TimeUnit timeUnit) {
         long diffInMillis = endDate.getTime() - startDate.getTime();
-        return (int) timeUnit.convert(diffInMillis, TimeUnit.MILLISECONDS);
+        return timeUnit.convert(diffInMillis, TimeUnit.MILLISECONDS);
     }
 
     public static long daysBetween(Date startDate, Date endDate) {

@@ -2,7 +2,6 @@ package com.jasondelport.notes.ui;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,18 +10,20 @@ import android.widget.ProgressBar;
 import com.jasondelport.notes.App;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.adapter.RecyclerViewAdapter;
+import com.jasondelport.notes.data.DataManager;
 import com.jasondelport.notes.dialog.ConfirmDeleteDialogFragment;
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
 import com.jasondelport.notes.model.NoteData;
-import com.jasondelport.notes.data.DataManager;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.Subscriptions;
 import timber.log.Timber;
 
 public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteDialogFragment.DialogListener {
@@ -32,7 +33,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     private RecyclerView.LayoutManager mLayoutManager;
     private NoteData mNoteData;
     private ProgressBar mProgressBar;
-
+    private Subscription subscription = Subscriptions.empty();
 
     // Subscriber implements Observer
     Subscriber<NoteData> subscriber = new Subscriber<NoteData>() {
@@ -103,11 +104,10 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         //NetworkClient.getInstance().getNotes(new OttoCallback<NoteData>());
 
         // RXJava Version
-
-        DataManager.getInstance().getNotes()
+        subscription = DataManager.getInstance().getNotes()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+        .subscribe(subscriber);
     }
 
     @Subscribe
@@ -135,6 +135,11 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         App.getEventBus().unregister(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        subscription.unsubscribe();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

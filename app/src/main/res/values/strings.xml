@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Playground</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_fragment_settings">Fragment Settings</string>
     <string name="action_activity_settings">Activity Settings</string>
 
@@ -17,9 +16,7 @@
     <string name="keep_awake_tests">Keep Awake Tests</string>
     <string name="title_activity_rxjava">RXJavaActivity</string>
     <string name="action_settings">Settings</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rxjava_tests">RXJava Tests</string>
-    <string name="percents_views">Using percents to define views</string>
+    <string name="percents_views">Percent Width/Height Example</string>
+    <string name="coordinator_layout">Coordinator Layout Example</string>
 </resources>

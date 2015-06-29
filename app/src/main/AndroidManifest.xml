@@ -54,6 +54,11 @@
             android:label="@string/app_name" />
 
         <activity
+            android:name=".ui.CoordinatorLayoutActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/app_name" />
+
+        <activity
             android:name=".ui.KeepAwakeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />

@@ -10,21 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.jasondelport.notes.BuildConfig;
 import com.jasondelport.notes.R;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
 
 public class MainFragment extends BaseFragment {
-
-    @Bind(R.id.text)
-    TextView text;
 
     private String value1;
     private int value2;
@@ -61,8 +55,6 @@ public class MainFragment extends BaseFragment {
         lifecycle("onCreateView");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
-
-        text.setText(BuildConfig.URL);
 
         return view;
     }
@@ -106,6 +98,12 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.main_button_percents)
     void loadPercents(View view) {
         Intent intent = new Intent(getActivity(), PercentActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_coordinator)
+    void loadCoordinator(View view) {
+        Intent intent = new Intent(getActivity(), CoordinatorLayoutActivity.class);
         startActivity(intent);
     }
 
