@@ -11,6 +11,7 @@ import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.fragment.DrawerContent2Fragment;
 import com.jasondelport.notes.ui.fragment.DrawerContentFragment;
+import com.jasondelport.notes.util.RoutingUtils;
 
 public class DrawerActivity extends BaseActivity {
 
@@ -32,11 +33,10 @@ public class DrawerActivity extends BaseActivity {
         if (savedInstanceState == null) {
             fragment = DrawerContentFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction()
-                    .add(R.id.content, fragment, Constants.DRAWER_CONTENT_FRAGMENT_TAG)
-                    .commit();
+            RoutingUtils.addFragment(DrawerActivity.this, fragment, R.id.content, Constants.DRAWER_CONTENT_FRAGMENT_TAG);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            RoutingUtils.addFragment(DrawerActivity.this, fragment, R.id.content, Constants.DRAWER_CONTENT_FRAGMENT_TAG);
         }
     }
 
@@ -75,11 +75,7 @@ public class DrawerActivity extends BaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 fragment = DrawerContent2Fragment.newInstance();
-                                getFragmentManager().beginTransaction()
-                                        .add(R.id.content, fragment, Constants.DRAWER_CONTENT2_FRAGMENT_TAG)
-                                        .addToBackStack(Constants.DRAWER_CONTENT2_FRAGMENT_TAG)
-                                        .commit();
-
+                                RoutingUtils.addFragmentToStack(DrawerActivity.this, fragment, R.id.content, Constants.DRAWER_CONTENT2_FRAGMENT_TAG);
                                 break;
                         }
 

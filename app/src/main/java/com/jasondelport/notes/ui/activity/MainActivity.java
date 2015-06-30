@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.fragment.MainFragment;
+import com.jasondelport.notes.util.RoutingUtils;
 
 import timber.log.Timber;
 
@@ -26,12 +27,10 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         if (savedInstanceState == null) {
             fragment = MainFragment.newInstance("hello", 0);
             fragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
+            RoutingUtils.addFragment(MainActivity.this, fragment, android.R.id.content, Constants.MAIN_FRAGMENT_TAG);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            if (getFragmentManager().findFragmentByTag(Constants.PERCENT_FRAGMENT_TAG) == null) {
-                getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
-            }
+            RoutingUtils.addFragment(MainActivity.this, fragment, android.R.id.content, Constants.MAIN_FRAGMENT_TAG);
         }
 
         addShortCut();

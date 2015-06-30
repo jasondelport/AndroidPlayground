@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.ui.fragment.RXJavaFragment;
+import com.jasondelport.notes.util.RoutingUtils;
 
 public class RXJavaActivity extends BaseActivity {
 
@@ -17,9 +18,10 @@ public class RXJavaActivity extends BaseActivity {
         if (savedInstanceState == null) {
             fragment = RXJavaFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.RXJAVA_FRAGMENT_TAG).commit();
+            RoutingUtils.addFragment(RXJavaActivity.this, fragment, android.R.id.content, Constants.RXJAVA_FRAGMENT_TAG);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            RoutingUtils.addFragment(RXJavaActivity.this, fragment, android.R.id.content, Constants.RXJAVA_FRAGMENT_TAG);
         }
     }
 

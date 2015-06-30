@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.ui.fragment.PercentFragment;
+import com.jasondelport.notes.util.RoutingUtils;
 
 
 public class PercentActivity extends BaseActivity {
@@ -18,9 +19,10 @@ public class PercentActivity extends BaseActivity {
         if (savedInstanceState == null) {
             fragment = PercentFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.PERCENT_FRAGMENT_TAG).commit();
+            RoutingUtils.addFragment(PercentActivity.this, fragment, android.R.id.content, Constants.PERCENT_FRAGMENT_TAG);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            RoutingUtils.addFragment(PercentActivity.this, fragment, android.R.id.content, Constants.PERCENT_FRAGMENT_TAG);
         }
     }
 
