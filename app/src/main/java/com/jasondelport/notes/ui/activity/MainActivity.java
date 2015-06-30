@@ -27,11 +27,11 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         if (savedInstanceState == null) {
             fragment = MainFragment.newInstance("hello", 0);
             fragment.setArguments(getIntent().getExtras());
-            RoutingUtils.addFragment(MainActivity.this, fragment, android.R.id.content, Constants.MAIN_FRAGMENT_TAG);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            RoutingUtils.addFragment(MainActivity.this, fragment, android.R.id.content, Constants.MAIN_FRAGMENT_TAG);
         }
+
+        RoutingUtils.addFragment(MainActivity.this, fragment, android.R.id.content, Constants.FRAGMENT_MAIN);
 
         addShortCut();
     }

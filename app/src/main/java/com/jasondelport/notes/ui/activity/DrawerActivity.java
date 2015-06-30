@@ -33,11 +33,10 @@ public class DrawerActivity extends BaseActivity {
         if (savedInstanceState == null) {
             fragment = DrawerContentFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
-            RoutingUtils.addFragment(DrawerActivity.this, fragment, R.id.content, Constants.DRAWER_CONTENT_FRAGMENT_TAG);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            RoutingUtils.addFragment(DrawerActivity.this, fragment, R.id.content, Constants.DRAWER_CONTENT_FRAGMENT_TAG);
         }
+        RoutingUtils.addFragment(DrawerActivity.this, fragment, R.id.content, Constants.FRAGMENT_CONTENT_1);
     }
 
     @Override
@@ -74,8 +73,8 @@ public class DrawerActivity extends BaseActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                fragment = DrawerContent2Fragment.newInstance();
-                                RoutingUtils.addFragmentToStack(DrawerActivity.this, fragment, R.id.content, Constants.DRAWER_CONTENT2_FRAGMENT_TAG);
+                                Fragment navFragment = DrawerContent2Fragment.newInstance();
+                                RoutingUtils.addFragmentToStack(DrawerActivity.this, navFragment, R.id.content, Constants.FRAGMENT_CONTENT_2);
                                 break;
                         }
 

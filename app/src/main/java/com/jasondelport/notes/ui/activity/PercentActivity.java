@@ -19,10 +19,10 @@ public class PercentActivity extends BaseActivity {
         if (savedInstanceState == null) {
             fragment = PercentFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
-            RoutingUtils.addFragment(PercentActivity.this, fragment, android.R.id.content, Constants.PERCENT_FRAGMENT_TAG);
+            RoutingUtils.addFragment(PercentActivity.this, fragment, android.R.id.content, Constants.FRAGMENT_PERCENT);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            RoutingUtils.addFragment(PercentActivity.this, fragment, android.R.id.content, Constants.PERCENT_FRAGMENT_TAG);
+            RoutingUtils.addFragment(PercentActivity.this, fragment, android.R.id.content, Constants.FRAGMENT_PERCENT);
         }
     }
 

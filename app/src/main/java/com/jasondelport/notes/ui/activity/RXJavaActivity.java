@@ -18,10 +18,10 @@ public class RXJavaActivity extends BaseActivity {
         if (savedInstanceState == null) {
             fragment = RXJavaFragment.newInstance();
             fragment.setArguments(getIntent().getExtras());
-            RoutingUtils.addFragment(RXJavaActivity.this, fragment, android.R.id.content, Constants.RXJAVA_FRAGMENT_TAG);
+            RoutingUtils.addFragment(RXJavaActivity.this, fragment, android.R.id.content, Constants.FRAGMENT_RXJAVA);
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            RoutingUtils.addFragment(RXJavaActivity.this, fragment, android.R.id.content, Constants.RXJAVA_FRAGMENT_TAG);
+            RoutingUtils.addFragment(RXJavaActivity.this, fragment, android.R.id.content, Constants.FRAGMENT_RXJAVA);
         }
     }
 

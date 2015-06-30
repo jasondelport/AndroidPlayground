@@ -5,11 +5,11 @@ package com.jasondelport.notes;
  */
 public abstract class Constants {
 
-    public static final String MAIN_FRAGMENT_TAG = "MainFragment";
-    public static final String RXJAVA_FRAGMENT_TAG = "RXJavaFragment";
-    public static final String PERCENT_FRAGMENT_TAG = "PercentFragment";
-    public static final String DRAWER_CONTENT_FRAGMENT_TAG = "DrawerContentFragment";
-    public static final String DRAWER_CONTENT2_FRAGMENT_TAG = "DrawerContent2Fragment";
+    public static final String FRAGMENT_MAIN = "MainFragment";
+    public static final String FRAGMENT_RXJAVA = "RXJavaFragment";
+    public static final String FRAGMENT_PERCENT = "PercentFragment";
+    public static final String FRAGMENT_CONTENT_1 = "DrawerContent1Fragment";
+    public static final String FRAGMENT_CONTENT_2 = "DrawerContent2Fragment";
     public static final String PREFERENCES = "JasonDelportPreferences";
 
 }
