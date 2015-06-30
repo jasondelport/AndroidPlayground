@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.activity;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -33,6 +33,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     private RecyclerView.LayoutManager mLayoutManager;
     private NoteData mNoteData;
     private ProgressBar mProgressBar;
+    private DataManager dataManager = new DataManager();
     private Subscription subscription = Subscriptions.empty();
 
     // Subscriber implements Observer
@@ -104,7 +105,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         //NetworkClient.getInstance().getNotes(new OttoCallback<NoteData>());
 
         // RXJava Version
-        subscription = DataManager.getInstance().getNotes()
+        subscription = dataManager.getRestApi().getNotes()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
         .subscribe(subscriber);

@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import timber.log.Timber;
 public class PostNoteActivity extends BaseActivity {
 
     private final static int RESULT_SPEECH = 1;
+    private DataManager dataManager = new DataManager();
 
     @Bind(R.id.note)
     EditText note;
@@ -98,7 +99,7 @@ public class PostNoteActivity extends BaseActivity {
             Note nn = new Note();
             nn.setNote(note.getText().toString());
 
-            DataManager.getInstance().addNote(nn, new Callback<Note>() {
+            dataManager.getRestApi().addNote(nn, new Callback<Note>() {
                 @Override
                 public void success(Note note, Response response) {
                     Timber.d("new note -> %s", note.getText());

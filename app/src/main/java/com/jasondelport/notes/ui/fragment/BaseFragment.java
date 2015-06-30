@@ -1,10 +1,8 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-
-import timber.log.Timber;
 
 
 public class BaseFragment extends Fragment {
@@ -97,7 +95,7 @@ public class BaseFragment extends Fragment {
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("Fragment (%s)", methodName);
+        //Timber.d("Fragment (%s)", methodName);
     }
 
 }

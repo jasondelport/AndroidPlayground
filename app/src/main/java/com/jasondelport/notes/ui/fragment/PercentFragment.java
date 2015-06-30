@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

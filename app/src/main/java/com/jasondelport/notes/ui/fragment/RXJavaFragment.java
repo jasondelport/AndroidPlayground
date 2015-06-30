@@ -1,12 +1,15 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jasondelport.notes.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -18,7 +21,7 @@ public class RXJavaFragment extends BaseFragment {
     Subscriber<String> subscriber = new Subscriber<String>() {
         @Override
         public void onNext(String s) {
-            System.out.println(s);
+            text.setText(s);
         }
 
         @Override
@@ -29,6 +32,9 @@ public class RXJavaFragment extends BaseFragment {
         public void onError(Throwable e) {
         }
     };
+
+    @Bind(R.id.text)
+    TextView text;
 
     public RXJavaFragment() {
 
@@ -52,8 +58,13 @@ public class RXJavaFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rxjava, container, false);
-
+        ButterKnife.bind(this, view);
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

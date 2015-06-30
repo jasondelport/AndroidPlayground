@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
+import com.jasondelport.notes.ui.fragment.MainFragment;
 
 import timber.log.Timber;
 
@@ -25,12 +26,13 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         if (savedInstanceState == null) {
             fragment = MainFragment.newInstance("hello", 0);
             fragment.setArguments(getIntent().getExtras());
+            getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            if (getFragmentManager().findFragmentByTag(Constants.PERCENT_FRAGMENT_TAG) == null) {
+                getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
+            }
         }
-
-        getFragmentManager().beginTransaction().add(android.R.id.content, fragment, Constants.MAIN_FRAGMENT_TAG).commit();
-
 
         addShortCut();
     }

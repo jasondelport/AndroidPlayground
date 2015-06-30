@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -12,6 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jasondelport.notes.R;
+import com.jasondelport.notes.ui.activity.BleActivity;
+import com.jasondelport.notes.ui.activity.CoordinatorLayoutActivity;
+import com.jasondelport.notes.ui.activity.DrawerActivity;
+import com.jasondelport.notes.ui.activity.KeepAwakeActivity;
+import com.jasondelport.notes.ui.activity.LocationActivity;
+import com.jasondelport.notes.ui.activity.MainActivity;
+import com.jasondelport.notes.ui.activity.PercentActivity;
+import com.jasondelport.notes.ui.activity.PostNoteActivity;
+import com.jasondelport.notes.ui.activity.RXJavaActivity;
+import com.jasondelport.notes.ui.activity.RecyclerViewActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,6 +47,16 @@ public class MainFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    /*
+    // alternate way of instantiating the fragment statically
+    public static Fragment newInstance(Context context, String value1, int value2) {
+        Bundle args = new Bundle();
+        args.putString("value1", value1);
+        args.putInt("value2", value2);
+        return Fragment.instantiate(context, MainFragment.class.getName(), args);
+    }
+    */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +124,12 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.main_button_coordinator)
     void loadCoordinator(View view) {
         Intent intent = new Intent(getActivity(), CoordinatorLayoutActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_button_ble)
+    void loadBleScanner(View view) {
+        Intent intent = new Intent(getActivity(), BleActivity.class);
         startActivity(intent);
     }
 
@@ -182,7 +208,15 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        lifecycle("onDestroyView");
         ButterKnife.unbind(this);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        lifecycle("onDestroy");
     }
 
 

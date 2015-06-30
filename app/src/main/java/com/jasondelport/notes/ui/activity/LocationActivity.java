@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.activity;
 
 import android.location.Location;
 import android.media.MediaPlayer;

@@ -1,10 +1,8 @@
-package com.jasondelport.notes.ui;
+package com.jasondelport.notes.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import timber.log.Timber;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -64,6 +62,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("%s (%s)", getClass().getSimpleName(), methodName);
+        //Timber.d("%s (%s)", getClass().getSimpleName(), methodName);
     }
 }

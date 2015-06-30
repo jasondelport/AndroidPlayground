@@ -63,6 +63,13 @@
             android:layout_margin="10dp"
             android:text="@string/coordinator_layout" />
 
+        <Button
+            android:id="@+id/main_button_ble"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Bluetooth LE Scanner" />
+
     </LinearLayout>
 
 </ScrollView>

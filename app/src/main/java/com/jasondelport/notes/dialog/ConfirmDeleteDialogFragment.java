@@ -16,7 +16,8 @@ import com.jasondelport.notes.data.OttoCallback;
  */
 public class ConfirmDeleteDialogFragment extends DialogFragment {
 
-    DialogListener mListener;
+    private DialogListener mListener;
+    private DataManager dataManager = new DataManager();
 
     public static ConfirmDeleteDialogFragment newInstance(String key) {
         ConfirmDeleteDialogFragment f = new ConfirmDeleteDialogFragment();
@@ -65,7 +66,7 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
                 .setMessage("Are you sure you want to delete this note?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        DataManager.getInstance().deleteNote(getArguments().getString("key"), new OttoCallback<ServerResponse>());
+                        dataManager.getRestApi().deleteNote(getArguments().getString("key"), new OttoCallback<ServerResponse>());
                         mListener.onConfirmDelete();
                         dismiss();
                     }
