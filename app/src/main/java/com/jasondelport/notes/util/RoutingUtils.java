@@ -11,13 +11,11 @@ import android.content.Intent;
  */
 public class RoutingUtils {
 
-    public static void redirectTo(Context context, Class clazz) {
-        Intent intent = new Intent(context, clazz);
+    public static void openActivityAndFinish(Activity activity, Class clazz) {
+        Intent intent = new Intent(activity, clazz);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-        if (context instanceof Activity) {
-            ((Activity) context).finish();
-        }
+        activity.startActivity(intent);
+        activity.finish();
     }
 
     public static void openActivity(Activity activity, Class clazz) {
