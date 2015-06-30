@@ -16,6 +16,48 @@
 #   public *;
 #}
 
+# icicle
 -dontwarn icepick.**
 -keep class **$$Icicle { *; }
 -keepnames class * { @icepick.Icicle *;}
+
+# butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+# Picasso && OkIo
+-dontwarn com.squareup.okhttp.**
+-dontwarn okio.**
+
+# Android v7 Support Library
+-keep class android.support.v7.widget.ShareActionProvider { *; }
+
+# Greenbot EventBus
+-keepclassmembers class ** { public void onEvent*(**); }
+
+# RxAndroid
+-dontwarn rx.internal.util.unsafe.**
+
+# LeakCanary
+-keep class org.eclipse.mat.** { *; }
+-keep class com.squareup.leakcanary.** { *; }
+
+# Android Support Design Library
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+
+# Retrofit
+-dontwarn retrofit.**
+-keep class retrofit.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions

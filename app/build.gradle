@@ -32,6 +32,7 @@ android {
         debug {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
+            debuggable true
             resValue "string", "url", properties['url']
         }
 
@@ -39,7 +40,10 @@ android {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
-            minifyEnabled false
+            debuggable false
+            zipAlignEnabled true
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -88,7 +92,6 @@ dependencies {
     provided 'frankiesardo:icepick-processor:3.0.2'
     compile 'org.parceler:parceler-api:0.2.15'
     provided 'org.parceler:parceler:0.2.15'
-
 
 
 }
