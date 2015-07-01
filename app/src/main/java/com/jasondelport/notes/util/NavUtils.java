@@ -33,7 +33,7 @@ public class NavUtils {
         Fragment existingFragment = fm.findFragmentByTag(tag);
         if (existingFragment == null) {
             fm.beginTransaction()
-                    .add(viewId, fragment, tag)
+                    .replace(viewId, fragment, tag)
                     .addToBackStack(tag)
                     .commit();
         } else {

@@ -18,6 +18,69 @@ import timber.log.Timber;
 public class MainActivity extends BaseActivity implements MainFragment.OnEventListener {
 
     private Fragment fragment;
+    /*
+
+    lifecycle order of a activity with a child fragment
+
+    start
+    Activity (onCreate)
+    Fragment (constructor)
+    Fragment (onAttach)
+    Fragment (onCreate)
+    Fragment (onCreateView)
+    Fragment (onActivityCreated)
+    Activity (onStart)
+    Fragment (onStart)
+    Activity (onResume)
+    Fragment (onResume)
+
+    stop (with setRetainInstance = true)
+    Fragment (onPause)
+    Activity (onPause)
+    Fragment (onSaveInstanceState)
+    Activity (onSaveInstanceState)
+    Fragment (onStop)
+    Activity (onStop)
+    Fragment (onDestroyView)
+    Fragment (onDetach)
+    Activity (onDestroy)
+
+    stop (with setRetainInstance = false)
+    Fragment (onPause)
+    Activity (onPause)
+    Fragment (onSaveInstanceState)
+    Activity (onSaveInstanceState)
+    Fragment (onStop)
+    Activity (onStop)
+    Fragment (onDestroyView)
+    Fragment (onDestroy) **
+    Fragment (onDetach)
+    Activity (onDestroy)
+
+    restart (with setRetainInstance = true)
+    Fragment (onAttach)
+    Activity (onCreate)
+    Fragment (onCreateView)
+    Fragment (onActivityCreated)
+    Activity (onStart)
+    Fragment (onStart)
+    MainActivity (onRestoreInstanceState)
+    MainActivity (onResume)
+    Fragment (onResume)
+
+    restart (with setRetainInstance = false)
+    Fragment (onAttach)
+    Fragment (onCreate) **
+    Activity (onCreate)
+    Fragment (onCreateView)
+    Fragment (onActivityCreated)
+    Activity (onStart)
+    Fragment (onStart)
+    MainActivity (onRestoreInstanceState)
+    MainActivity (onResume)
+    Fragment (onResume)
+
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +89,8 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
 
         if (savedInstanceState == null) {
             fragment = MainFragment.newInstance("hello", 0);
-            fragment.setArguments(getIntent().getExtras());
+            // the below overwrites the above
+            //fragment.setArguments(getIntent().getExtras());
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
@@ -113,8 +177,9 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("%s (%s)", getClass().getSimpleName(), methodName);
+        Timber.d("Activity (%s)", methodName);
     }
+
     @Override
     public void onEvent(String data) {
         // listener method from fragment

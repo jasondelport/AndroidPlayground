@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
-import com.jasondelport.notes.ui.fragment.DrawerContent2Fragment;
 import com.jasondelport.notes.ui.fragment.DrawerContentFragment;
 import com.jasondelport.notes.util.NavUtils;
 
@@ -31,8 +30,7 @@ public class DrawerActivity extends BaseActivity {
         }
 
         if (savedInstanceState == null) {
-            fragment = DrawerContentFragment.newInstance();
-            fragment.setArguments(getIntent().getExtras());
+            fragment = DrawerContentFragment.newInstance("page 1");
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
@@ -55,7 +53,8 @@ public class DrawerActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+                // set to false so the event propagates to the fragment
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -74,8 +73,16 @@ public class DrawerActivity extends BaseActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                Fragment navFragment = DrawerContent2Fragment.newInstance();
-                                NavUtils.addFragmentToStack(getFragmentManager(), navFragment, R.id.content, Constants.FRAGMENT_CONTENT_2);
+                                loadContent(Constants.FRAGMENT_CONTENT_2);
+                                break;
+                            case R.id.nav_messages:
+                                loadContent(Constants.FRAGMENT_CONTENT_3);
+                                break;
+                            case R.id.nav_friends:
+                                loadContent(Constants.ACTIVITY_PERCENT);
+                                break;
+                            case R.id.nav_discussion:
+                                loadContent(Constants.ACTIVITY_RXJAVA);
                                 break;
                         }
 
@@ -86,4 +93,28 @@ public class DrawerActivity extends BaseActivity {
                     }
                 });
     }
+
+    public DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
+
+    public void loadContent(String tag) {
+        switch (tag) {
+            case Constants.FRAGMENT_CONTENT_2:
+                Fragment navFragment = DrawerContentFragment.newInstance("page 2");
+                NavUtils.addFragmentToStack(getFragmentManager(), navFragment, R.id.content, tag);
+                break;
+            case Constants.FRAGMENT_CONTENT_3:
+                Fragment newFragment = DrawerContentFragment.newInstance("page 3");
+                NavUtils.addFragmentToStack(getFragmentManager(), newFragment, R.id.content, tag);
+                break;
+            case Constants.ACTIVITY_PERCENT:
+                NavUtils.openActivity(this, PercentActivity.class);
+                break;
+            case Constants.ACTIVITY_RXJAVA:
+                NavUtils.openActivityAndFinish(this, RXJavaActivity.class);
+                break;
+        }
+    }
+
 }

@@ -30,4 +30,5 @@ public class LogUtils {
             e.printStackTrace();
         }
     }
+
 }

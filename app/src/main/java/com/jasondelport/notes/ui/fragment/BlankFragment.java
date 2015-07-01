@@ -31,6 +31,8 @@ public class BlankFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setRetainInstance(false);
+        setHasOptionsMenu(false);
         super.onCreate(savedInstanceState);
     }
 

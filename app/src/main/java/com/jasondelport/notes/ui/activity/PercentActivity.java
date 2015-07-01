@@ -18,7 +18,6 @@ public class PercentActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             fragment = PercentFragment.newInstance();
-            fragment.setArguments(getIntent().getExtras());
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }

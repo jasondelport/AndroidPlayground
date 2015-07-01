@@ -40,6 +40,7 @@ public class MainFragment extends BaseFragment {
 
     // the recommended google way of instantiating new fragments via a static factory method
     public static Fragment newInstance(String value1, int value2) {
+        Timber.d("newInstance");
         Fragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString("value1", value1);
@@ -61,9 +62,9 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
-        setHasOptionsMenu(true);
         lifecycle("onCreate");
+        setRetainInstance(false); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             value1 = getArguments().getString("value1", "default value");
             value2 = getArguments().getInt("value2", 0);

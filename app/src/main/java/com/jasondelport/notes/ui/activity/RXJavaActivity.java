@@ -17,7 +17,6 @@ public class RXJavaActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             fragment = RXJavaFragment.newInstance();
-            fragment.setArguments(getIntent().getExtras());
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }

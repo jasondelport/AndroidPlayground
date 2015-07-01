@@ -14,6 +14,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 public class RXJavaFragment extends BaseFragment {
@@ -48,6 +49,11 @@ public class RXJavaFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        lifecycle("onCreate");
+        setRetainInstance(false);
+        setHasOptionsMenu(false);
+
+        // this will run every time as long as setRetainInstance = false
         Observable.just("one", "two", "three", "four", "five")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,6 +71,18 @@ public class RXJavaFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        lifecycle("onDestroyView");
         ButterKnife.unbind(this);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        lifecycle("onDestroy");
+    }
+
+    private void lifecycle(String methodName) {
+        Timber.d("Fragment (%s)", methodName);
+    }
+
 }

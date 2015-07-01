@@ -23,8 +23,9 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
         lifecycle("onCreate");
+        setRetainInstance(false);
+        setHasOptionsMenu(false);
     }
 
     /*
