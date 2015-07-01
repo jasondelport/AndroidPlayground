@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
+import com.jasondelport.notes.listener.OnBackPressedListener;
 import com.jasondelport.notes.ui.fragment.DrawerContentFragment;
 import com.jasondelport.notes.util.NavUtils;
 
@@ -16,6 +17,7 @@ public class DrawerActivity extends BaseActivity {
 
     private DrawerLayout mDrawerLayout;
     private Fragment fragment;
+    private OnBackPressedListener onBackPressedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class DrawerActivity extends BaseActivity {
         if (count == 0) {
             super.onBackPressed();
         } else {
-            getFragmentManager().popBackStack();
+            onBackPressedListener.onBackPressed();
         }
     }
 
@@ -96,6 +98,10 @@ public class DrawerActivity extends BaseActivity {
 
     public DrawerLayout getDrawerLayout() {
         return mDrawerLayout;
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
     }
 
     public void loadContent(String tag) {
