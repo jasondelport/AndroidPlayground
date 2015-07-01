@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.fragment.MainFragment;
-import com.jasondelport.notes.util.RoutingUtils;
+import com.jasondelport.notes.util.NavUtils;
 
 import timber.log.Timber;
 
@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
 
-        RoutingUtils.addFragment(MainActivity.this, fragment, android.R.id.content, Constants.FRAGMENT_MAIN);
+        NavUtils.addFragment(getFragmentManager(), fragment, android.R.id.content, Constants.FRAGMENT_MAIN);
 
         addShortCut();
     }

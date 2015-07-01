@@ -2,7 +2,6 @@ package com.jasondelport.notes.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +21,7 @@ import com.jasondelport.notes.ui.activity.PercentActivity;
 import com.jasondelport.notes.ui.activity.PostNoteActivity;
 import com.jasondelport.notes.ui.activity.RXJavaActivity;
 import com.jasondelport.notes.ui.activity.RecyclerViewActivity;
+import com.jasondelport.notes.util.NavUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,56 +81,47 @@ public class MainFragment extends BaseFragment {
 
     @OnClick(R.id.main_button_drawer)
     void loadDrawer(View view) {
-        Intent intent = new Intent(getActivity(), DrawerActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), DrawerActivity.class);
     }
 
     @OnClick(R.id.main_button_recyclerview)
     void loadRecyclerView(View view) {
-        Intent intent = new Intent(getActivity(), RecyclerViewActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), RecyclerViewActivity.class);
     }
 
     @OnClick(R.id.main_button_location)
     void loadLocation(View view) {
-        Intent intent = new Intent(getActivity(), LocationActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), LocationActivity.class);
     }
 
     @OnClick(R.id.main_button_postnote)
     void loadPostNote(View view) {
-        Intent intent = new Intent(getActivity(), PostNoteActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), PostNoteActivity.class);
     }
 
     @OnClick(R.id.main_button_keep_awake)
     void loadKeepAwake(View view) {
-        Intent intent = new Intent(getActivity(), KeepAwakeActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), KeepAwakeActivity.class);
     }
 
     @OnClick(R.id.main_button_rxjava)
     void loadRXJava(View view) {
-        Intent intent = new Intent(getActivity(), RXJavaActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), RXJavaActivity.class);
     }
 
     @OnClick(R.id.main_button_percents)
     void loadPercents(View view) {
-        Intent intent = new Intent(getActivity(), PercentActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), PercentActivity.class);
     }
 
     @OnClick(R.id.main_button_coordinator)
     void loadCoordinator(View view) {
-        Intent intent = new Intent(getActivity(), CoordinatorLayoutActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), CoordinatorLayoutActivity.class);
     }
 
     @OnClick(R.id.main_button_ble)
     void loadBleScanner(View view) {
-        Intent intent = new Intent(getActivity(), BleActivity.class);
-        startActivity(intent);
+        NavUtils.openActivity(getActivity(), BleActivity.class);
     }
 
     @Override

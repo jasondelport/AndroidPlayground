@@ -70,8 +70,8 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.5.0'
 
     // rx java
-    compile 'io.reactivex:rxjava:1.0.10'
-    compile 'io.reactivex:rxandroid:0.24.0'
+    //compile 'io.reactivex:rxjava:1.0.10'
+    compile 'io.reactivex:rxandroid:0.25.0'
 
     // square
     compile 'com.squareup.picasso:picasso:2.5.0'

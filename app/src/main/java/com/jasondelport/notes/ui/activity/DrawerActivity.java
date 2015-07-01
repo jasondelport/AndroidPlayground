@@ -11,7 +11,7 @@ import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.fragment.DrawerContent2Fragment;
 import com.jasondelport.notes.ui.fragment.DrawerContentFragment;
-import com.jasondelport.notes.util.RoutingUtils;
+import com.jasondelport.notes.util.NavUtils;
 
 public class DrawerActivity extends BaseActivity {
 
@@ -36,7 +36,8 @@ public class DrawerActivity extends BaseActivity {
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
-        RoutingUtils.addFragment(DrawerActivity.this, fragment, R.id.content, Constants.FRAGMENT_CONTENT_1);
+
+        NavUtils.addFragment(getFragmentManager(), fragment, R.id.content, Constants.FRAGMENT_CONTENT_1);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class DrawerActivity extends BaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 Fragment navFragment = DrawerContent2Fragment.newInstance();
-                                RoutingUtils.addFragmentToStack(DrawerActivity.this, navFragment, R.id.content, Constants.FRAGMENT_CONTENT_2);
+                                NavUtils.addFragmentToStack(getFragmentManager(), navFragment, R.id.content, Constants.FRAGMENT_CONTENT_2);
                                 break;
                         }
 

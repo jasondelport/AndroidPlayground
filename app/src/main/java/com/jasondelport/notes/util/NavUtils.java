@@ -3,13 +3,12 @@ package com.jasondelport.notes.util;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 
 /**
  * Created by jasondelport on 04/05/15.
  */
-public class RoutingUtils {
+public class NavUtils {
 
     public static void openActivityAndFinish(Activity activity, Class clazz) {
         Intent intent = new Intent(activity, clazz);
@@ -21,15 +20,20 @@ public class RoutingUtils {
     public static void openActivity(Activity activity, Class clazz) {
         Intent intent = new Intent(activity, clazz);
         activity.startActivity(intent);
-        activity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 
-    public static void addFragmentToStack(Activity activity, Fragment newFragment, int viewId, String tag) {
-        FragmentManager fm = activity.getFragmentManager();
+    public static void openActivityWithAnimation(Activity activity, Class clazz, int enterAnim, int exitAnim) {
+        Intent intent = new Intent(activity, clazz);
+        activity.startActivity(intent);
+        //activity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        activity.overridePendingTransition(enterAnim, exitAnim);
+    }
+
+    public static void addFragmentToStack(FragmentManager fm, Fragment fragment, int viewId, String tag) {
         Fragment existingFragment = fm.findFragmentByTag(tag);
         if (existingFragment == null) {
             fm.beginTransaction()
-                    .add(viewId, newFragment, tag)
+                    .add(viewId, fragment, tag)
                     .addToBackStack(tag)
                     .commit();
         } else {
@@ -42,12 +46,11 @@ public class RoutingUtils {
         }
     }
 
-    public static void addFragment(Activity activity, Fragment newFragment, int viewId, String tag) {
-        FragmentManager fm = activity.getFragmentManager();
+    public static void addFragment(FragmentManager fm, Fragment fragment, int viewId, String tag) {
         Fragment existingFragment = fm.findFragmentByTag(tag);
         if (existingFragment == null) {
             fm.beginTransaction()
-                    .add(viewId, newFragment, tag)
+                    .add(viewId, fragment, tag)
                     .commit();
         } else {
             if (existingFragment.isDetached()) {
