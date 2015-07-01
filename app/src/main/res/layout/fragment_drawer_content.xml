@@ -38,9 +38,15 @@
 
         <Button
             android:id="@+id/button"
-            android:text="button"
+            android:text="Go to page 3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intercept Menu and Back" />
 
     </LinearLayout>
 

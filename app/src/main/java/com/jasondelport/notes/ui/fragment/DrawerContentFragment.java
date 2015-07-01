@@ -119,6 +119,7 @@ public class DrawerContentFragment extends BaseFragment implements OnBackPressed
 
     @Override
     public void onBackPressed() {
+        // doesn't work for the first fragment in the stack
         if (shouldInterceptHomeAndBackEvents) {
             Snackbar.make(getView(), "Back Intercepted", Snackbar.LENGTH_LONG).show();
         } else {
