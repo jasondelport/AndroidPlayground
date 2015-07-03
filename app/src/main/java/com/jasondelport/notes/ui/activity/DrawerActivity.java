@@ -2,6 +2,8 @@ package com.jasondelport.notes.ui.activity;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,16 +11,17 @@ import android.view.MenuItem;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
-import com.jasondelport.notes.listener.OnBackPressedListener;
+import com.jasondelport.notes.listener.OnNavigationEventListener;
 import com.jasondelport.notes.ui.fragment.DrawerContentParentFragment;
+import com.jasondelport.notes.ui.fragment.DrawerHomeFragment;
 import com.jasondelport.notes.util.NavUtils;
 
 public class DrawerActivity extends BaseActivity {
 
     private DrawerLayout mDrawerLayout;
-    private NavigationView navigationView;
+    private NavigationView mNavigationView;
     private Fragment fragment;
-    private OnBackPressedListener onBackPressedListener;
+    private OnNavigationEventListener onNavigationEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +30,18 @@ public class DrawerActivity extends BaseActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (mNavigationView != null) {
+            setupDrawerContent(mNavigationView);
         }
 
         if (savedInstanceState == null) {
-            fragment = DrawerContentParentFragment.newInstance("parent 1");
+            fragment = DrawerHomeFragment.newInstance("parent 1");
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
 
-        NavUtils.addFragment(getFragmentManager(), fragment, R.id.main_drawer_content, Constants.FRAGMENT_CONTENT_1);
+        NavUtils.addFragment(getFragmentManager(), fragment, R.id.main_drawer_content, Constants.FRAGMENT_CONTENT_HOME);
     }
 
     @Override
@@ -47,10 +50,9 @@ public class DrawerActivity extends BaseActivity {
         if (count == 0) {
             super.onBackPressed();
         } else {
-            if (onBackPressedListener != null) {
-                onBackPressedListener.onBackPressed();
-            } else {
-                getFragmentManager().popBackStack();
+            // defer popping the backstack to the listener
+            if (onNavigationEventListener != null) {
+                onNavigationEventListener.onBackPressed();
             }
         }
     }
@@ -59,9 +61,14 @@ public class DrawerActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                // set to false so the event propagates to the fragment
-                return false;
+                // defer responsibility to the listener if it exists
+                if (onNavigationEventListener != null) {
+                    onNavigationEventListener.onHomePressed();
+                } else {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+                // return false only if you want the event to propagate downward
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -73,10 +80,14 @@ public class DrawerActivity extends BaseActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        menuItem.setChecked(true);
+                        closeDrawerHandler.sendEmptyMessage(0);
 
                         switch (menuItem.getItemId()) {
                             case R.id.nav_1:
@@ -93,9 +104,6 @@ public class DrawerActivity extends BaseActivity {
                                 break;
                         }
 
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-
                         return true;
                     }
                 });
@@ -105,9 +113,19 @@ public class DrawerActivity extends BaseActivity {
         return mDrawerLayout;
     }
 
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
+    public NavigationView getNavigationView() {
+        return mNavigationView;
     }
+
+    public void setOnNavigationEventListener(OnNavigationEventListener onNavigationEventListener) {
+        this.onNavigationEventListener = onNavigationEventListener;
+    }
+
+    private Handler closeDrawerHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            mDrawerLayout.closeDrawers();
+        }
+    };
 
     public void loadContent(String tag) {
         switch (tag) {
@@ -116,21 +134,15 @@ public class DrawerActivity extends BaseActivity {
                 break;
             case Constants.FRAGMENT_CONTENT_2:
                 Fragment navFragment = DrawerContentParentFragment.newInstance("parent 2");
-                NavUtils.addFragmentToStack(getFragmentManager(), navFragment, R.id.main_drawer_content, tag);
-                MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_2);
-                menuItem.setChecked(true);
+                NavUtils.replaceTopFragment(getFragmentManager(), navFragment, R.id.main_drawer_content, tag);
                 break;
             case Constants.FRAGMENT_CONTENT_3:
                 Fragment newFragment = DrawerContentParentFragment.newInstance("parent 3");
-                NavUtils.addFragmentToStack(getFragmentManager(), newFragment, R.id.main_drawer_content, tag);
-                MenuItem item = navigationView.getMenu().findItem(R.id.nav_3);
-                item.setChecked(true);
+                NavUtils.replaceTopFragment(getFragmentManager(), newFragment, R.id.main_drawer_content, tag);
                 break;
             case Constants.FRAGMENT_CONTENT_4:
                 Fragment aFragment = DrawerContentParentFragment.newInstance("parent 4");
-                NavUtils.addFragmentToStack(getFragmentManager(), aFragment, R.id.main_drawer_content, tag);
-                MenuItem itema = navigationView.getMenu().findItem(R.id.nav_4);
-                itema.setChecked(true);
+                NavUtils.replaceTopFragment(getFragmentManager(), aFragment, R.id.main_drawer_content, tag);
                 break;
             case Constants.ACTIVITY_RXJAVA:
                 NavUtils.openActivityAndFinish(this, RXJavaActivity.class);

@@ -217,6 +217,18 @@ public class MainFragment extends BaseFragment {
         lifecycle("onDestroy");
     }
 
+    // used when the fragment is child of a viewpager
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        lifecycle("setUserVisibleHint");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean isHidden) {
+        super.onHiddenChanged(isHidden);
+        lifecycle("onHiddenChanged");
+    }
 
     @Override
     public void onDetach() {
