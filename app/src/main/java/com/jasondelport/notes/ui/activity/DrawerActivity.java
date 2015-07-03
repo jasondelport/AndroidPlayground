@@ -10,12 +10,13 @@ import android.view.MenuItem;
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.listener.OnBackPressedListener;
-import com.jasondelport.notes.ui.fragment.DrawerContentFragment;
+import com.jasondelport.notes.ui.fragment.DrawerContentParentFragment;
 import com.jasondelport.notes.util.NavUtils;
 
 public class DrawerActivity extends BaseActivity {
 
     private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
     private Fragment fragment;
     private OnBackPressedListener onBackPressedListener;
 
@@ -26,18 +27,18 @@ public class DrawerActivity extends BaseActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
 
         if (savedInstanceState == null) {
-            fragment = DrawerContentFragment.newInstance("page 1");
+            fragment = DrawerContentParentFragment.newInstance("parent 1");
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
 
-        NavUtils.addFragment(getFragmentManager(), fragment, R.id.content, Constants.FRAGMENT_CONTENT_1);
+        NavUtils.addFragment(getFragmentManager(), fragment, R.id.main_drawer_content, Constants.FRAGMENT_CONTENT_1);
     }
 
     @Override
@@ -46,7 +47,11 @@ public class DrawerActivity extends BaseActivity {
         if (count == 0) {
             super.onBackPressed();
         } else {
-            onBackPressedListener.onBackPressed();
+            if (onBackPressedListener != null) {
+                onBackPressedListener.onBackPressed();
+            } else {
+                getFragmentManager().popBackStack();
+            }
         }
     }
 
@@ -74,17 +79,17 @@ public class DrawerActivity extends BaseActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         switch (menuItem.getItemId()) {
-                            case R.id.nav_home:
+                            case R.id.nav_1:
+                                loadContent(Constants.FRAGMENT_CONTENT_1);
+                                break;
+                            case R.id.nav_2:
                                 loadContent(Constants.FRAGMENT_CONTENT_2);
                                 break;
-                            case R.id.nav_messages:
+                            case R.id.nav_3:
                                 loadContent(Constants.FRAGMENT_CONTENT_3);
                                 break;
-                            case R.id.nav_friends:
-                                loadContent(Constants.ACTIVITY_PERCENT);
-                                break;
-                            case R.id.nav_discussion:
-                                loadContent(Constants.ACTIVITY_RXJAVA);
+                            case R.id.nav_4:
+                                loadContent(Constants.FRAGMENT_CONTENT_4);
                                 break;
                         }
 
@@ -106,16 +111,26 @@ public class DrawerActivity extends BaseActivity {
 
     public void loadContent(String tag) {
         switch (tag) {
+            case Constants.FRAGMENT_CONTENT_1:
+                NavUtils.clearBackStack(getFragmentManager());
+                break;
             case Constants.FRAGMENT_CONTENT_2:
-                Fragment navFragment = DrawerContentFragment.newInstance("page 2");
-                NavUtils.addFragmentToStack(getFragmentManager(), navFragment, R.id.content, tag);
+                Fragment navFragment = DrawerContentParentFragment.newInstance("parent 2");
+                NavUtils.addFragmentToStack(getFragmentManager(), navFragment, R.id.main_drawer_content, tag);
+                MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_2);
+                menuItem.setChecked(true);
                 break;
             case Constants.FRAGMENT_CONTENT_3:
-                Fragment newFragment = DrawerContentFragment.newInstance("page 3");
-                NavUtils.addFragmentToStack(getFragmentManager(), newFragment, R.id.content, tag);
+                Fragment newFragment = DrawerContentParentFragment.newInstance("parent 3");
+                NavUtils.addFragmentToStack(getFragmentManager(), newFragment, R.id.main_drawer_content, tag);
+                MenuItem item = navigationView.getMenu().findItem(R.id.nav_3);
+                item.setChecked(true);
                 break;
-            case Constants.ACTIVITY_PERCENT:
-                NavUtils.openActivity(this, PercentActivity.class);
+            case Constants.FRAGMENT_CONTENT_4:
+                Fragment aFragment = DrawerContentParentFragment.newInstance("parent 4");
+                NavUtils.addFragmentToStack(getFragmentManager(), aFragment, R.id.main_drawer_content, tag);
+                MenuItem itema = navigationView.getMenu().findItem(R.id.nav_4);
+                itema.setChecked(true);
                 break;
             case Constants.ACTIVITY_RXJAVA:
                 NavUtils.openActivityAndFinish(this, RXJavaActivity.class);

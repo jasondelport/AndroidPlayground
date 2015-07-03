@@ -12,8 +12,6 @@ import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.fragment.MainFragment;
 import com.jasondelport.notes.util.NavUtils;
 
-import timber.log.Timber;
-
 
 public class MainActivity extends BaseActivity implements MainFragment.OnEventListener {
 
@@ -177,7 +175,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("Activity (%s)", methodName);
+        //Timber.d("Activity (%s)", methodName);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.activity.BleActivity;
@@ -23,9 +24,9 @@ import com.jasondelport.notes.ui.activity.RXJavaActivity;
 import com.jasondelport.notes.ui.activity.RecyclerViewActivity;
 import com.jasondelport.notes.util.NavUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 
 public class MainFragment extends BaseFragment {
@@ -34,13 +35,15 @@ public class MainFragment extends BaseFragment {
     private int value2;
     private OnEventListener listener;
 
+    @Bind(R.id.main_textview)
+    TextView text;
+
     public MainFragment() {
         lifecycle("constructor");
     }
 
     // the recommended google way of instantiating new fragments via a static factory method
     public static Fragment newInstance(String value1, int value2) {
-        Timber.d("newInstance");
         Fragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString("value1", value1);
@@ -63,8 +66,9 @@ public class MainFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
-        setRetainInstance(false); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
-        setHasOptionsMenu(true);
+        this.setRetainInstance(true); // skips this lifecycle method and onDestroy when the fragment gets brought to the fore
+        this.setHasOptionsMenu(true);
+        // if retain instance is set to true these values will persist orientation changes
         if (getArguments() != null) {
             value1 = getArguments().getString("value1", "default value");
             value2 = getArguments().getInt("value2", 0);
@@ -76,6 +80,8 @@ public class MainFragment extends BaseFragment {
         lifecycle("onCreateView");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
+        text.setText(value1);
 
         return view;
     }
@@ -224,7 +230,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void lifecycle(String methodName) {
-        Timber.d("Fragment (%s)", methodName);
+        //Timber.d("Fragment (%s)", methodName);
     }
 
     public interface OnEventListener {

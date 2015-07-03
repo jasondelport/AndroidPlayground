@@ -1,6 +1,5 @@
 package com.jasondelport.notes.ui.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
@@ -8,7 +7,6 @@ import android.os.Bundle;
 public class BaseFragment extends Fragment {
 
     public BaseFragment() {
-        lifecycle("constructor");
     }
 
     /*
@@ -23,9 +21,8 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lifecycle("onCreate");
-        setRetainInstance(false);
-        setHasOptionsMenu(false);
+        //this.setRetainInstance(false);
+        //this.setHasOptionsMenu(false);
     }
 
     /*
@@ -35,7 +32,7 @@ public class BaseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         return view;
     }
-    */
+
 
 
     @Override
@@ -98,5 +95,7 @@ public class BaseFragment extends Fragment {
     private void lifecycle(String methodName) {
         //Timber.d("Fragment (%s)", methodName);
     }
+
+     */
 
 }
