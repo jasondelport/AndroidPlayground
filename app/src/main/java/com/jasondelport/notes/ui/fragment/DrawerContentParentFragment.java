@@ -17,6 +17,7 @@ import com.jasondelport.notes.listener.OnNavigationEventListener;
 import com.jasondelport.notes.ui.activity.DrawerActivity;
 
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
 public class DrawerContentParentFragment extends BaseFragment implements OnNavigationEventListener {
@@ -86,15 +87,21 @@ public class DrawerContentParentFragment extends BaseFragment implements OnNavig
         ButterKnife.unbind(this);
     }
 
+    // onResume & onPause are called in sync with the parent activity
+
+    // onStart is called whens an existing Fragment becomes visible, onResume isn't
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        Timber.d("onStart");
         ((DrawerActivity) getActivity()).setOnNavigationEventListener(this);
     }
 
+    // onStop is called whens a Fragment becomes hidden, onPause isn't
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
+        Timber.d("onStop");
         ((DrawerActivity) getActivity()).setOnNavigationEventListener(null);
     }
 
