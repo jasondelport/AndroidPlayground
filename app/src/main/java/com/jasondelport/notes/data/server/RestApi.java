@@ -1,8 +1,8 @@
-package com.jasondelport.notes.data;
+package com.jasondelport.notes.data.server;
 
-import com.jasondelport.notes.model.Note;
-import com.jasondelport.notes.model.NoteData;
-import com.jasondelport.notes.model.ServerResponse;
+import com.jasondelport.notes.data.model.Note;
+import com.jasondelport.notes.data.model.NoteData;
+import com.jasondelport.notes.data.model.ServerResponse;
 
 import retrofit.Callback;
 import retrofit.http.Body;

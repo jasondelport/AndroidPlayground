@@ -1,4 +1,4 @@
-package com.jasondelport.notes.dialog;
+package com.jasondelport.notes.ui.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,9 +7,9 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import com.jasondelport.notes.model.ServerResponse;
-import com.jasondelport.notes.data.DataManager;
-import com.jasondelport.notes.data.OttoCallback;
+import com.jasondelport.notes.data.model.ServerResponse;
+import com.jasondelport.notes.data.server.DataManager;
+import com.jasondelport.notes.data.server.OttoCallback;
 
 /**
  * Created by jasondelport on 19/05/15.

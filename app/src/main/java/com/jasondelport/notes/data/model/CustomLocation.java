@@ -1,4 +1,4 @@
-package com.jasondelport.notes.model;
+package com.jasondelport.notes.data.model;
 
 /**
  * Created by jasondelport on 13/04/15.

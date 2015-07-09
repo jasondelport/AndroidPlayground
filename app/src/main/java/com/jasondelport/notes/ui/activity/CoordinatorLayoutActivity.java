@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.jasondelport.notes.R;
-import com.jasondelport.notes.adapter.ViewPagerAdapter;
+import com.jasondelport.notes.ui.adapter.ViewPagerAdapter;
 import com.jasondelport.notes.ui.fragment.BlankFragment;
 
 

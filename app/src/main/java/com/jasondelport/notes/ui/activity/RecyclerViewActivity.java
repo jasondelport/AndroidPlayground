@@ -9,12 +9,12 @@ import android.widget.ProgressBar;
 
 import com.jasondelport.notes.App;
 import com.jasondelport.notes.R;
-import com.jasondelport.notes.adapter.RecyclerViewAdapter;
-import com.jasondelport.notes.data.DataManager;
-import com.jasondelport.notes.dialog.ConfirmDeleteDialogFragment;
+import com.jasondelport.notes.data.model.NoteData;
+import com.jasondelport.notes.data.server.DataManager;
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
-import com.jasondelport.notes.model.NoteData;
+import com.jasondelport.notes.ui.adapter.RecyclerViewAdapter;
+import com.jasondelport.notes.ui.dialog.ConfirmDeleteDialogFragment;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;

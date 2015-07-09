@@ -1,4 +1,4 @@
-package com.jasondelport.notes.data;
+package com.jasondelport.notes.data.server;
 
 import com.jasondelport.notes.BuildConfig;
 import com.squareup.okhttp.OkHttpClient;

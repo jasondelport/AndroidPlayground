@@ -1,4 +1,4 @@
-package com.jasondelport.notes.model;
+package com.jasondelport.notes.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

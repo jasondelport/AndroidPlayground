@@ -1,4 +1,4 @@
-package com.jasondelport.notes.adapter;
+package com.jasondelport.notes.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

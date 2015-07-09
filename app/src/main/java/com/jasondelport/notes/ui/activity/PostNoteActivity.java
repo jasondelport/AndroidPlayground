@@ -6,8 +6,8 @@ import android.speech.RecognizerIntent;
 import android.widget.EditText;
 
 import com.jasondelport.notes.R;
-import com.jasondelport.notes.data.DataManager;
-import com.jasondelport.notes.model.Note;
+import com.jasondelport.notes.data.model.Note;
+import com.jasondelport.notes.data.server.DataManager;
 import com.jasondelport.notes.util.Utils;
 
 import java.util.ArrayList;

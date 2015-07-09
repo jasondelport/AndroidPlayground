@@ -1,4 +1,4 @@
-package com.jasondelport.notes.location;
+package com.jasondelport.notes.data.location;
 
 import android.app.Activity;
 import android.content.Context;

@@ -16,6 +16,7 @@ import com.jasondelport.notes.ui.activity.DrawerActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 
 public class DrawerContentChildFragment extends BaseFragment implements OnNavigationEventListener {
@@ -74,8 +75,15 @@ public class DrawerContentChildFragment extends BaseFragment implements OnNaviga
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Timber.d("onHiddenChanged");
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        Timber.d("setUserVisibleHint > %b", isVisibleToUser);
         if (isVisibleToUser) {
             if (getView() != null && getParentFragment() != null) {
                 if (((CheckBox) getView().findViewById(R.id.checkbox)).isChecked()) {
@@ -85,10 +93,29 @@ public class DrawerContentChildFragment extends BaseFragment implements OnNaviga
                 }
             }
         } else {
-            if (this.isDifferent) {
+            if (this.isDifferent && getView() != null) {
                 Snackbar.make(getView(), "Fragment hidden", Snackbar.LENGTH_LONG).show();
             }
         }
+    }
+
+    // onResume & onPause are called in sync with the parent activity
+
+    // onStart is called whens an existing Fragment becomes visible, onResume isn't
+    @Override
+    public void onStart() {
+        super.onStart();
+        Timber.d("onStart");
+
+    }
+
+    // onStop is called whens a Fragment becomes hidden, onPause isn't
+    // note: onstop isn't always called when a fragment is hidden, better to use setUserVisibleHint
+    @Override
+    public void onStop() {
+        super.onStop();
+        Timber.d("onStop");
+
     }
 
     @Override
