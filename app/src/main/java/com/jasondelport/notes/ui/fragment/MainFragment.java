@@ -231,6 +231,12 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        lifecycle("onViewStateRestored");
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         lifecycle("onDetach");

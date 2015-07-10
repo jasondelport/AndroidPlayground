@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jasondelport.notes.R;
+import com.jasondelport.notes.data.singleton.ExampleSingleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +66,12 @@ public class RXJavaFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rxjava, container, false);
         ButterKnife.bind(this, view);
+        if (ExampleSingleton.isNull()) {
+            Timber.d("singleton is null");
+            getActivity().finish();
+        } else {
+            Timber.d("singleton is not null -> %s", ExampleSingleton.getInstance().getHelloWorld());
+        }
         return view;
     }
 

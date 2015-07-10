@@ -14,6 +14,8 @@ public class ExampleSingleton {
 
     /*
 
+    from the documentation
+
     “There is normally no need to subclass Application. In most situation,
     static singletons can provide the same functionality in a more modular way.
     If your singleton needs a global context (for example to register broadcast
@@ -36,7 +38,25 @@ public class ExampleSingleton {
         }
     }
 
+    "I prefer singletons over Application because it helps keep an app much more organized and
+    modular -- instead of having one place where all of your global state across the app needs
+    to be maintained, each separate piece can take care of itself. Also the fact that singletons
+    lazily initialize (at request) instead of leading you down the path of doing all
+    initialization up-front in Application.onCreate() is good.
+
+    There is nothing intrinsically wrong with using singletons. Just use them correctly, when
+    it makes sense. The Android framework actually has a lot of them, for it to maintain per-process
+    caches of loaded resources and other such things.
+
+    Also for simple applications multithreading doesn't become an issue with singletons, because
+    by design all standard callbacks to the app are dispatched on the main thread of the process
+    so you won't have multi-threading happening unless you introduce it explicitly through
+    threads or implicitly by publishing a content provider or service IBinder to other processes.
+
+    Just be thoughtful about what you are doing. :)" -> Dianne Hackborn
+
      */
+    private String mHelloWorld;
 
     private ExampleSingleton() {
         if (mContext == null) {
@@ -55,13 +75,18 @@ public class ExampleSingleton {
         return sInstance;
     }
 
-    private String mHelloWorld;
-
     public String getHelloWorld() {
         return mHelloWorld;
     }
 
     public void setHelloWorld(String helloWorld) {
         this.mHelloWorld = helloWorld;
+    }
+
+    public static boolean isNull() {
+        if (sInstance == null) {
+            return true;
+        }
+        return false;
     }
 }
