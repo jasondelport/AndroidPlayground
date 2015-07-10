@@ -22,9 +22,16 @@ public class App extends Application {
         return bus;
     }
 
+    private static App sInstance;
+
+    public static App getContext() {
+        return sInstance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
         LeakCanary.install(this);
         
         if (BuildConfig.DEBUG) {

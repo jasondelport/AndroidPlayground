@@ -9,8 +9,11 @@ import android.view.MenuItem;
 
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
+import com.jasondelport.notes.data.singleton.ExampleSingleton;
 import com.jasondelport.notes.ui.fragment.MainFragment;
 import com.jasondelport.notes.util.NavUtils;
+
+import timber.log.Timber;
 
 
 public class MainActivity extends BaseActivity implements MainFragment.OnEventListener {
@@ -96,6 +99,10 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         NavUtils.addFragment(getFragmentManager(), fragment, android.R.id.content, Constants.FRAGMENT_MAIN);
 
         addShortCut();
+
+        // testing the example singleton
+        ExampleSingleton.getInstance().setHelloWorld("Hello World");
+        Timber.d(ExampleSingleton.getInstance().getHelloWorld());
     }
 
     @Override
