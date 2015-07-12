@@ -89,4 +89,8 @@ public class ExampleSingleton {
         }
         return false;
     }
+
+    public static void destroy() {
+        sInstance = null;
+    }
 }
