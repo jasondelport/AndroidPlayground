@@ -19,6 +19,7 @@ import com.jasondelport.notes.ui.activity.DrawerActivity;
 import com.jasondelport.notes.ui.activity.KeepAwakeActivity;
 import com.jasondelport.notes.ui.activity.LocationActivity;
 import com.jasondelport.notes.ui.activity.MainActivity;
+import com.jasondelport.notes.ui.activity.MvpActivity;
 import com.jasondelport.notes.ui.activity.PercentActivity;
 import com.jasondelport.notes.ui.activity.PostNoteActivity;
 import com.jasondelport.notes.ui.activity.RXJavaActivity;
@@ -163,6 +164,11 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.main_button_ble)
     void loadBleScanner(View view) {
         NavUtils.openActivity(getActivity(), BleActivity.class);
+    }
+
+    @OnClick(R.id.main_button_mvp)
+    void loadMVP(View view) {
+        NavUtils.openActivity(getActivity(), MvpActivity.class);
     }
 
     /*

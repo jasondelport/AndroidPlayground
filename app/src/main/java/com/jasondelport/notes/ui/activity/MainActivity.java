@@ -120,6 +120,10 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         return super.onPrepareOptionsMenu(menu);
     }
 
+    /*
+    The action bar will automatically handle clicks on the Home/Up button,
+    so long as you specify a parent activity in AndroidManifest.xml.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         lifecycle("onOptionsItemSelected");
