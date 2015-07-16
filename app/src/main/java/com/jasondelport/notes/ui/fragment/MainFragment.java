@@ -27,6 +27,7 @@ import com.jasondelport.notes.util.NavUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 
 public class MainFragment extends BaseFragment {
@@ -79,9 +80,12 @@ public class MainFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
+
         this.setRetainInstance(true);
         this.setHasOptionsMenu(true);
-        // if retain instance is set to true these values will persist orientation changes
+
+        // if retain instance is set to true these values will persist
+        // orientation changes and the death of the parent activity
         if (getArguments() != null) {
             value1 = getArguments().getString("value1", "default value");
             value2 = getArguments().getInt("value2", 0);
@@ -234,13 +238,13 @@ public class MainFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        lifecycle("setUserVisibleHint");
+        lifecycle("setUserVisibleHint:isVisibleToUser -> " + isVisibleToUser);
     }
 
     @Override
     public void onHiddenChanged(boolean isHidden) {
         super.onHiddenChanged(isHidden);
-        lifecycle("onHiddenChanged");
+        lifecycle("onHiddenChanged:isHidden -> " + isHidden);
     }
 
     @Override
@@ -261,7 +265,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void lifecycle(String methodName) {
-        //Timber.d("Fragment (%s)", methodName);
+        Timber.d("Fragment -> %s", methodName);
     }
 
     public interface OnEventListener {

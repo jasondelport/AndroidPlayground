@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
     }
 
     private void lifecycle(String methodName) {
-        //Timber.d("Activity (%s)", methodName);
+        Timber.d("Activity -> %s", methodName);
     }
 
     @Override
