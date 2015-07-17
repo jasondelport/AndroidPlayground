@@ -5,11 +5,9 @@ package com.jasondelport.notes.presenter;
  */
 public interface MvpView {
 
-    public void showProgress();
+    void hideProgress();
 
-    public void hideProgress();
+    void setItems(String[] countries);
 
-    public void setItems(String[] countries);
-
-    public void showMessage(String message);
+    void showMessage(String message);
 }

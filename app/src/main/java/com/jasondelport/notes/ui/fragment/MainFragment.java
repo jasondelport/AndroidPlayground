@@ -208,7 +208,8 @@ public class MainFragment extends BaseFragment {
     }
 
     /*
-    Called when the Fragment is visible to the user. This is generally tied to Activity.onStart of the containing Activity's lifecycle.
+    Called when the Fragment is visible to the user. This is generally tied to Activity.onStart of
+    the containing Activity's lifecycle.
      */
     @Override
     public void onStart() {
@@ -217,7 +218,8 @@ public class MainFragment extends BaseFragment {
     }
 
     /*
-    Called when the Fragment is no longer started. This is generally tied to Activity.onStop of the containing Activity's lifecycle.
+    Called when the Fragment is no longer started. This is generally tied to Activity.onStop of
+    the containing Activity's lifecycle.
      */
     @Override
     public void onStop() {
@@ -373,15 +375,15 @@ public class MainFragment extends BaseFragment {
     }
 
     /*
-        Called when a fragment is being created as part of a view layout inflation, typically from
-        setting the content view of an activity. This may be called immediately after the fragment
-        is created from a tag in a layout file. Note this is before the fragment's onAttach(Activity)
-        has been called; all you should do here is parse the attributes and save them away.
+    Called when a fragment is being created as part of a view layout inflation, typically from
+    setting the content view of an activity. This may be called immediately after the fragment
+    is created from a tag in a layout file. Note this is before the fragment's onAttach(Activity)
+    has been called; all you should do here is parse the attributes and save them away.
 
-        This is called every time the fragment is inflated, even if it is being inflated into a new
-        instance with saved state. It typically makes sense to re-parse the parameters each time, to
-        allow them to change with different configurations.
-         */
+    This is called every time the fragment is inflated, even if it is being inflated into a new
+    instance with saved state. It typically makes sense to re-parse the parameters each time, to
+    allow them to change with different configurations.
+     */
     @Override
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(activity, attrs, savedInstanceState);
@@ -413,7 +415,7 @@ public class MainFragment extends BaseFragment {
     }
 
     public interface OnEventListener {
-        public void onEvent(String data);
+        void onEvent(String data);
     }
 
 }
