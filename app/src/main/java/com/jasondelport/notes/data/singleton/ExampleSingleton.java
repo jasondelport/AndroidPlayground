@@ -91,7 +91,6 @@ public class ExampleSingleton {
     }
 
     public static void destroy() {
-        mHelloWorld = null;
         sInstance = null;
     }
 }

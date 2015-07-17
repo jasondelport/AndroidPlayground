@@ -164,6 +164,9 @@ public class MainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         lifecycle("onResume");
+        // on resume gets called in sync with the activity,
+        // add state in onCreate,
+        // retrieve state in onActivityCreated & then execute code here
     }
 
     @Override
