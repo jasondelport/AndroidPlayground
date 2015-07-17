@@ -9,15 +9,18 @@ import com.jasondelport.notes.listener.OnFinishedListener;
 public class MvpPresenter implements OnFinishedListener {
     private MvpView mvpView;
     private DemoData data;
+    private String[] countries;
 
     public MvpPresenter(MvpView mvpView) {
         this.mvpView = mvpView;
         data = new DemoData();
+        data.getCountries(this);
     }
 
     public void onResume() {
-        mvpView.showProgress();
-        data.getCountries(this);
+        if (countries != null) {
+            onFinished(countries);
+        }
     }
 
     public void onItemClicked(int position) {
@@ -26,6 +29,7 @@ public class MvpPresenter implements OnFinishedListener {
 
     @Override
     public void onFinished(String[] countries) {
+        this.countries = countries;
         mvpView.setItems(countries);
         mvpView.hideProgress();
     }

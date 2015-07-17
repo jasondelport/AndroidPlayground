@@ -37,9 +37,8 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(false);
+        setRetainInstance(true);
         presenter = new MvpPresenter(this);
-
     }
 
     @Override

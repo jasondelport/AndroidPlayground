@@ -17,6 +17,6 @@ public class DemoData {
             public void run() {
                 listener.onFinished(App.getContext().getResources().getStringArray(R.array.countries));
             }
-        }, 4000);
+        }, 2000);
     }
 }
