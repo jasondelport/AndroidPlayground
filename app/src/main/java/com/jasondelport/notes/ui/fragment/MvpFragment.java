@@ -65,6 +65,12 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter = null;
+    }
+
+    @Override
     public void hideProgress() {
         progressBar.setVisibility(View.INVISIBLE);
         listView.setVisibility(View.VISIBLE);
