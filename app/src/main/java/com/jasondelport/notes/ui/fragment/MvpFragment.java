@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.presenter.MvpPresenter;
+import com.jasondelport.notes.presenter.MvpPresenterImpl;
 import com.jasondelport.notes.presenter.MvpView;
 
 import java.util.Arrays;
@@ -26,7 +27,6 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     private MvpPresenter presenter;
 
     public MvpFragment() {
-
     }
 
     public static MvpFragment newInstance() {
@@ -38,7 +38,7 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        presenter = new MvpPresenter(this);
+        presenter = new MvpPresenterImpl(this);
     }
 
     @Override
@@ -78,8 +78,7 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
 
     @Override
     public void setItems(String[] countries) {
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, Arrays.asList(countries));
-        listView.setAdapter(adapter);
+        listView.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, Arrays.asList(countries)));
     }
 
     @Override
