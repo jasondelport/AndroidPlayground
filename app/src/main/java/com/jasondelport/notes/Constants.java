@@ -11,6 +11,7 @@ public abstract class Constants {
     public static final String FRAGMENT_RXJAVA = "RXJavaFragment";
     public static final String FRAGMENT_PERCENT = "PercentFragment";
     public static final String FRAGMENT_CONTENT_HOME = "DrawerContentHomeFragment";
+    public static final String FRAGMENT_MVP = "FragmentMVP";
     public static final String FRAGMENT_CONTENT_1 = "DrawerContent1Fragment";
     public static final String FRAGMENT_CONTENT_2 = "DrawerContent2Fragment";
     public static final String FRAGMENT_CONTENT_3 = "DrawerContent3Fragment";

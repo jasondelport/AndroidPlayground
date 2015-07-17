@@ -76,6 +76,13 @@
             android:layout_margin="10dp"
             android:text="Bluetooth LE Scanner" />
 
+        <Button
+            android:id="@+id/main_button_mvp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Model View Presenter" />
+
     </LinearLayout>
 
 </ScrollView>

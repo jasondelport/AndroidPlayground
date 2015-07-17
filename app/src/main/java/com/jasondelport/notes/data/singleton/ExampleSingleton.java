@@ -56,7 +56,7 @@ public class ExampleSingleton {
     Just be thoughtful about what you are doing. :)" -> Dianne Hackborn
 
      */
-    private String mHelloWorld;
+    private static String mHelloWorld;
 
     private ExampleSingleton() {
         if (mContext == null) {
