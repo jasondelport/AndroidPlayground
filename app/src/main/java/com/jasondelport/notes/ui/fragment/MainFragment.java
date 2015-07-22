@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.ui.activity.BleActivity;
@@ -26,7 +25,6 @@ import com.jasondelport.notes.ui.activity.RXJavaActivity;
 import com.jasondelport.notes.ui.activity.RecyclerViewActivity;
 import com.jasondelport.notes.util.NavUtils;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
@@ -37,9 +35,6 @@ public class MainFragment extends BaseFragment {
     private String value1;
     private int value2;
     private OnEventListener listener;
-
-    @Bind(R.id.main_textview)
-    TextView text;
 
     public MainFragment() {
         lifecycle("constructor");
@@ -115,8 +110,6 @@ public class MainFragment extends BaseFragment {
         lifecycle("onCreateView");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
-
-        text.setText(value1);
 
         return view;
     }

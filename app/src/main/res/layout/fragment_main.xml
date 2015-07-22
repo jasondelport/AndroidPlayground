@@ -1,87 +1,91 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/main_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
+        <com.jasondelport.notes.ui.view.CustomView
+            android:id="@+id/demo_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:circleColour="@color/red"
+            android:layout_gravity="center"
+            app:circleLabel="CustomView"
+            app:labelColour="@color/white"/>
 
         <Button
             android:id="@+id/main_button_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/drawer_example" />
+            android:text="@string/drawer_example"/>
 
         <Button
             android:id="@+id/main_button_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/example_recyclerview" />
+            android:text="@string/example_recyclerview"/>
 
         <Button
             android:id="@+id/main_button_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/example_location" />
+            android:text="@string/example_location"/>
 
         <Button
             android:id="@+id/main_button_postnote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/post_note" />
+            android:text="@string/post_note"/>
 
         <Button
             android:id="@+id/main_button_keep_awake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/keep_awake_tests" />
+            android:text="@string/keep_awake_tests"/>
 
         <Button
             android:id="@+id/main_button_rxjava"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/rxjava_tests" />
+            android:text="@string/rxjava_tests"/>
 
         <Button
             android:id="@+id/main_button_percents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/percents_views" />
+            android:text="@string/percents_views"/>
 
         <Button
             android:id="@+id/main_button_coordinator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/coordinator_layout" />
+            android:text="@string/coordinator_layout"/>
 
         <Button
             android:id="@+id/main_button_ble"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Bluetooth LE Scanner" />
+            android:text="Bluetooth LE Scanner"/>
 
         <Button
             android:id="@+id/main_button_mvp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Model View Presenter" />
+            android:text="Model View Presenter"/>
 
     </LinearLayout>
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomView">
+        <attr name="circleColour" format="reference"/>
+        <attr name="circleLabel" format="string"/>
+        <attr name="labelColour" format="reference"/>
+    </declare-styleable>
+</resources>

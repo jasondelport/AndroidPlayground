@@ -161,6 +161,12 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
     }
 
     @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        lifecycle("onUserInteraction");
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         lifecycle("onNewIntent");
