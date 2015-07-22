@@ -52,7 +52,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
         zoomed = false;
         if (mLocationProvider == null) {
-            mLocationProvider = new LocationProvider(this);
+            mLocationProvider = new LocationProvider();
         }
 
     }

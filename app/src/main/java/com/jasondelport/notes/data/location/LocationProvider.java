@@ -1,8 +1,5 @@
 package com.jasondelport.notes.data.location;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -22,14 +19,13 @@ public class LocationProvider implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private Context mContext;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private FusedLocationCallback mFusedLocationCallback = new FusedLocationCallback();
 
 
-    public LocationProvider(Context context) {
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
+    public LocationProvider() {
+        mGoogleApiClient = new GoogleApiClient.Builder(App.getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -42,7 +38,6 @@ public class LocationProvider implements
                 .setMaxWaitTime(8 * 1000)
                 .setFastestInterval(2 * 1000);
 
-        mContext = context;
     }
 
     public void connect() {
@@ -74,13 +69,15 @@ public class LocationProvider implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution() && mContext instanceof Activity) {
+        if (connectionResult.hasResolution()) {
+            /*
             try {
                 Activity activity = (Activity) mContext;
                 connectionResult.startResolutionForResult(activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
             } catch (IntentSender.SendIntentException e) {
                 e.printStackTrace();
             }
+            */
         }
     }
 
