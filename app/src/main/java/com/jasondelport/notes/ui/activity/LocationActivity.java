@@ -1,7 +1,6 @@
 package com.jasondelport.notes.ui.activity;
 
 import android.location.Location;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,17 +25,16 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import icepick.Icepick;
-import icepick.Icicle;
+import icepick.State;
 import timber.log.Timber;
 
 public class LocationActivity extends BaseActivity implements OnMapReadyCallback {
-    @Icicle
+    @State
     ArrayList<LatLng> locationHistory;
     private boolean zoomed;
     private String mCurrentLocation;
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
-    private MediaPlayer mMediaPlayer;
     private int mType = GoogleMap.MAP_TYPE_NORMAL;
 
     @Override
@@ -55,19 +53,6 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             mLocationProvider = new LocationProvider();
         }
 
-    }
-
-    private void playAudio(int id) {
-        cleanUpAudio();
-        mMediaPlayer = MediaPlayer.create(this, id);
-        mMediaPlayer.start();
-    }
-
-    private void cleanUpAudio() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop();
-            mMediaPlayer.release();
-        }
     }
 
     @Subscribe
@@ -123,7 +108,6 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
                         LogUtils.appendLog(customLocation.getName());
                     }
                 }
-                //playAudio(cl.getAudio());
             }
         }
 
@@ -165,30 +149,30 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         super.onPause();
         mLocationProvider.disconnect();
         App.getEventBus().unregister(this);
-
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Timber.d("onDestroy");
         if (mLocationProvider != null) {
             mLocationProvider = null;
+        }
+        if (mMap != null) {
+            mMap.clear();
+            mMap = null;
         }
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.setMyLocationEnabled(true);
+        mMap = map;
+        mMap.setMyLocationEnabled(true);
         for (CustomLocation loc : Locations.getLocations()) {
-            map.addMarker(new MarkerOptions()
+            mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                     .title(loc.getName()));
         }
-        mMap = map;
     }
 
     @Override
@@ -233,5 +217,8 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+        if (mMap != null) {
+            mMap.clear();
+        }
     }
 }

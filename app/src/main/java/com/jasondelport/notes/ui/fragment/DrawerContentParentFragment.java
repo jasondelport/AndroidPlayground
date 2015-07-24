@@ -62,6 +62,8 @@ public class DrawerContentParentFragment extends BaseFragment implements OnNavig
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        // new
+        //tabLayout.getSelectedTabPosition();
 
         return view;
     }

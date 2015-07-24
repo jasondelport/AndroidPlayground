@@ -18,8 +18,11 @@
 
 # icicle
 -dontwarn icepick.**
--keep class **$$Icicle { *; }
--keepnames class * { @icepick.Icicle *;}
+-keep class **$$State { *; }
+-keepnames class * { @icepick.State *;}
+-keepclasseswithmembernames class * {
+    @icepick.* <fields>;
+}
 
 # butterknife
 -keep class butterknife.** { *; }

@@ -18,7 +18,6 @@ public class LocationProvider implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private FusedLocationCallback mFusedLocationCallback = new FusedLocationCallback();
@@ -69,16 +68,7 @@ public class LocationProvider implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            /*
-            try {
-                Activity activity = (Activity) mContext;
-                connectionResult.startResolutionForResult(activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-            } catch (IntentSender.SendIntentException e) {
-                e.printStackTrace();
-            }
-            */
-        }
+
     }
 
     private class FusedLocationCallback extends LocationCallback {

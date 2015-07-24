@@ -1,6 +1,7 @@
 package com.jasondelport.notes.ui.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.presenter.MvpPresenter;
@@ -65,9 +65,9 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDetach() {
         presenter = null;
+        super.onDetach();
     }
 
     @Override
@@ -83,7 +83,15 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        final Snackbar snackBar = Snackbar.make(getView(), message, Snackbar.LENGTH_INDEFINITE);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackBar.dismiss();
+            }
+        };
+        snackBar.setAction("Dismiss", listener);
+        snackBar.show();
     }
 
     @Override

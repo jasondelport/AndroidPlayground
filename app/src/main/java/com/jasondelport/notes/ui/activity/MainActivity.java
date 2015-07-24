@@ -13,6 +13,7 @@ import com.jasondelport.notes.data.singleton.ExampleSingleton;
 import com.jasondelport.notes.ui.fragment.MainFragment;
 import com.jasondelport.notes.util.NavUtils;
 
+import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
 
@@ -200,6 +201,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         // listener method from fragment
     }
 
+    @DebugLog
     private void addShortCut(){
         Intent shortcutIntent = new Intent(getApplicationContext(), PostNoteActivity.class);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
