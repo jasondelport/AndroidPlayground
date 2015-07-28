@@ -79,7 +79,7 @@ public class DrawerActivity extends BaseActivity {
         getFragmentManager().putFragment(outState, "fragment", fragment);
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
+    private void setupDrawerContent(final NavigationView navigationView) {
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -101,6 +101,12 @@ public class DrawerActivity extends BaseActivity {
                                 break;
                             case R.id.nav_4:
                                 loadContent(Constants.FRAGMENT_CONTENT_4);
+                                break;
+                            case R.id.nav_5:
+
+                                break;
+                            case R.id.nav_6:
+
                                 break;
                         }
 

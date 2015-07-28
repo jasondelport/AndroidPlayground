@@ -8,7 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.jasondelport.notes.data.model.ServerResponse;
-import com.jasondelport.notes.data.server.DataManager;
+import com.jasondelport.notes.data.server.DataService;
 import com.jasondelport.notes.data.server.OttoCallback;
 
 /**
@@ -17,7 +17,7 @@ import com.jasondelport.notes.data.server.OttoCallback;
 public class ConfirmDeleteDialogFragment extends DialogFragment {
 
     private DialogListener mListener;
-    private DataManager dataManager = new DataManager();
+    private DataService dataManager = new DataService();
 
     public static ConfirmDeleteDialogFragment newInstance(String key) {
         ConfirmDeleteDialogFragment f = new ConfirmDeleteDialogFragment();

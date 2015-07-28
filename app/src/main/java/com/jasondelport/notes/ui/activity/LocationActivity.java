@@ -90,9 +90,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             }
         }
 
-        Timber.d(String.valueOf(location));
-
-
+        //Timber.d(String.valueOf(location));
 
         float[] dist = new float[1];
         for (CustomLocation customLocation : Locations.getLocations()) {
@@ -217,6 +215,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+        Timber.d("onLowMemory");
         if (mMap != null) {
             mMap.clear();
         }

@@ -11,11 +11,11 @@ import retrofit.client.OkClient;
 /**
  * Created by jasondelport on 23/02/2015.
  */
-public class DataManager {
+public class DataService {
 
     private RestApi api;
 
-    public DataManager() {
+    public DataService() {
         OkHttpClient client = new OkHttpClient();
         client.setConnectTimeout(15, TimeUnit.SECONDS);
         client.setReadTimeout(15, TimeUnit.SECONDS);

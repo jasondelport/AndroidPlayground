@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.model.Note;
-import com.jasondelport.notes.data.server.DataManager;
+import com.jasondelport.notes.data.server.DataService;
 import com.jasondelport.notes.util.Utils;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import timber.log.Timber;
 public class PostNoteActivity extends BaseActivity {
 
     private final static int RESULT_SPEECH = 1;
-    private DataManager dataManager = new DataManager();
+    private DataService dataManager = new DataService();
 
     @Bind(R.id.note)
     EditText note;

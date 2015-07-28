@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import com.jasondelport.notes.App;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.model.NoteData;
-import com.jasondelport.notes.data.server.DataManager;
+import com.jasondelport.notes.data.server.DataService;
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
 import com.jasondelport.notes.ui.adapter.RecyclerViewAdapter;
@@ -18,6 +18,8 @@ import com.jasondelport.notes.ui.dialog.ConfirmDeleteDialogFragment;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -33,8 +35,11 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     private RecyclerView.LayoutManager mLayoutManager;
     private NoteData mNoteData;
     private ProgressBar mProgressBar;
-    private DataManager dataManager = new DataManager();
     private Subscription subscription = Subscriptions.empty();
+    //private DataService dataService = new DataService();
+
+    @Inject
+    DataService dataService;
 
     // Subscriber implements Observer
     Subscriber<NoteData> subscriber = new Subscriber<NoteData>() {
@@ -62,6 +67,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
+        ((App) getApplication()).component().inject(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
@@ -105,7 +111,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         //NetworkClient.getInstance().getNotes(new OttoCallback<NoteData>());
 
         // RXJava Version
-        subscription = dataManager.getRestApi().getNotes()
+        subscription = dataService.getRestApi().getNotes()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
         .subscribe(subscriber);

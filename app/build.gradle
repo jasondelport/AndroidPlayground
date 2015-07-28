@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jakewharton.hugo'
+
 
 android {
     compileSdkVersion 22
@@ -77,7 +79,6 @@ dependencies {
 
     // square
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.dagger:dagger:1.2.2'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
@@ -95,5 +96,10 @@ dependencies {
     compile 'org.parceler:parceler-api:1.0.1'
     provided 'org.parceler:parceler:1.0.1'
 
+    //dagger
+    compile 'com.google.dagger:dagger:2.0.1'
+    apt 'com.google.dagger:dagger-compiler:2.0.1'
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    //compile 'org.glassfish:javax.annotation:10.0-b28'
 
 }

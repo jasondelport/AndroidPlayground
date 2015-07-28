@@ -3,6 +3,8 @@ package com.jasondelport.notes;
 import android.app.Application;
 import android.util.Log;
 
+import com.jasondelport.notes.dagger.DaggerApplicationComponent;
+import com.jasondelport.notes.dagger.DataServiceComponent;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
 
@@ -14,6 +16,7 @@ import timber.log.Timber;
 public class App extends Application {
 
     private static Bus bus;
+    private DataServiceComponent mDataServiceComponent;
 
     public static Bus getEventBus() {
         if (bus == null) {
@@ -31,9 +34,14 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (mDataServiceComponent == null) {
+            mDataServiceComponent = DaggerApplicationComponent.create();
+        }
+
         sInstance = this;
         LeakCanary.install(this);
-        
+
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
@@ -61,6 +69,11 @@ public class App extends Application {
             */
         }
     }
+
+    public DataServiceComponent component() {
+        return mDataServiceComponent;
+    }
+
 
     @Override
     public void onLowMemory() {
