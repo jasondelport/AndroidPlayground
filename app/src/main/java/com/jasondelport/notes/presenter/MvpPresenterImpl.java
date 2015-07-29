@@ -2,6 +2,7 @@ package com.jasondelport.notes.presenter;
 
 import com.jasondelport.notes.data.local.DemoData;
 import com.jasondelport.notes.listener.OnFinishedListener;
+import com.jasondelport.notes.ui.view.MvpView;
 
 /**
  * Created by jasondelport on 16/07/2015.

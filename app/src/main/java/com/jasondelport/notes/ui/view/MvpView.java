@@ -1,4 +1,4 @@
-package com.jasondelport.notes.presenter;
+package com.jasondelport.notes.ui.view;
 
 /**
  * Created by jasondelport on 16/07/2015.

@@ -127,11 +127,13 @@ public class DrawerActivity extends BaseActivity {
         this.onNavigationEventListener = onNavigationEventListener;
     }
 
-    private Handler closeDrawerHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    Handler closeDrawerHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             mDrawerLayout.closeDrawers();
+            return true;
         }
-    };
+    });
 
     public void loadContent(String tag) {
         switch (tag) {

@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.presenter.MvpPresenter;
 import com.jasondelport.notes.presenter.MvpPresenterImpl;
-import com.jasondelport.notes.presenter.MvpView;
+import com.jasondelport.notes.ui.view.MvpView;
 
 import java.util.Arrays;
 

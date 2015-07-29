@@ -15,14 +15,14 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
-    private static Bus bus;
-    private DataServiceComponent mDataServiceComponent;
+    private static Bus sBus;
+    private static DataServiceComponent sDataServiceComponent;
 
     public static Bus getEventBus() {
-        if (bus == null) {
-            bus = new Bus();
+        if (sBus == null) {
+            sBus = new Bus();
         }
-        return bus;
+        return sBus;
     }
 
     private static App sInstance;
@@ -35,8 +35,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (mDataServiceComponent == null) {
-            mDataServiceComponent = DaggerApplicationComponent.create();
+        if (sDataServiceComponent == null) {
+            sDataServiceComponent = DaggerApplicationComponent.create();
         }
 
         sInstance = this;
@@ -70,8 +70,8 @@ public class App extends Application {
         }
     }
 
-    public DataServiceComponent component() {
-        return mDataServiceComponent;
+    public static DataServiceComponent component() {
+        return sDataServiceComponent;
     }
 
 

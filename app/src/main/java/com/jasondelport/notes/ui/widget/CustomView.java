@@ -1,4 +1,4 @@
-package com.jasondelport.notes.ui.view;
+package com.jasondelport.notes.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
