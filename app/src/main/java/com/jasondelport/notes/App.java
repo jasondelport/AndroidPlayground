@@ -70,10 +70,9 @@ public class App extends Application {
         }
     }
 
-    public static DataServiceComponent component() {
+    public static DataServiceComponent getsDataServiceComponent() {
         return sDataServiceComponent;
     }
-
 
     @Override
     public void onLowMemory() {

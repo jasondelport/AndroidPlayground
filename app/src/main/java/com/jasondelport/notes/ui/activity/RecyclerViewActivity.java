@@ -67,7 +67,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
-        App.component().inject(this);
+        App.getsDataServiceComponent().inject(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
