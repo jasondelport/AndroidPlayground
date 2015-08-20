@@ -4,15 +4,15 @@ apply plugin: 'com.jakewharton.hugo'
 
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
 
     def Properties properties = new Properties()
 
     defaultConfig {
         applicationId "com.jasondelport.notes"
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -35,8 +35,8 @@ android {
         debug {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
-            debuggable true
             resValue "string", "url", properties['url']
+            debuggable true
         }
 
         release {
@@ -63,18 +63,18 @@ android {
 dependencies {
 
     // google
-    compile 'com.android.support:support-v13:22.2.1'
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:cardview-v7:22.2.1'
-    compile 'com.android.support:percent:22.2.0'
-    compile 'com.android.support:support-annotations:22.2.1'
+    compile 'com.android.support:support-v13:23.0.0'
+    compile 'com.android.support:design:23.0.0'
+    compile 'com.android.support:recyclerview-v7:23.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.android.support:cardview-v7:23.0.0'
+    compile 'com.android.support:percent:23.0.0'
+    compile 'com.android.support:support-annotations:23.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services:7.8.0'
 
     // rx java
-    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'io.reactivex:rxandroid:1.0.1'
 
     // square
     compile 'com.squareup.picasso:picasso:2.5.2'

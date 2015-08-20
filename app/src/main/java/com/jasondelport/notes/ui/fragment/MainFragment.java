@@ -32,8 +32,8 @@ import timber.log.Timber;
 
 public class MainFragment extends BaseFragment {
 
-    private String value1;
-    private int value2;
+    private String mString;
+    private int mInt;
     private OnEventListener listener;
 
     public MainFragment() {
@@ -41,11 +41,11 @@ public class MainFragment extends BaseFragment {
     }
 
     // the recommended google way of instantiating new fragments via a static factory method
-    public static Fragment newInstance(String value1, int value2) {
+    public static Fragment newInstance(String p1, int p2) {
         Fragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        args.putString("value1", value1);
-        args.putInt("value2", value2);
+        args.putString("string", p1);
+        args.putInt("int", p2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,8 +93,8 @@ public class MainFragment extends BaseFragment {
         // if retain instance is set to true these values will persist
         // orientation changes and the death of the parent activity
         if (getArguments() != null) {
-            value1 = getArguments().getString("value1", "default value");
-            value2 = getArguments().getInt("value2", 0);
+            mString = getArguments().getString("string", "default value");
+            mInt = getArguments().getInt("int", 0);
         }
     }
 
