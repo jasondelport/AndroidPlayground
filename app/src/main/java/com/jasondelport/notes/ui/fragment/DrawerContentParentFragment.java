@@ -3,7 +3,6 @@ package com.jasondelport.notes.ui.fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -65,18 +64,7 @@ public class DrawerContentParentFragment extends BaseFragment implements OnNavig
 
         final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
 
-        if (ViewCompat.isLaidOut(tabLayout)) {
-            tabLayout.setupWithViewPager(viewPager);
-        } else {
-            tabLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    tabLayout.setupWithViewPager(viewPager);
-                    tabLayout.removeOnLayoutChangeListener(this);
-                }
-            });
-        }
-        //tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
         // new
         //tabLayout.getSelectedTabPosition();
 

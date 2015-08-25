@@ -16,13 +16,14 @@ import com.jasondelport.notes.App;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.location.LocationProvider;
 import com.jasondelport.notes.data.model.CustomLocation;
-import com.jasondelport.notes.data.model.Locations;
+import com.jasondelport.notes.data.model.LocationManager;
 import com.jasondelport.notes.event.LocationUpdateEvent;
 import com.jasondelport.notes.util.LogUtils;
 import com.jasondelport.notes.util.Utils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import icepick.Icepick;
 import icepick.State;
@@ -30,12 +31,13 @@ import timber.log.Timber;
 
 public class LocationActivity extends BaseActivity implements OnMapReadyCallback {
     @State
-    ArrayList<LatLng> locationHistory;
+    ArrayList<LatLng> mLocationHistory;
     private boolean zoomed;
     private String mCurrentLocation;
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
     private int mType = GoogleMap.MAP_TYPE_NORMAL;
+    private List<CustomLocation> mLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         Icepick.restoreInstanceState(this, savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_location);
+
+        mLocations = LocationManager.getInstance().getLocations();
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -75,25 +79,25 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             Timber.d("bearing -> %d", bearing);
         }
 
-        if (locationHistory == null) {
-            locationHistory = new ArrayList<>();
-            locationHistory.add(latLng);
+        if (mLocationHistory == null) {
+            mLocationHistory = new ArrayList<>();
+            mLocationHistory.add(latLng);
         } else {
-            LatLng lastLocation = locationHistory.get(locationHistory.size() - 1);
+            LatLng lastLocation = mLocationHistory.get(mLocationHistory.size() - 1);
             float[] dist = new float[1];
             Location.distanceBetween(
                     location.getLatitude(), location.getLongitude(),
                     lastLocation.latitude, lastLocation.longitude,
                     dist);
             if (dist[0] > 25 && accuracy < 15) {
-                locationHistory.add(latLng);
+                mLocationHistory.add(latLng);
             }
         }
 
         //Timber.d(String.valueOf(location));
 
         float[] dist = new float[1];
-        for (CustomLocation customLocation : Locations.getLocations()) {
+        for (CustomLocation customLocation : mLocations) {
             Location.distanceBetween(
                     location.getLatitude(), location.getLongitude(),
                     customLocation.getLatitude(), customLocation.getLongitude(),
@@ -111,8 +115,8 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
         /*
         PolylineOptions options = new PolylineOptions().width(2).color(Color.BLACK);
-        for (int i = 0; i < locationHistory.size(); i++) {
-            LatLng historyLatLng = locationHistory.get(i);
+        for (int i = 0; i < mLocationHistory.size(); i++) {
+            LatLng historyLatLng = mLocationHistory.get(i);
             options.add(historyLatLng);
         }
 
@@ -160,13 +164,23 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
             mMap.clear();
             mMap = null;
         }
+
+        if (mLocationHistory != null) {
+            mLocationHistory.clear();
+            mLocationHistory = null;
+        }
+
+        if (mLocations != null) {
+            mLocations.clear();
+            mLocations = null;
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
         mMap.setMyLocationEnabled(true);
-        for (CustomLocation loc : Locations.getLocations()) {
+        for (CustomLocation loc : mLocations) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                     .title(loc.getName()));
@@ -208,6 +222,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Timber.d("onSaveInstanceState");
         super.onSaveInstanceState(outState);
         Icepick.saveInstanceState(this, outState);
     }

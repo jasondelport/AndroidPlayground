@@ -8,15 +8,29 @@ import java.util.List;
 /**
  * Created by jasondelport on 13/04/15.
  */
-public class Locations {
+public class LocationManager {
 
-    private static List<CustomLocation> locations = new ArrayList<>();
+    private List<CustomLocation> locations = new ArrayList<>();
+    private static LocationManager sInstance;
 
-    public Locations() {
-
+    public static LocationManager getInstance() {
+        if (sInstance == null) sInstance = getSynchronizedInstance();
+        return sInstance;
     }
 
-    public static void createLocations() {
+    private static synchronized LocationManager getSynchronizedInstance() {
+        if (sInstance == null) sInstance = new LocationManager();
+        return sInstance;
+    }
+
+    public static boolean isNull() {
+        if (sInstance == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public void createLocations() {
         CustomLocation sainsburys = new CustomLocation("Sainsburys");
         sainsburys.setLatitudeLongitude(51.540161, -0.141069);
         sainsburys.setAudio(R.raw.bikehorn);
@@ -59,8 +73,10 @@ public class Locations {
         locations.add(inverness);
     }
 
-    public static List<CustomLocation> getLocations() {
-        createLocations();
+    public List<CustomLocation> getLocations() {
+        if (locations.size()==0) {
+            createLocations();
+        }
         return locations;
     }
 }
