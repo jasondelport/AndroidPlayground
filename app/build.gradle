@@ -63,7 +63,22 @@ android {
 
 }
 
-task('installAll') {
+task('copyAll') {
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (!output.outputFile.name.contains('unsigned')) {
+                task("copy${variant.name.capitalize()}", type: Copy) {
+                    println output.outputFile
+                    from(output.outputFile)
+                    into("/Users/jasondelport/Downloads/")
+                }
+                dependsOn("copy${variant.name.capitalize()}")
+            }
+        }
+    }
+}
+
+task('installAllExceptRelease') {
     android.applicationVariants.all { variant ->
         if (!variant.name.equals('release')) {
             dependsOn("install${variant.name.capitalize()}")
@@ -84,7 +99,6 @@ task('installAll') {
 
 task('runDebug', type: Exec, dependsOn: 'installDebug') {
     def adb = android.getAdbExe().toString()
-
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jasondelport.notes.debug/com.jasondelport.notes.ui.activity.MainActivity'
     doLast {
         println 'Finished launching application'
