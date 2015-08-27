@@ -1,10 +1,14 @@
 package com.jasondelport.notes.ui.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,7 +33,8 @@ import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
-public class LocationActivity extends BaseActivity implements OnMapReadyCallback {
+public class LocationActivity extends BaseActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+    final private int REQUEST_PERMISSIONS = 1001;
     @State
     ArrayList<LatLng> mLocationHistory;
     private boolean zoomed;
@@ -51,12 +56,39 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         zoomed = false;
-        if (mLocationProvider == null) {
-            mLocationProvider = new LocationProvider();
+
+        int hasWriteContactsPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(LocationActivity.this, "Permission Denied FOREVER", Toast.LENGTH_LONG).show();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+            }
+            return;
+        } else {
+            if (mLocationProvider == null) {
+                mLocationProvider = new LocationProvider();
+            }
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (mLocationProvider == null) {
+                        mLocationProvider = new LocationProvider();
+                    }
+                } else {
+                    Toast.makeText(LocationActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Subscribe

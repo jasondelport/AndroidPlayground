@@ -39,7 +39,6 @@ android {
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
             debuggable true
-            applicationIdSuffix '.debug'
         }
 
         release {
@@ -60,8 +59,19 @@ android {
         ignoreWarnings true
     }
 
+    task('updateIcon', type: Exec) {
+        def caption = "v" + defaultConfig.versionName.toString()
+        executable 'bash'
+        args "$rootProject.rootDir/scripts/icon-gen.sh", caption, rootProject.rootDir, '/scripts'
+        doLast {
+            println 'Finished generating icon'
+        }
+    }
 
+    preBuild.dependsOn updateIcon
 }
+
+
 
 task('copyAll') {
     android.applicationVariants.all { variant ->
@@ -117,6 +127,7 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 }
 
 */
+//dependencyUpdates
 dependencies {
 
     // google
@@ -135,7 +146,7 @@ dependencies {
 
     // square
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup:otto:1.3.8'

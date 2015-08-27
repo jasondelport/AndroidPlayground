@@ -24,6 +24,7 @@ public class LocationProvider implements
 
 
     public LocationProvider() {
+
         mGoogleApiClient = new GoogleApiClient.Builder(App.getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
