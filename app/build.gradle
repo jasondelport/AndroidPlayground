@@ -5,7 +5,7 @@ apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
 
     def Properties properties = new Properties()
 
@@ -38,6 +38,7 @@ android {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
+            resValue "string", "git_revision", "\"${gitRevision()}\""
             debuggable true
         }
 
@@ -45,6 +46,7 @@ android {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
+            resValue "string", "git_revision", "\"${gitRevision()}\""
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -68,10 +70,13 @@ android {
         }
     }
 
-    preBuild.dependsOn updateIcon
+    //preBuild.dependsOn updateIcon
 }
 
-
+def gitRevision() {
+    def cmd = "git rev-parse --short HEAD"
+    return cmd.execute().text.trim()
+}
 
 task('copyAll') {
     android.applicationVariants.all { variant ->
@@ -106,7 +111,6 @@ task('installAllExceptRelease') {
     }
 }
 
-
 task('runDebug', type: Exec, dependsOn: 'installDebug') {
     def adb = android.getAdbExe().toString()
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jasondelport.notes.debug/com.jasondelport.notes.ui.activity.MainActivity'
@@ -131,15 +135,15 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 dependencies {
 
     // google
-    compile 'com.android.support:support-v13:23.0.0'
-    compile 'com.android.support:design:23.0.0'
-    compile 'com.android.support:recyclerview-v7:23.0.0'
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.android.support:cardview-v7:23.0.0'
-    compile 'com.android.support:percent:23.0.0'
-    compile 'com.android.support:support-annotations:23.0.0'
+    compile 'com.android.support:support-v13:23.0.1'
+    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:percent:23.0.1'
+    compile 'com.android.support:support-annotations:23.0.1'
     compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.google.android.gms:play-services:7.8.0'
+    compile 'com.google.android.gms:play-services:8.1.0'
 
     // rx java
     compile 'io.reactivex:rxandroid:1.0.1'

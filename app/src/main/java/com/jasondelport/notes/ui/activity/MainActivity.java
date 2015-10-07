@@ -18,8 +18,6 @@ import timber.log.Timber;
 
 
 public class MainActivity extends BaseActivity implements MainFragment.OnEventListener {
-
-    private Fragment fragment;
     /*
 
     lifecycle order of a activity with a child fragment
@@ -84,10 +82,13 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
 
      */
 
+    private Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
+
 
         if (savedInstanceState == null) {
             fragment = MainFragment.newInstance("hello", 0);
@@ -104,6 +105,8 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         // testing the example singleton
         ExampleSingleton.getInstance().setHelloWorld("Hello World");
         Timber.d(ExampleSingleton.getInstance().getHelloWorld());
+
+
     }
 
     @Override
@@ -113,7 +116,6 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         inflater.inflate(R.menu.menu_activity_main, menu);
         return true;
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -202,7 +204,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
     }
 
     @DebugLog
-    private void addShortCut(){
+    private void addShortCut() {
         Intent shortcutIntent = new Intent(getApplicationContext(), PostNoteActivity.class);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -214,4 +216,6 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         getApplicationContext().sendBroadcast(addIntent);
     }
+
+
 }
