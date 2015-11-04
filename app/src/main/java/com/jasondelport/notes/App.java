@@ -1,11 +1,9 @@
 package com.jasondelport.notes;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.jasondelport.notes.dagger.DaggerApplicationComponent;
 import com.jasondelport.notes.dagger.DataServiceComponent;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
 
 import timber.log.Timber;
@@ -40,35 +38,12 @@ public class App extends Application {
         }
 
         sInstance = this;
-        LeakCanary.install(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-        } else {
-            Timber.plant(new CrashReportingTree());
         }
     }
 
-    private static class CrashReportingTree extends Timber.Tree {
-        @Override
-        protected void log(int priority, String tag, String message, Throwable t) {
-            if (priority == Log.VERBOSE || priority == Log.DEBUG) {
-                return;
-            }
-
-            /*
-            FakeCrashLibrary.log(priority, tag, message);
-
-            if (t != null) {
-                if (priority == Log.ERROR) {
-                    FakeCrashLibrary.logError(t);
-                } else if (priority == Log.WARN) {
-                    FakeCrashLibrary.logWarning(t);
-                }
-            }
-            */
-        }
-    }
 
     public static DataServiceComponent getsDataServiceComponent() {
         return sDataServiceComponent;
@@ -77,12 +52,12 @@ public class App extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        Timber.i("onLowMemory");
+        Timber.w("onLowMemory");
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-        Timber.i("onTerminate");
+        Timber.e("onTerminate");
     }
 }

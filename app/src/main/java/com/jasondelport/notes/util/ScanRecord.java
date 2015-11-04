@@ -223,10 +223,10 @@ public final class ScanRecord {
                     case DATA_TYPE_TX_POWER_LEVEL:
                         txPowerLevel = scanRecord[currentPos];
                         break;
-                    case DATA_TYPE_SERVICE_DATA:
+                    case DATA_TYPE_SERVICE_DATA: //  0x16
                         // The first two bytes of the service data are service data UUID in little
                         // endian. The rest bytes are service data.
-                        int serviceUuidLength = BluetoothUuid.UUID_BYTES_16_BIT;
+                        int serviceUuidLength = BluetoothUuid.UUID_BYTES_16_BIT; //2
                         byte[] serviceDataUuidBytes = extractBytes(scanRecord, currentPos,
                                 serviceUuidLength);
                         ParcelUuid serviceDataUuid = BluetoothUuid.parseUuidFrom(

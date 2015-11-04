@@ -29,7 +29,7 @@ public class BluetoothDeviceWrapper {
         mScanRecordData = scanRecordData;
     }
 
-    public BluetoothDevice getBluetoothDevcie() {
+    public BluetoothDevice getBluetoothDevice() {
         return mBluetoothDevcie;
     }
 

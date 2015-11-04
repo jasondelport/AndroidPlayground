@@ -6,36 +6,75 @@ package com.jasondelport.notes.util;
 public class BluetoothUtils {
     final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    enum BeaconType {
-        ALTBEACON, IBEACON, EDDYSTONE, UNKNOWN;
-    }
-
-    public static BeaconType getBeaconType(byte[] scanRecord) {
+    public static Beacon getBeaconType(byte[] scanRecord) {
+        Beacon beacon = new Beacon();
+        beacon.setData(scanRecord);
+        beacon.setStartByte(0);
+        beacon.setType(Beacon.UNKNOWN);
         for (int startByte = 0; startByte < scanRecord.length; startByte++) {
 
             if (scanRecord.length-startByte > 19) { // need at least 19 bytes for Eddystone-UID
                 if (scanRecord[startByte+0] == (byte)0xaa && scanRecord[startByte+1] == (byte)0xfe &&
                         scanRecord[startByte+2] == (byte)0x00) {
-                    return BeaconType.EDDYSTONE;
+                    beacon.setData(scanRecord);
+                    beacon.setStartByte(startByte);
+                    beacon.setType(Beacon.EDDYSTONE);
+                    break;
+
                 }
             }
 
             if (scanRecord.length-startByte > 24) { // need at least 24 bytes for AltBeacon
                 if (scanRecord[startByte+2] == (byte)0xbe && scanRecord[startByte+3] == (byte)0xac) {
-                    return BeaconType.ALTBEACON;
+                    beacon.setData(scanRecord);
+                    beacon.setStartByte(startByte);
+                    beacon.setType(Beacon.ALTBEACON);
+                    break;
+                }
+            }
+            if (startByte <= 5) {
+                if (((int) scanRecord[startByte + 2] & 0xff) == 0x02 &&
+                        ((int) scanRecord[startByte + 3] & 0xff) == 0x15) {
+                    beacon.setData(scanRecord);
+                    beacon.setStartByte(startByte);
+                    beacon.setType(Beacon.IBEACON);
+                    break;
                 }
             }
 
-            if (((int) scanRecord[startByte + 2] & 0xff) == 0x02 &&
-                    ((int) scanRecord[startByte + 3] & 0xff) == 0x15) {
-                return BeaconType.IBEACON;
-            }
-
         }
-        return BeaconType.UNKNOWN;
+        return beacon;
     }
 
+
+
       /*
+
+
+byte[] serviceData = result
+    .getScanRecord()
+    .getServiceData(ParcelUuid.fromString("0000FEAA-0000-1000-8000-00805F9B34FB"));
+
+
+
+    switch (serviceData[0]) {
+      case Constants.UID_FRAME_TYPE:
+        UidValidator.validate(deviceAddress, serviceData, beacon);
+        break;
+      case Constants.TLM_FRAME_TYPE:
+        TlmValidator.validate(deviceAddress, serviceData, beacon);
+        break;
+      case Constants.URL_FRAME_TYPE:
+        UrlValidator.validate(deviceAddress, serviceData, beacon);
+        break;
+      default:
+        String err = String.format("Invalid frame type byte %02X", serviceData[0]);
+        beacon.frameStatus.invalidFrameType = err;
+        logDeviceError(deviceAddress, err);
+        break;
+    }
+
+
 
 
     for (int startByte = 0; startByte < scanRecord.length; startByte++) {
@@ -68,7 +107,7 @@ public class BluetoothUtils {
      */
 
 
-    private static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
@@ -78,39 +117,8 @@ public class BluetoothUtils {
         return new String(hexChars);
     }
 
-    public void getAppleBeacon(byte[] scanRecord) {
-        int startByte = 2;
-        while (startByte <= 5) {
-            if (((int) scanRecord[startByte + 2] & 0xff) == 0x02 && //Identifies an iBeacon
-                    ((int) scanRecord[startByte + 3] & 0xff) == 0x15) { //Identifies correct data length
-                break;
-            }
-            startByte++;
-        }
-        //Convert to hex String
-        byte[] uuidBytes = new byte[16];
-        System.arraycopy(scanRecord, startByte + 4, uuidBytes, 0, 16);
-        String hexString = bytesToHex(uuidBytes);
 
-        //Here is your UUID
-        String uuid = hexString.substring(0, 8) + "-" +
-                hexString.substring(8, 12) + "-" +
-                hexString.substring(12, 16) + "-" +
-                hexString.substring(16, 20) + "-" +
-                hexString.substring(20, 32);
-
-        //Here is your Major value
-        int major = (scanRecord[startByte + 20] & 0xff) * 0x100 + (scanRecord[startByte + 21] & 0xff);
-
-        //Here is your Minor value
-        int minor = (scanRecord[startByte + 22] & 0xff) * 0x100 + (scanRecord[startByte + 23] & 0xff);
-
-        int txPower = (int) scanRecord[startByte + 24]; // this one is signed
-
-    }
-
-
-    protected static double getDistance(int txPower, double rssi) {
+    public static double getDistance(int txPower, double rssi) {
         if (rssi == 0) {
             return -1.0; // if we cannot determine accuracy, return -1.
         }

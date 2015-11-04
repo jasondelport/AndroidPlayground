@@ -16,6 +16,8 @@ import android.os.Handler;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.model.BluetoothDeviceWrapper;
+import com.jasondelport.notes.util.Beacon;
+import com.jasondelport.notes.util.BluetoothUtils;
 import com.jasondelport.notes.util.IBeacon;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class BluetoothScannerActivity extends BaseActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
     private SampleScanCallback mScanCallback;
-    private Map<String, BluetoothDeviceWrapper> mDevices = new HashMap<>();
+    private Map<String, BluetoothDeviceWrapper> mDevices;
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
 
         @Override
@@ -48,6 +50,7 @@ public class BluetoothScannerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble);
 
+        mDevices = new HashMap<>();
 
         mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE))
                 .getAdapter();
@@ -64,7 +67,6 @@ public class BluetoothScannerActivity extends BaseActivity {
                             stopScan();
                         }
                     }, 10000);
-
                     mBluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
                     mScanCallback = new SampleScanCallback();
                     mBluetoothLeScanner.startScan(buildScanFilters(), buildScanSettings(), mScanCallback);
@@ -93,10 +95,9 @@ public class BluetoothScannerActivity extends BaseActivity {
         showResults();
     }
 
-
     @Override
-    protected void onPause() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         mDevices.clear();
         mDevices = null;
     }
@@ -158,23 +159,46 @@ public class BluetoothScannerActivity extends BaseActivity {
         return result;
     }
 
+    private String getBeaconType(Beacon beacon) {
+        String result = "UNKNOWN";
+        switch(beacon.getType()) {
+            case Beacon.EDDYSTONE:
+                result = "EDDYSTONE";
+                break;
+            case Beacon.IBEACON:
+                result = "IBEACON";
+                break;
+            case Beacon.ALTBEACON:
+                result = "ALTBEACON";
+                break;
+            default:
+                result = "UNKNOWN";
+                break;
+        }
+        return result;
+    }
+
     private void showResults() {
         Timber.d("Scan Results:");
         for (Map.Entry<String, BluetoothDeviceWrapper> wrappedDevice : mDevices.entrySet()) {
-            BluetoothDevice device = wrappedDevice.getValue().getBluetoothDevcie();
+            BluetoothDevice device = wrappedDevice.getValue().getBluetoothDevice();
             int type = device.getType();
             String deviceName = device.getName();
             String address = wrappedDevice.getKey(); // hardware address
             int strength = wrappedDevice.getValue().getRSSI(); // signal strength in dBm
             Timber.d("strength = %d", strength);
             Timber.d("device = %s -> %s -> %s", deviceName, address, getTypeDescription(type));
-            IBeacon iBeacon = IBeacon.fromScanData(wrappedDevice.getValue().getScanRecordData(),
-                    wrappedDevice.getValue().getRSSI(), wrappedDevice.getValue().getBluetoothDevcie());
-            if (iBeacon != null) {
-
-            } else {
-                Timber.d("Not an iBeacon");
+            Beacon beacon =
+                    BluetoothUtils.getBeaconType(wrappedDevice.getValue().getScanRecordData());
+            Timber.d("beacon = %s", getBeaconType(beacon));
+            if (beacon.getType() == Beacon.IBEACON) {
+                IBeacon iBeacon = new IBeacon(beacon);
+                Timber.d("uuid: %s", iBeacon.getUuid());
+                Timber.d("major + minor: %d %d", iBeacon.getMajor(), iBeacon.getMinor());
+                Timber.d("txPower: %d", iBeacon.getTxPower());
+                Timber.d("distance : %f", BluetoothUtils.getDistance(iBeacon.getTxPower(), strength));
             }
+
         }
     }
 
@@ -184,6 +208,9 @@ public class BluetoothScannerActivity extends BaseActivity {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
+            //Timber.d("strength = %d", result.getRssi());
+            //Timber.d("device = %s", result.getDevice().getAddress());
+            //Timber.d("scan = %d", result.getScanRecord().getDeviceName());
             BluetoothDeviceWrapper wrappedDevice
                     = new BluetoothDeviceWrapper(result.getDevice(), result.getRssi(), result.getScanRecord());
             mDevices.put(result.getDevice().getAddress(), wrappedDevice);
