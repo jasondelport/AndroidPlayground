@@ -159,7 +159,7 @@ dependencies {
 
     // jake wharton
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.jakewharton.timber:timber:3.1.0'
+    compile 'com.jakewharton.timber:timber:4.0.1'
 
     // saved instance state
     compile 'frankiesardo:icepick:3.1.0'

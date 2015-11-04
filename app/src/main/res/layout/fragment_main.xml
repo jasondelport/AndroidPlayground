@@ -87,6 +87,13 @@
             android:layout_margin="10dp"
             android:text="Model View Presenter"/>
 
+        <Button
+            android:id="@+id/main_button_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="About"/>
+
     </LinearLayout>
 
 </ScrollView>

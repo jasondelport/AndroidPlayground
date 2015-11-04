@@ -78,7 +78,15 @@
             android:label="@string/app_name" />
 
         <activity
+            android:name=".ui.activity.BluetoothScannerActivity"
+            android:label="@string/app_name" />
+
+        <activity
             android:name=".ui.activity.MvpActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".ui.activity.AboutActivity"
             android:label="@string/app_name" />
 
         <activity

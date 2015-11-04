@@ -12,7 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jasondelport.notes.R;
-import com.jasondelport.notes.ui.activity.BleActivity;
+import com.jasondelport.notes.ui.activity.AboutActivity;
+import com.jasondelport.notes.ui.activity.BluetoothScannerActivity;
 import com.jasondelport.notes.ui.activity.CoordinatorLayoutActivity;
 import com.jasondelport.notes.ui.activity.DrawerActivity;
 import com.jasondelport.notes.ui.activity.KeepAwakeActivity;
@@ -156,12 +157,17 @@ public class MainFragment extends BaseFragment {
 
     @OnClick(R.id.main_button_ble)
     void loadBleScanner(View view) {
-        NavUtils.openActivity(getActivity(), BleActivity.class);
+        NavUtils.openActivity(getActivity(), BluetoothScannerActivity.class);
     }
 
     @OnClick(R.id.main_button_mvp)
     void loadMVP(View view) {
         NavUtils.openActivity(getActivity(), MvpActivity.class);
+    }
+
+    @OnClick(R.id.main_button_about)
+    void loadAbout(View view) {
+        NavUtils.openActivity(getActivity(), AboutActivity.class);
     }
 
     /*
