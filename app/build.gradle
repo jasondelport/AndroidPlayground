@@ -135,13 +135,13 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 dependencies {
 
     // google
-    compile 'com.android.support:support-v13:23.0.1'
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:cardview-v7:23.0.1'
-    compile 'com.android.support:percent:23.0.1'
-    compile 'com.android.support:support-annotations:23.0.1'
+    compile 'com.android.support:support-v13:23.1.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.android.support:percent:23.1.0'
+    compile 'com.android.support:support-annotations:23.1.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.google.android.gms:play-services:8.1.0'
 
@@ -154,8 +154,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup:otto:1.3.8'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
 
     // jake wharton
     compile 'com.jakewharton:butterknife:7.0.1'

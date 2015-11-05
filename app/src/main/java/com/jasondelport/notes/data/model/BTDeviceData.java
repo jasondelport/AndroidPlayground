@@ -2,13 +2,14 @@ package com.jasondelport.notes.data.model;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.ScanRecord;
+
+import com.jasondelport.notes.util.ScanRecord;
 
 
 /**
  * Created by jasondelport on 03/11/15.
  */
-public class BluetoothDeviceWrapper {
+public class BTDeviceData {
     private BluetoothDevice mBluetoothDevcie;
     private int mRSSI;
     private byte[] mScanRecordData;
@@ -16,14 +17,14 @@ public class BluetoothDeviceWrapper {
     private ScanRecord mScanRecord;
 
     @TargetApi(21)
-    public BluetoothDeviceWrapper(BluetoothDevice bluetoothDevcie, int RSSI, ScanRecord scanRecord) {
+    public BTDeviceData(BluetoothDevice bluetoothDevcie, int RSSI, android.bluetooth.le.ScanRecord scanRecord) {
         mBluetoothDevcie = bluetoothDevcie;
         mRSSI = RSSI;
         mScanRecordData = scanRecord.getBytes();
-        mScanRecord = scanRecord;
+        mScanRecord = ScanRecord.parseFromBytes(scanRecord.getBytes());
     }
 
-    public BluetoothDeviceWrapper(BluetoothDevice bluetoothDevcie, int RSSI, byte[] scanRecordData) {
+    public BTDeviceData(BluetoothDevice bluetoothDevcie, int RSSI, byte[] scanRecordData) {
         mBluetoothDevcie = bluetoothDevcie;
         mRSSI = RSSI;
         mScanRecordData = scanRecordData;
@@ -37,7 +38,6 @@ public class BluetoothDeviceWrapper {
         return mRSSI;
     }
 
-    @TargetApi(21)
     public ScanRecord getScanRecord() {
         return mScanRecord;
     }

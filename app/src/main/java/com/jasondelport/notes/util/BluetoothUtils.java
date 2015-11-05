@@ -48,7 +48,43 @@ public class BluetoothUtils {
 
 
 
+
+
       /*
+      EddyStone-URL
+      int txPower = (int) serviceData[1];
+      byte[] urlBytes = Arrays.copyOfRange(serviceData, 2, 20);
+      String url = UrlUtils.decodeUrl(serviceData);
+
+    EddyStone-UID
+    int txPower = (int) serviceData[1];
+    byte[] uidBytes = Arrays.copyOfRange(serviceData, 2, 18);
+    beacon.uidStatus.uidValue = Utils.toHexString(uidBytes);
+
+    EddyStone-TLM
+    ByteBuffer buf = ByteBuffer.wrap(serviceData);
+    buf.get();  // We already know the frame type byte is 0x20.
+
+    // The version should be zero.
+    byte ver = buf.get();
+    String version = String.format("0x%02X", version);
+
+    short voltage = buf.getShort();
+    String voltage = String.valueOf(voltage);
+
+    byte tempIntegral = buf.get();
+    int tempFractional = (buf.get() & 0xff);
+    float temp = tempIntegral + (tempFractional / 256.0f);
+    String temperature = String.valueOf(temp);
+
+    int advCnt = buf.getInt();
+    String advanceCnt = String.valueOf(advCnt);
+
+    int uptime = buf.getInt();
+    String secCnt = String.format("%d (%d days)", uptime, TimeUnit.SECONDS.toDays(uptime / 10));
+
+
+
 
 
 byte[] serviceData = result
