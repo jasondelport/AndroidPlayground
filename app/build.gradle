@@ -5,7 +5,7 @@ apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     def Properties properties = new Properties()
 
@@ -143,7 +143,7 @@ dependencies {
     compile 'com.android.support:percent:23.1.0'
     compile 'com.android.support:support-annotations:23.1.0'
     compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.google.android.gms:play-services:8.1.0'
+    compile 'com.google.android.gms:play-services:8.3.0'
 
     // rx java
     compile 'io.reactivex:rxandroid:1.0.1'
@@ -157,7 +157,7 @@ dependencies {
 
     // jake wharton
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.jakewharton.timber:timber:4.0.1'
+    compile 'com.jakewharton.timber:timber:4.1.0'
 
     // saved instance state
     compile 'frankiesardo:icepick:3.1.0'
@@ -166,8 +166,8 @@ dependencies {
     provided 'org.parceler:parceler:1.0.1'
 
     //dagger
-    compile 'com.google.dagger:dagger:2.0.1'
-    apt 'com.google.dagger:dagger-compiler:2.0.1'
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
 
 }

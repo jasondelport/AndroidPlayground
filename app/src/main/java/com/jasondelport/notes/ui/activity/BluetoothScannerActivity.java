@@ -19,6 +19,7 @@ import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.model.BTDeviceData;
 import com.jasondelport.notes.util.Beacon;
 import com.jasondelport.notes.util.BluetoothUtils;
+import com.jasondelport.notes.util.EddyStone;
 import com.jasondelport.notes.util.IBeacon;
 import com.jasondelport.notes.util.ScanRecord;
 
@@ -212,7 +213,7 @@ public class BluetoothScannerActivity extends BaseActivity {
             } else if (beacon.getType() == Beacon.EDDYSTONE) {
                 byte[] serviceData = record.getServiceData(ParcelUuid.fromString("0000FEAA-0000-1000-8000-00805F9B34FB"));
                 Timber.d("service data -> %s", BluetoothUtils.bytesToHex(serviceData));
-                //int eddyStoneType = EddyStone.getEddyStoneBeaconType(serviceData);
+                int eddyStoneType = EddyStone.getEddyStoneBeaconType(serviceData);
             }
 
         }
