@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.jasondelport.notes.BuildConfig;
 import com.jasondelport.notes.Constants;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.singleton.ExampleSingleton;
 import com.jasondelport.notes.ui.fragment.MainFragment;
+import com.jasondelport.notes.util.DebugUtils;
 import com.jasondelport.notes.util.NavUtils;
 
 import hugo.weaving.DebugLog;
@@ -89,6 +91,9 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
 
+        if (BuildConfig.DEBUG) {
+            DebugUtils.riseAndShine(this);
+        }
 
         if (savedInstanceState == null) {
             fragment = MainFragment.newInstance("hello", 0);
