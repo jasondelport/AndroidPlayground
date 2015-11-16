@@ -13,15 +13,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.ParcelUuid;
 
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.model.BTDeviceData;
-import com.jasondelport.notes.util.Beacon;
-import com.jasondelport.notes.util.BluetoothUtils;
-import com.jasondelport.notes.util.EddyStone;
-import com.jasondelport.notes.util.IBeacon;
-import com.jasondelport.notes.util.ScanRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,98 +139,14 @@ public class BluetoothScannerActivity extends BaseActivity {
         return builder.build();
     }
 
-    private String getDeviceTypeName(int type) {
-        String result = "UNKNOWN";
-        switch (type) {
-            case BluetoothDevice.DEVICE_TYPE_CLASSIC:
-                result = "CLASSIC";
-                break;
-            case BluetoothDevice.DEVICE_TYPE_DUAL:
-                result = "DUAL";
-                break;
-            case BluetoothDevice.DEVICE_TYPE_LE:
-                result = "LE";
-                break;
-            case BluetoothDevice.DEVICE_TYPE_UNKNOWN:
-                result = "UNKNOWN";
-                break;
-        }
-        return result;
-    }
-
-    private String getBeaconTypeName(Beacon beacon) {
-        String result;
-        switch (beacon.getType()) {
-            case Beacon.EDDYSTONE:
-                result = "EDDYSTONE";
-                break;
-            case Beacon.IBEACON:
-                result = "IBEACON";
-                break;
-            case Beacon.ALTBEACON:
-                result = "ALTBEACON";
-                break;
-            default:
-                result = "UNKNOWN";
-                break;
-        }
-        return result;
-    }
 
     private void showResults() {
         Timber.d("Scan Results:");
         for (Map.Entry<String, BTDeviceData> deviceData : mDevices.entrySet()) {
-            BluetoothDevice device = deviceData.getValue().getBluetoothDevice();
-            int type = device.getType();
-            String deviceName = device.getName();
-            String address = deviceData.getKey(); // hardware address
-            int strength = deviceData.getValue().getRSSI(); // signal strength in dBm
-            ScanRecord record = deviceData.getValue().getScanRecord();
-            Timber.d(printByteData(deviceData.getValue().getScanRecord().getBytes()));
-            Timber.d("strength = %d", strength);
-            Timber.d("device = %s -> %s -> %s", deviceName, address, getDeviceTypeName(type));
-            Timber.d("record = %s -> %d", record.getDeviceName(), record.getTxPowerLevel());
-            if (record.getTxPowerLevel() != Integer.MIN_VALUE) {
-                Timber.d("distance : %f", BluetoothUtils.getDistance(record.getTxPowerLevel(), strength));
-            } else {
-                Timber.d("distance = 0. getTxPowerLevel() returned Integer.MIN_VALUE");
-            }
-            Beacon beacon =
-                    BluetoothUtils.getBeaconType(deviceData.getValue().getScanRecordData());
-            Timber.d("beacon = %s", getBeaconTypeName(beacon));
-            if (beacon.getType() == Beacon.IBEACON) {
-                IBeacon iBeacon = new IBeacon(beacon);
-                Timber.d("uuid: %s", iBeacon.getUuid());
-                Timber.d("major + minor: %d %d", iBeacon.getMajor(), iBeacon.getMinor());
-                Timber.d("txPower: %d", iBeacon.getTxPower());
-                Timber.d("distance : %f", BluetoothUtils.getDistance(iBeacon.getTxPower(), strength));
-            } else if (beacon.getType() == Beacon.EDDYSTONE) {
-                byte[] serviceData = record.getServiceData(ParcelUuid.fromString("0000FEAA-0000-1000-8000-00805F9B34FB"));
-                Timber.d("service data -> %s", BluetoothUtils.bytesToHex(serviceData));
-                int eddyStoneType = EddyStone.getEddyStoneBeaconType(serviceData);
-            }
+
 
         }
     }
-
-    public String printByteData(byte[] bytes) {
-        String result = "BINARY  |DEC|HX|ASCII\n";
-        for (byte b : bytes) {
-            String binary = Integer.toBinaryString(b & 255 | 256).substring(1);
-            int decimal = Integer.parseInt(binary, 2);
-            String dec =  Integer.toString(decimal);
-            String hex = Integer.toHexString(decimal);
-            //int dec = Integer.parseInt(hex, 16);
-            String ascii = Character.toString((char) decimal);
-            result += binary
-                    + "|" + String.format("%1$" + 3 + "s", dec)
-                    + "|" + String.format("%1$" + 2 + "s", hex)
-                    + "|" + ascii + "\n";
-        }
-        return result;
-    }
-
-
 
     @TargetApi(21)
     private class SampleScanCallback extends ScanCallback {
