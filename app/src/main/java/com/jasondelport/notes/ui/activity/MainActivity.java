@@ -219,6 +219,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Note");
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher));
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        addIntent.putExtra("duplicate", false);
         getApplicationContext().sendBroadcast(addIntent);
     }
 

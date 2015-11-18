@@ -9,6 +9,10 @@ import android.widget.TextView;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.singleton.ExampleSingleton;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -19,21 +23,6 @@ import timber.log.Timber;
 
 
 public class RXJavaFragment extends BaseFragment {
-
-    Subscriber<String> subscriber = new Subscriber<String>() {
-        @Override
-        public void onNext(String s) {
-            text.setText(s);
-        }
-
-        @Override
-        public void onCompleted() {
-        }
-
-        @Override
-        public void onError(Throwable e) {
-        }
-    };
 
     @Bind(R.id.text)
     TextView text;
@@ -54,11 +43,28 @@ public class RXJavaFragment extends BaseFragment {
         setRetainInstance(false);
         setHasOptionsMenu(false);
 
-        // this will run every time as long as setRetainInstance = false
-        Observable.just("one", "two", "three", "four", "five")
+        List<String> list = Arrays.asList("one", "two", "three", "four", "five");
+
+        //Observable.just("one", "two", "three", "four", "five")
+        Observable.from(list).delay(5, TimeUnit.SECONDS).skip(2)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        addToTextView(s);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("RXJava Completed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.d(e, "RXJava Error");
+                    }
+                });
     }
 
     @Override
@@ -73,6 +79,12 @@ public class RXJavaFragment extends BaseFragment {
             Timber.d("singleton is not null -> %s", ExampleSingleton.getInstance().getHelloWorld());
         }
         return view;
+    }
+
+    private void addToTextView(String newText) {
+        String existingText = text.getText().toString();
+        existingText += newText + "\n";
+        text.setText(existingText);
     }
 
     @Override

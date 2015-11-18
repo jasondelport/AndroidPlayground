@@ -10,7 +10,11 @@ public class DataUtils {
     final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String printByteData(byte[] bytes) {
-        String result = "BINARY  |DEC|HX|ASCII\n";
+        if (bytes == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("BINARY  |DEC|HX|ASCII\n");
         for (byte b : bytes) {
             String binary = Integer.toBinaryString(b & 255 | 256).substring(1);
             int decimal = Integer.parseInt(binary, 2); // base 2 to base 10, eg (00010011)2 = (19)10
@@ -18,12 +22,12 @@ public class DataUtils {
             String hex = Integer.toHexString(decimal); // base 10 to base 16, eg (19)10 = (13)16
             //int dec = Integer.parseInt(hex, 16);
             String ascii = Character.toString((char) decimal);
-            result += binary
+            sb.append(binary
                     + "|" + String.format("%1$" + 3 + "s", dec)
                     + "|" + String.format("%1$" + 2 + "s", hex)
-                    + "|" + ascii + "\n";
+                    + "|" + ascii + "\n");
         }
-        return result;
+        return sb.toString();
     }
 
     public static double round(double value, int places) {
