@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.singleton.ExampleSingleton;
 
@@ -49,6 +50,7 @@ public class RXJavaFragment extends BaseFragment {
         Observable.from(list).delay(5, TimeUnit.SECONDS).skip(2)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .filter(items -> items.length() > 2)
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onNext(String s) {
@@ -65,6 +67,37 @@ public class RXJavaFragment extends BaseFragment {
                         Timber.d(e, "RXJava Error");
                     }
                 });
+
+        Observable
+                .just(1, 2, 3, 4, 5)
+                //.map(list -> throwException(list))
+                .last()
+                .subscribe(System.out::println);
+
+
+        /*
+        new RestService().getAllItems()
+                .doOnSubscribe(() -> {
+                    // start request
+                    // show spinner
+                })
+                .doOnCompleted(() -> {
+                    // finished request
+                    // hide spinner
+                })
+                // request details for each item with id
+                .flatMap(itemId -> new RestService().getItemDetailById(itemId))
+                .doOnError(throwable -> {
+                    // log the error
+                })
+                .onErrorResumeNext(Observable.< ~ > empty())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> {
+                    // do something with list
+                });
+        */
+
     }
 
     @Override
@@ -78,6 +111,10 @@ public class RXJavaFragment extends BaseFragment {
         } else {
             Timber.d("singleton is not null -> %s", ExampleSingleton.getInstance().getHelloWorld());
         }
+
+        RxTextView.textChangeEvents(text)
+                .subscribe(e -> Timber.d(e.text().toString()));
+
         return view;
     }
 

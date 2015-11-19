@@ -64,7 +64,7 @@ public class ExampleSingleton {
         }
     }
 
-    // this pattern is called 'double-checked locking'. synchronisation is expensive so only do it if you have to
+    // 'double-checked locking' pattern. synchronisation is expensive so only do it if you have to
     public static ExampleSingleton getInstance() {
         if (sInstance == null) sInstance = getSynchronizedInstance();
         return sInstance;

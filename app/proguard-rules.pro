@@ -37,6 +37,9 @@
     @butterknife.* <methods>;
 }
 
+# retrolambda
+-dontwarn java.lang.invoke.*
+
 # Picasso && OkIo
 -dontwarn com.squareup.okhttp.**
 -dontwarn okio.**
