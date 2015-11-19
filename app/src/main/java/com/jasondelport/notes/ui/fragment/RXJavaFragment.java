@@ -32,24 +32,49 @@ public class RXJavaFragment extends BaseFragment {
 
     }
 
+    //@DebugLog
     public static RXJavaFragment newInstance() {
         RXJavaFragment fragment = new RXJavaFragment();
         return fragment;
     }
 
+    //@DebugLog
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycle("onCreate");
         setRetainInstance(false);
         setHasOptionsMenu(false);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        lifecycle("onCreateView");
+        View view = inflater.inflate(R.layout.fragment_rxjava, container, false);
+        ButterKnife.bind(this, view);
+        if (ExampleSingleton.isNull()) {
+            Timber.d("singleton is null");
+        } else {
+            Timber.d("singleton is not null -> %s", ExampleSingleton.getInstance().getHelloWorld());
+        }
+
+        RxTextView.textChangeEvents(text)
+                .subscribe(e -> Timber.d(e.text().toString()));
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         List<String> list = Arrays.asList("one", "two", "three", "four", "five");
 
         //Observable.just("one", "two", "three", "four", "five")
         Observable.from(list).delay(5, TimeUnit.SECONDS).skip(2)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())  // AndroidSchedulers.io & AndroidSchedulers..computation
                 .filter(items -> items.length() > 2)
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -59,18 +84,18 @@ public class RXJavaFragment extends BaseFragment {
 
                     @Override
                     public void onCompleted() {
-                        Timber.d("RXJava Completed");
+                        Timber.d("RXJava Subscriber Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.d(e, "RXJava Error");
+                        Timber.e(e, "RXJava Subscriber Error");
                     }
                 });
 
         Observable
                 .just(1, 2, 3, 4, 5)
-                //.map(list -> throwException(list))
+                        //.map(list -> throwException(list))
                 .last()
                 .subscribe(System.out::println);
 
@@ -97,44 +122,28 @@ public class RXJavaFragment extends BaseFragment {
                     // do something with list
                 });
         */
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rxjava, container, false);
-        ButterKnife.bind(this, view);
-        if (ExampleSingleton.isNull()) {
-            Timber.d("singleton is null");
-            getActivity().finish();
-        } else {
-            Timber.d("singleton is not null -> %s", ExampleSingleton.getInstance().getHelloWorld());
-        }
-
-        RxTextView.textChangeEvents(text)
-                .subscribe(e -> Timber.d(e.text().toString()));
-
-        return view;
     }
 
     private void addToTextView(String newText) {
-        String existingText = text.getText().toString();
-        existingText += newText + "\n";
-        text.setText(existingText);
+        if (text != null) {
+            String existingText = text.getText().toString();
+            existingText += newText + "\n";
+            text.setText(existingText);
+        }
     }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         lifecycle("onDestroyView");
         ButterKnife.unbind(this);
+        super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        ExampleSingleton.destroy();
         lifecycle("onDestroy");
+        super.onDestroy();
     }
 
     private void lifecycle(String methodName) {

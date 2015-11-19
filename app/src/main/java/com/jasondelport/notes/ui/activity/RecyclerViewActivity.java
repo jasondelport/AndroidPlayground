@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.jasondelport.notes.App;
+import com.jasondelport.notes.PlaygroundApp;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.model.NoteData;
 import com.jasondelport.notes.data.server.DataService;
@@ -67,7 +67,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
-        App.getsDataServiceComponent().inject(this);
+        PlaygroundApp.getsDataServiceComponent().inject(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
@@ -88,7 +88,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     public void onResume() {
         super.onResume();
         Timber.d("registering event bus");
-        App.getEventBus().register(this);
+        PlaygroundApp.getEventBus().register(this);
         if (mNoteData != null) {
             setData();
         } else {
@@ -139,7 +139,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
     protected void onPause() {
         super.onPause();
         Timber.d("unregistering event bus");
-        App.getEventBus().unregister(this);
+        PlaygroundApp.getEventBus().unregister(this);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.jasondelport.notes.data.server;
 
-import com.jasondelport.notes.App;
+import com.jasondelport.notes.PlaygroundApp;
 import com.jasondelport.notes.event.NetworkErrorEvent;
 import com.jasondelport.notes.event.NetworkSuccessEvent;
 
@@ -18,11 +18,11 @@ public class OttoCallback<T> implements Callback<T> {
     @Override
     public void success(T t, Response response) {
         Timber.d("callback network success");
-        App.getEventBus().post(new NetworkSuccessEvent(t, response));
+        PlaygroundApp.getEventBus().post(new NetworkSuccessEvent(t, response));
     }
 
     @Override
     public void failure(RetrofitError error) {
-        App.getEventBus().post(new NetworkErrorEvent(error));
+        PlaygroundApp.getEventBus().post(new NetworkErrorEvent(error));
     }
 }

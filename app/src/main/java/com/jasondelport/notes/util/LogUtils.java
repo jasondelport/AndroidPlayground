@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 
+import timber.log.Timber;
+
 /**
  * Created by jasondelport on 17/04/15.
  */
@@ -14,9 +16,9 @@ public class LogUtils {
         File logFile = new File("sdcard/location_log.txt");
         if (!logFile.exists()) {
             try {
-                logFile.createNewFile();
+                boolean created = logFile.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Timber.e(e, "Error creating log file");
             }
         }
         try {
@@ -26,8 +28,8 @@ public class LogUtils {
             buf.append(time + " -> " + text);
             buf.newLine();
             buf.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Timber.e(e, "Error logging to file");
         }
     }
 

@@ -2,7 +2,9 @@ package com.jasondelport.notes.data.singleton;
 
 import android.content.Context;
 
-import com.jasondelport.notes.App;
+import com.jasondelport.notes.PlaygroundApp;
+
+import timber.log.Timber;
 
 /**
  * Created by jasondelport on 10/07/15.
@@ -56,22 +58,22 @@ public class ExampleSingleton {
     Just be thoughtful about what you are doing. :)" -> Dianne Hackborn
 
      */
-    private static String mHelloWorld;
+    private String mHelloWorld;
 
     private ExampleSingleton() {
         if (mContext == null) {
-            mContext = App.getContext();
+            mContext = PlaygroundApp.getContext();
         }
     }
 
     // 'double-checked locking' pattern. synchronisation is expensive so only do it if you have to
     public static ExampleSingleton getInstance() {
-        if (sInstance == null) sInstance = getSynchronizedInstance();
+        if (sInstance == null) { sInstance = getSynchronizedInstance(); }
         return sInstance;
     }
 
     private static synchronized ExampleSingleton getSynchronizedInstance() {
-        if (sInstance == null) sInstance = new ExampleSingleton();
+        if (sInstance == null) { sInstance = new ExampleSingleton(); }
         return sInstance;
     }
 
@@ -91,7 +93,12 @@ public class ExampleSingleton {
     }
 
     public static void destroy() {
-        mHelloWorld = null;
         sInstance = null;
+        Timber.d("Singleton Destroyed");
+    }
+
+    protected void finalize() throws Throwable {
+        Timber.d("Singleton Finalized");
+        super.finalize();
     }
 }

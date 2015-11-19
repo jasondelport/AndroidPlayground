@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
             // the below overwrites the above
             //fragment.setArguments(getIntent().getExtras());
         } else {
-            fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            fragment = getFragmentManager().getFragment(savedInstanceState, "MainFragment");
         }
 
         NavUtils.addFragment(getFragmentManager(), fragment, android.R.id.content, Constants.FRAGMENT_MAIN);
@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         lifecycle("onSaveInstanceState");
-        getFragmentManager().putFragment(outState, "fragment", fragment);
+        getFragmentManager().putFragment(outState, "MainFragment", fragment);
     }
 
     private void lifecycle(String methodName) {

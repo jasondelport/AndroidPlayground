@@ -16,7 +16,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.jasondelport.notes.App;
+import com.jasondelport.notes.PlaygroundApp;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.location.LocationProvider;
 import com.jasondelport.notes.data.model.CustomLocation;
@@ -134,13 +134,11 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
                     location.getLatitude(), location.getLongitude(),
                     customLocation.getLatitude(), customLocation.getLongitude(),
                     dist);
-            if (dist[0] < 15) {
-                if (!customLocation.getName().equals(mCurrentLocation)) {
-                    Utils.makeToast(this, customLocation.getName());
-                    mCurrentLocation = customLocation.getName();
-                    if (!customLocation.getName().equals("My Jol")) {
-                        LogUtils.appendLog(customLocation.getName());
-                    }
+            if (dist[0] < 15 && !customLocation.getName().equals(mCurrentLocation)) {
+                Utils.makeToast(this, customLocation.getName());
+                mCurrentLocation = customLocation.getName();
+                if (!customLocation.getName().equals("My Jol")) {
+                    LogUtils.appendLog(customLocation.getName());
                 }
             }
         }
@@ -175,14 +173,14 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         mLocationProvider.connect();
-        App.getEventBus().register(this);
+        PlaygroundApp.getEventBus().register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mLocationProvider.disconnect();
-        App.getEventBus().unregister(this);
+        PlaygroundApp.getEventBus().unregister(this);
     }
 
     @Override

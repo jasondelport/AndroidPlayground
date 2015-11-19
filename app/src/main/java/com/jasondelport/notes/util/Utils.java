@@ -61,7 +61,7 @@ public class Utils {
     }
 
     public static boolean isEmptyString(String string) {
-        return string == null || TextUtils.isEmpty(string) || string.toString().equalsIgnoreCase("null");
+        return string == null || TextUtils.isEmpty(string) || string.equalsIgnoreCase("null");
     }
 
     public static boolean isEmptyList(List list) {
@@ -70,10 +70,8 @@ public class Utils {
 
     public static int getNumber(String string) {
         int number = 0;
-        if (!isEmptyString(string)) {
-            if (TextUtils.isDigitsOnly(string)) {
-                number = Integer.parseInt(string);
-            }
+        if (!isEmptyString(string) && TextUtils.isDigitsOnly(string)) {
+            number = Integer.parseInt(string);
         }
         return number;
     }

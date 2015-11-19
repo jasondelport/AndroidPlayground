@@ -6,6 +6,8 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 
+import timber.log.Timber;
+
 /**
  * Created by jasondelport on 04/05/15.
  */
@@ -99,18 +101,31 @@ public class NavUtils {
 
 
     public static void addFragment(FragmentManager fm, Fragment fragment, int viewId, String tag) {
+        logStack(fm);
         Fragment existingFragment = fm.findFragmentByTag(tag);
         if (existingFragment == null) {
+            Timber.d("Fragment is null");
             fm.beginTransaction()
                     .add(viewId, fragment, tag)
                     .commit();
         } else {
+            Timber.d("Fragment is NOT null");
             if (existingFragment.isDetached()) {
+                Timber.d("Fragment is detached");
                 fm.beginTransaction().attach(existingFragment).commit();
             }
             if (existingFragment.isHidden()) {
+                Timber.d("Fragment is hidden");
                 fm.beginTransaction().show(existingFragment).commit();
             }
+        }
+    }
+
+    private static void logStack(FragmentManager fm) {
+        Timber.i("BackStack count -> %d", fm.getBackStackEntryCount());
+        for(int i = 0; i < fm.getBackStackEntryCount(); i++){
+            FragmentManager.BackStackEntry entry = fm.getBackStackEntryAt(i);
+            Timber.i("Fragment -> %d -> %s", entry.getId(), entry.getName());
         }
     }
 

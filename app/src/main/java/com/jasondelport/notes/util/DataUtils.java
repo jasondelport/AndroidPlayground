@@ -13,7 +13,7 @@ public class DataUtils {
         if (bytes == null) {
             return null;
         }
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(100);
         sb.append("BINARY  |DEC|HX|ASCII\n");
         for (byte b : bytes) {
             String binary = Integer.toBinaryString(b & 255 | 256).substring(1);
@@ -31,7 +31,7 @@ public class DataUtils {
     }
 
     public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0) { throw new IllegalArgumentException(); }
 
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);

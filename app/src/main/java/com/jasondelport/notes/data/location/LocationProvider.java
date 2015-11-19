@@ -10,7 +10,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.jasondelport.notes.App;
+import com.jasondelport.notes.PlaygroundApp;
 import com.jasondelport.notes.event.LocationUpdateEvent;
 
 
@@ -25,7 +25,7 @@ public class LocationProvider implements
 
     public LocationProvider() {
 
-        mGoogleApiClient = new GoogleApiClient.Builder(App.getContext())
+        mGoogleApiClient = new GoogleApiClient.Builder(PlaygroundApp.getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -42,7 +42,7 @@ public class LocationProvider implements
 
     public void connect() {
         mGoogleApiClient.connect();
-        App.getEventBus().register(this);
+        PlaygroundApp.getEventBus().register(this);
     }
 
     public void disconnect() {
@@ -50,14 +50,14 @@ public class LocationProvider implements
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mFusedLocationCallback);
             mGoogleApiClient.disconnect();
         }
-        App.getEventBus().unregister(this);
+        PlaygroundApp.getEventBus().unregister(this);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
-            App.getEventBus().post(new LocationUpdateEvent(location));
+            PlaygroundApp.getEventBus().post(new LocationUpdateEvent(location));
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mFusedLocationCallback, null);
     }
@@ -81,7 +81,7 @@ public class LocationProvider implements
 
         public void onLocationResult(LocationResult result) {
             if (isAvailable) {
-                App.getEventBus().post(new LocationUpdateEvent(result.getLastLocation()));
+                PlaygroundApp.getEventBus().post(new LocationUpdateEvent(result.getLastLocation()));
             }
         }
 

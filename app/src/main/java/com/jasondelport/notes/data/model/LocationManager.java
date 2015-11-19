@@ -10,16 +10,20 @@ import java.util.List;
  */
 public class LocationManager {
 
-    private List<CustomLocation> locations = new ArrayList<>();
     private static LocationManager sInstance;
+    private List<CustomLocation> locations = new ArrayList<>();
 
     public static LocationManager getInstance() {
-        if (sInstance == null) sInstance = getSynchronizedInstance();
+        if (sInstance == null) {
+            sInstance = getSynchronizedInstance();
+        }
         return sInstance;
     }
 
     private static synchronized LocationManager getSynchronizedInstance() {
-        if (sInstance == null) sInstance = new LocationManager();
+        if (sInstance == null) {
+            sInstance = new LocationManager();
+        }
         return sInstance;
     }
 
@@ -74,7 +78,7 @@ public class LocationManager {
     }
 
     public List<CustomLocation> getLocations() {
-        if (locations.size()==0) {
+        if (locations.size() == 0) {
             createLocations();
         }
         return locations;

@@ -11,7 +11,7 @@ import timber.log.Timber;
 /**
  * Created by jasondelport on 22/02/2015.
  */
-public class App extends Application {
+public class PlaygroundApp extends Application {
 
     private static Bus sBus;
     private static DataServiceComponent sDataServiceComponent;
@@ -23,9 +23,9 @@ public class App extends Application {
         return sBus;
     }
 
-    private static App sInstance;
+    private static PlaygroundApp sInstance;
 
-    public static App getContext() {
+    public static PlaygroundApp getContext() {
         return sInstance;
     }
 
@@ -57,7 +57,7 @@ public class App extends Application {
 
     @Override
     public void onTerminate() {
-        super.onTerminate();
         Timber.e("onTerminate");
+        super.onTerminate();
     }
 }
