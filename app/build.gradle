@@ -15,7 +15,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
         multiDexEnabled true
     }
 
@@ -68,16 +68,21 @@ android {
         xmlOutput file("$project.buildDir/reports/lint/lint-result.xml")
     }
 
-    task('updateIcon', type: Exec) {
+
+    task('updateIcon') << {
         def caption = "v" + defaultConfig.versionName.toString()
-        executable 'bash'
-        args "$rootProject.rootDir/scripts/icon-gen.sh", caption, rootProject.rootDir, '/scripts'
-        doLast {
-            println 'Finished generating icon'
+        exec {
+            executable 'bash'
+            args "$rootProject.rootDir/scripts/icon-gen.sh", caption, rootProject.rootDir, '/scripts'
         }
     }
 
+    updateIcon.doLast{
+        println 'Finished generating icon'
+    }
+
     //preBuild.dependsOn updateIcon
+
 }
 
 def gitRevision() {
@@ -141,7 +146,7 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 //dependencyUpdates
 dependencies {
 
-    final GOOGLE_LIBRARY_VERSION = '23.1.1'
+    def GOOGLE_LIBRARY_VERSION = '23.1.1'
     // google
     compile "com.android.support:support-v13:$GOOGLE_LIBRARY_VERSION"
     compile "com.android.support:design:$GOOGLE_LIBRARY_VERSION"

@@ -9,11 +9,13 @@ dependencies {
 def qualityConfigDir = "$project.rootDir/config/quality";
 def reportsDir = "$project.buildDir/reports"
 
-check.dependsOn 'checkstyleHtml', 'findbugs', 'pmd', 'lint'
+check.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
 
-task showCheckStyleResultsInBrowser(type: Exec) {
-    executable 'open'
-    args 'file:///' + "$reportsDir/checkstyle/checkstyle.html"
+task showCheckStyleResultsInBrowser << {
+    exec {
+        executable 'open'
+        args 'file:///' + "$reportsDir/checkstyle/checkstyle.html"
+    }
 }
 
 task checkstyleHtml {
@@ -24,7 +26,7 @@ task checkstyleHtml {
                 out: new File("$reportsDir/checkstyle/", 'checkstyle.html'))
     }
 
-    finalizedBy showCheckStyleResultsInBrowser.execute()
+    finalizedBy showCheckStyleResultsInBrowser
 }
 
 task checkstyle(type: Checkstyle) {
@@ -40,12 +42,12 @@ task checkstyle(type: Checkstyle) {
         }
     }
 
-    classpath = files( )
+    classpath = files()
 
     finalizedBy checkstyleHtml
 }
 
-task findbugs(type: FindBugs, dependsOn: ['compileDebugSources','compileReleaseSources']) {
+task findbugs(type: FindBugs, dependsOn: ['compileDebugSources', 'compileReleaseSources']) {
 
     ignoreFailures = false
     effort = "max"
