@@ -10,6 +10,7 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jasondelport.notes.R;
 import com.jasondelport.notes.data.singleton.ExampleSingleton;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -124,7 +125,25 @@ public class RXJavaFragment extends BaseFragment {
         */
     }
 
+    /*
+    command + shift + a
+    extend selection [alt + up/down]
+
+    Intention Actions
+    alt + enter
+
+    List<String> list = new ArrayList<>();
+    list.fori [tab]
+
+    //logging shortcuts
+    logt
+    logm
+    logr
+
+     */
+
     private void addToTextView(String newText) {
+        List<String> list = new ArrayList<>();
         if (text != null) {
             String existingText = text.getText().toString();
             existingText += newText + "\n";
