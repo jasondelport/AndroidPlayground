@@ -22,6 +22,8 @@ android {
         versionCode 1
         versionName "1.1"
         multiDexEnabled true
+
+        manifestPlaceholders = [GOOGLE_GEO_API_KEY: "AIzaSyCaNFWqo3nvla45W1rSBoBzSUZAjjgSKbg"]
     }
 
     compileOptions {
@@ -193,5 +195,8 @@ dependencies {
 
     //permissions
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
+
+    // captures ANR errors
+    compile 'com.github.anrwatchdog:anrwatchdog:1.1.1'
 
 }

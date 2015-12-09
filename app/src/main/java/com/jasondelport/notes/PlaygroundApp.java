@@ -2,6 +2,8 @@ package com.jasondelport.notes;
 
 import android.app.Application;
 
+import com.github.anrwatchdog.ANRError;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.notes.dagger.DaggerApplicationComponent;
 import com.jasondelport.notes.dagger.DataServiceComponent;
 import com.squareup.otto.Bus;
@@ -41,6 +43,8 @@ public class PlaygroundApp extends Application {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+        } else {
+            new ANRWatchDog().setANRListener(error -> Timber.e(error, "Application Not Responding")).start();
         }
     }
 

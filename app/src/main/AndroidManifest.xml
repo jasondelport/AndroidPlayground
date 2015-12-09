@@ -106,7 +106,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCaNFWqo3nvla45W1rSBoBzSUZAjjgSKbg"/>
+            android:value="${GOOGLE_GEO_API_KEY}"/>
 
         <receiver android:name=".receiver.AlarmReceiver" />
 
