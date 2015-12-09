@@ -2,7 +2,6 @@ package com.jasondelport.notes;
 
 import android.app.Application;
 
-import com.github.anrwatchdog.ANRError;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.notes.dagger.DaggerApplicationComponent;
 import com.jasondelport.notes.dagger.DataServiceComponent;

@@ -67,3 +67,10 @@
 -keep class retrofit.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+
+# to help debugging production errors
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+# https://developer.android.com/tools/help/proguard.html#decoding
+# retrace.sh -verbose mapping.txt stacktrace.txt

@@ -23,7 +23,7 @@ android {
         versionName "1.1"
         multiDexEnabled true
 
-        manifestPlaceholders = [GOOGLE_GEO_API_KEY: "AIzaSyCaNFWqo3nvla45W1rSBoBzSUZAjjgSKbg"]
+        manifestPlaceholders = [GOOGLE_GEO_API_KEY: "AIzaSyCaNFWqo3nvla45W1rSBoBzSUZAjjgSKbg"] 
     }
 
     compileOptions {
@@ -151,6 +151,7 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 
 */
 //dependencyUpdates
+// ./gradlew build --refresh-dependencies
 dependencies {
 
     def GOOGLE_LIBRARY_VERSION = '23.1.1'
@@ -162,12 +163,12 @@ dependencies {
     compile "com.android.support:cardview-v7:$GOOGLE_LIBRARY_VERSION"
     compile "com.android.support:percent:$GOOGLE_LIBRARY_VERSION"
     compile "com.android.support:support-annotations:$GOOGLE_LIBRARY_VERSION"
-    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.google.code.gson:gson:2.5'
     compile 'com.google.android.gms:play-services:8.3.0'
 
     // rx java
     compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'io.reactivex:rxjava:1.1.0'
 
     // square
     compile 'com.squareup.picasso:picasso:2.5.2'
