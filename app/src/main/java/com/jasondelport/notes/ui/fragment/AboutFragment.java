@@ -24,6 +24,8 @@ public class AboutFragment extends BaseFragment {
     TextView githubRevsion;
     @Bind(R.id.github_address)
     TextView githubAddress;
+    @Bind(R.id.build_time)
+    TextView buildTime;
 
     public static Fragment newInstance() {
         Fragment fragment = new AboutFragment();
@@ -46,8 +48,8 @@ public class AboutFragment extends BaseFragment {
 
         programmer.setText("Jason Delport");
         githubAddress.setText("Github");
-        githubRevsion.setText("Github Revsion -> " + getResources().getString(R.string.git_revision));
-
+        githubRevsion.setText("Github Revision -> " + getResources().getString(R.string.git_revision));
+        buildTime.setText("Build Time -> " + getResources().getString(R.string.build_time));
         return view;
     }
 

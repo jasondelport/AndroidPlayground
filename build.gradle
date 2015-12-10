@@ -20,4 +20,7 @@ allprojects {
         maven { url 'https://clojars.org/repo/' }
         maven { url "http://dl.bintray.com/tbruyelle/tbruyelle" }
     }
+    ext {
+        buildTime = new Date().format("HH:mm dd/MM/yyyy Z", TimeZone.getTimeZone("UTC"))
+    }
 }

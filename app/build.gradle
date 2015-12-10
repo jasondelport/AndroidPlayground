@@ -46,6 +46,7 @@ android {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
+            resValue "string", "build_time", buildTime
             resValue "string", "git_revision", "\"${gitRevision()}\""
             debuggable true
         }
@@ -54,6 +55,7 @@ android {
             properties.load(new FileInputStream(file('/Users/jasondelport/Code/secure/AndroidPlayground.properties')))
             buildConfigField "String", "URL", properties['url']
             resValue "string", "url", properties['url']
+            resValue "string", "build_time", buildTime
             resValue "string", "git_revision", "\"${gitRevision()}\""
             debuggable false
             minifyEnabled false
@@ -150,7 +152,7 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 }
 
 */
-//dependencyUpdates
+// ./gradlew dependencyUpdates
 // ./gradlew build --refresh-dependencies
 dependencies {
 
@@ -195,7 +197,7 @@ dependencies {
     compile 'javax.annotation:javax.annotation-api:1.2'
 
     //permissions
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.5.0@aar'
 
     // captures ANR errors
     compile 'com.github.anrwatchdog:anrwatchdog:1.1.1'
