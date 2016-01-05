@@ -23,7 +23,7 @@ android {
         versionName "1.1"
         multiDexEnabled true
 
-        manifestPlaceholders = [GOOGLE_GEO_API_KEY: "AIzaSyCaNFWqo3nvla45W1rSBoBzSUZAjjgSKbg"] 
+        manifestPlaceholders = [GOOGLE_GEO_API_KEY: "AIzaSyAmtcM6dHT-zkwgKJZuefum0bP7OdFxQ1g"]
     }
 
     compileOptions {
@@ -134,7 +134,7 @@ task('installAllExceptRelease') {
 
 task('runDebug', type: Exec, dependsOn: 'installDebug') {
     def adb = android.getAdbExe().toString()
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jasondelport.notes.debug/com.jasondelport.notes.ui.activity.MainActivity'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jasondelport.playground.debug/com.jasondelport.playground.ui.activity.MainActivity'
     doLast {
         println 'Finished launching application'
     }
@@ -142,7 +142,7 @@ task('runDebug', type: Exec, dependsOn: 'installDebug') {
 /*
 task('runRelease', type: Exec, dependsOn: 'installRelease') {
     def adb = android.getAdbExe().toString()
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jasondelport.notes/.ui.activity.MainActivity'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jasondelport.playground/.ui.activity.MainActivity'
     doFirst {
         println '=== start ==='
     }
@@ -166,7 +166,8 @@ dependencies {
     compile "com.android.support:percent:$GOOGLE_LIBRARY_VERSION"
     compile "com.android.support:support-annotations:$GOOGLE_LIBRARY_VERSION"
     compile 'com.google.code.gson:gson:2.5'
-    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
 
     // rx java
     compile 'io.reactivex:rxandroid:1.1.0'
@@ -197,7 +198,7 @@ dependencies {
     compile 'javax.annotation:javax.annotation-api:1.2'
 
     //permissions
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.5.0@aar'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.5.1@aar'
 
     // captures ANR errors
     compile 'com.github.anrwatchdog:anrwatchdog:1.1.1'

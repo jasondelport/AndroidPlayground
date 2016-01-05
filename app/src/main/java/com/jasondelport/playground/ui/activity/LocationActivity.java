@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -25,6 +26,7 @@ import com.jasondelport.playground.event.LocationUpdateEvent;
 import com.jasondelport.playground.util.LogUtils;
 import com.jasondelport.playground.util.Utils;
 import com.squareup.otto.Subscribe;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +60,22 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         zoomed = false;
 
-        int hasWriteContactsPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+        RxPermissions.getInstance(this)
+                .request(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe(granted -> {
+                    if (granted) {
+                        if (mLocationProvider == null) {
+                            mLocationProvider = new LocationProvider();
+                        }
+                    } else {
+                        Toast.makeText(LocationActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        /*
+        int hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 Toast.makeText(LocationActivity.this, "Permission Denied FOREVER", Toast.LENGTH_LONG).show();
             } else {
@@ -71,9 +87,11 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
                 mLocationProvider = new LocationProvider();
             }
         }
+        */
 
     }
 
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -90,6 +108,7 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+    */
 
     @Subscribe
     public void onLocationUpdate(LocationUpdateEvent event) {
@@ -172,14 +191,18 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        mLocationProvider.connect();
+        if (mLocationProvider != null) {
+            mLocationProvider.connect();
+        }
         PlaygroundApp.getEventBus().register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mLocationProvider.disconnect();
+        if (mLocationProvider != null) {
+            mLocationProvider.disconnect();
+        }
         PlaygroundApp.getEventBus().unregister(this);
     }
 
@@ -209,7 +232,10 @@ public class LocationActivity extends BaseActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        mMap.setMyLocationEnabled(true);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
         for (CustomLocation loc : mLocations) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
