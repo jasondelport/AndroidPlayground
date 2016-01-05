@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.jasondelport.notes.ui.widget.CustomView
+        <com.jasondelport.playground.ui.widget.CustomView
             android:id="@+id/demo_view"
             android:layout_width="80dp"
             android:layout_height="80dp"

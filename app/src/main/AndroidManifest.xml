@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jasondelport.notes" >
+    package="com.jasondelport.playground" >
 
     <!-- safe //-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -27,14 +27,14 @@
         android:required="true" />
 
     <application
-        android:name=".PlaygroundApp"
+        android:name="com.jasondelport.playground.PlaygroundApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.jasondelport.playground.ui.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,54 +44,54 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.DrawerActivity"
+            android:name="com.jasondelport.playground.ui.activity.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.RecyclerViewActivity"
+            android:name="com.jasondelport.playground.ui.activity.RecyclerViewActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.LocationActivity"
+            android:name="com.jasondelport.playground.ui.activity.LocationActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.RXJavaActivity"
+            android:name="com.jasondelport.playground.ui.activity.RXJavaActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.PercentActivity"
+            android:name="com.jasondelport.playground.ui.activity.PercentActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.CoordinatorLayoutActivity"
+            android:name="com.jasondelport.playground.ui.activity.CoordinatorLayoutActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.KeepAwakeActivity"
+            android:name="com.jasondelport.playground.ui.activity.KeepAwakeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.BleActivity"
+            android:name="com.jasondelport.playground.ui.activity.BleActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.BluetoothScannerActivity"
+            android:name="com.jasondelport.playground.ui.activity.BluetoothScannerActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.MvpActivity"
+            android:name="com.jasondelport.playground.ui.activity.MvpActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.AboutActivity"
+            android:name="com.jasondelport.playground.ui.activity.AboutActivity"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.PostNoteActivity"
+            android:name="com.jasondelport.playground.ui.activity.PostNoteActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
@@ -109,15 +109,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_GEO_API_KEY}"/>
 
-        <receiver android:name=".receiver.AlarmReceiver" />
+        <receiver android:name="com.jasondelport.playground.receiver.AlarmReceiver" />
 
-        <receiver android:name=".receiver.BootReceiver" >
+        <receiver android:name="com.jasondelport.playground.receiver.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.BleService" />
+        <service android:name="com.jasondelport.playground.service.BleService" />
 
     </application>
 
