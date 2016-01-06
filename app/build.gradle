@@ -23,6 +23,7 @@ android {
         versionName "1.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
         manifestPlaceholders = [GOOGLE_GEO_API_KEY: "AIzaSyAmtcM6dHT-zkwgKJZuefum0bP7OdFxQ1g"]
     }
 
@@ -154,6 +155,8 @@ task('runRelease', type: Exec, dependsOn: 'installRelease') {
 */
 // ./gradlew dependencyUpdates
 // ./gradlew build --refresh-dependencies
+// ./gradlew :app:dependencies
+// ./gradlew :app:androidDependencies.
 dependencies {
 
     def GOOGLE_LIBRARY_VERSION = '23.1.1'
@@ -213,5 +216,15 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
+
+    // espresso
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile 'com.android.support:support-annotations:23.1.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    // for intent mocking
+    //androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
+    // for webview testing
+    //androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.1'
 
 }
