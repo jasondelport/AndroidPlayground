@@ -1,11 +1,16 @@
 package com.jasondelport.playground;
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.playground.dagger.DaggerApplicationComponent;
 import com.jasondelport.playground.dagger.DataServiceComponent;
+import com.jasondelport.playground.ui.activity.MainActivity;
 import com.squareup.otto.Bus;
 
 import timber.log.Timber;
@@ -34,9 +39,13 @@ public class PlaygroundApp extends Application {
         return sDataServiceComponent;
     }
 
+    private Thread.UncaughtExceptionHandler defaultUEH;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
 
         if (sDataServiceComponent == null) {
             sDataServiceComponent = DaggerApplicationComponent.create();
@@ -53,26 +62,19 @@ public class PlaygroundApp extends Application {
         Thread.setDefaultUncaughtExceptionHandler((thread, e) -> handleUncaughtException(thread, e));
     }
 
-    public void handleUncaughtException(Thread thread, Throwable e) {
-        e.printStackTrace(); // not all Android versions will print the stack trace automatically
+    public void handleUncaughtException(Thread thread, Throwable ex) {
+        Log.e("EXCEPTION", "An uncaught exception was handled.", ex);
 
+        PendingIntent intent = PendingIntent.getActivity(getContext(),
+                1001, new Intent(getContext(), MainActivity.class),
+                PendingIntent.FLAG_ONE_SHOT);
 
-        Intent intent = new Intent ();
-        intent.setAction ("com.mydomain.SEND_LOG");
-        intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 10000, intent);
 
+        System.exit(2);
 
-        /*
-         <activity
-            android:name="com.mydomain.SendLog"
-            <intent-filter>
-              <action android:name="com.mydomain.SEND_LOG" />
-            </intent-filter>
-        </activity>
-        */
-
-        System.exit(1); // kill off the crashed app
+        defaultUEH.uncaughtException(thread, ex);
     }
 
     @Override

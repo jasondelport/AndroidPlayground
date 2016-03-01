@@ -24,6 +24,7 @@ import com.jasondelport.playground.ui.activity.PercentActivity;
 import com.jasondelport.playground.ui.activity.PostNoteActivity;
 import com.jasondelport.playground.ui.activity.RXJavaActivity;
 import com.jasondelport.playground.ui.activity.RecyclerViewActivity;
+import com.jasondelport.playground.ui.activity.ThrowExceptionActivity;
 import com.jasondelport.playground.util.NavUtils;
 
 import butterknife.ButterKnife;
@@ -148,6 +149,11 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.main_button_percents)
     void loadPercents(View view) {
         NavUtils.openActivity(getActivity(), PercentActivity.class);
+    }
+
+    @OnClick(R.id.main_button_throw_exception)
+    void loadThrowException(View view) {
+        NavUtils.openActivity(getActivity(), ThrowExceptionActivity.class);
     }
 
     @OnClick(R.id.main_button_coordinator)

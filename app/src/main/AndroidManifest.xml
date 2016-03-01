@@ -91,6 +91,10 @@
             android:label="@string/app_name" />
 
         <activity
+            android:name="com.jasondelport.playground.ui.activity.ThrowExceptionActivity"
+            android:label="@string/app_name" />
+
+        <activity
             android:name="com.jasondelport.playground.ui.activity.PostNoteActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
