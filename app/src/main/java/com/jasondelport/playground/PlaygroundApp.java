@@ -1,6 +1,7 @@
 package com.jasondelport.playground;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.playground.dagger.DaggerApplicationComponent;
@@ -16,6 +17,7 @@ public class PlaygroundApp extends Application {
 
     private static Bus sBus;
     private static DataServiceComponent sDataServiceComponent;
+    private static PlaygroundApp sInstance;
 
     public static Bus getEventBus() {
         if (sBus == null) {
@@ -24,10 +26,12 @@ public class PlaygroundApp extends Application {
         return sBus;
     }
 
-    private static PlaygroundApp sInstance;
-
     public static PlaygroundApp getContext() {
         return sInstance;
+    }
+
+    public static DataServiceComponent getsDataServiceComponent() {
+        return sDataServiceComponent;
     }
 
     @Override
@@ -45,11 +49,30 @@ public class PlaygroundApp extends Application {
         } else {
             new ANRWatchDog().setANRListener(error -> Timber.e(error, "Application Not Responding")).start();
         }
+
+        Thread.setDefaultUncaughtExceptionHandler((thread, e) -> handleUncaughtException(thread, e));
     }
 
+    public void handleUncaughtException(Thread thread, Throwable e) {
+        e.printStackTrace(); // not all Android versions will print the stack trace automatically
 
-    public static DataServiceComponent getsDataServiceComponent() {
-        return sDataServiceComponent;
+
+        Intent intent = new Intent ();
+        intent.setAction ("com.mydomain.SEND_LOG");
+        intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
+        /*
+         <activity
+            android:name="com.mydomain.SendLog"
+            <intent-filter>
+              <action android:name="com.mydomain.SEND_LOG" />
+            </intent-filter>
+        </activity>
+        */
+
+        System.exit(1); // kill off the crashed app
     }
 
     @Override
