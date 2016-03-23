@@ -9,7 +9,11 @@ import android.os.Bundle;
 
 import com.jasondelport.playground.data.model.ServerResponse;
 import com.jasondelport.playground.data.server.DataService;
-import com.jasondelport.playground.data.server.OttoCallback;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by jasondelport on 19/05/15.
@@ -66,9 +70,20 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
                 .setMessage("Are you sure you want to delete this note?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dataManager.getRestApi().deleteNote(getArguments().getString("key"), new OttoCallback<ServerResponse>());
-                        mListener.onConfirmDelete();
-                        dismiss();
+                        Call<ServerResponse> call = dataManager.getRestApi().deleteNote(getArguments().getString("key"));
+                        call.enqueue(new Callback<ServerResponse>() {
+                            @Override
+                            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                                mListener.onConfirmDelete();
+                                dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                                Timber.d(t.getMessage());
+                            }
+                        });
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -5,7 +5,6 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.playground.dagger.DaggerApplicationComponent;
@@ -63,7 +62,7 @@ public class PlaygroundApp extends Application {
     }
 
     public void handleUncaughtException(Thread thread, Throwable ex) {
-        Log.e("EXCEPTION", "An uncaught exception was handled.", ex);
+        Timber.e(ex, "An uncaught exception was handled by the global exception handler.");
 
         PendingIntent intent = PendingIntent.getActivity(getContext(),
                 1001, new Intent(getContext(), MainActivity.class),

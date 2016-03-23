@@ -1,12 +1,11 @@
 package com.jasondelport.playground.data.server;
 
 import com.jasondelport.playground.BuildConfig;
-import com.squareup.okhttp.OkHttpClient;
 
-import java.util.concurrent.TimeUnit;
-
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by jasondelport on 23/02/2015.
@@ -17,16 +16,15 @@ public class DataService {
 
     public DataService() {
         OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(15, TimeUnit.SECONDS);
-        client.setReadTimeout(15, TimeUnit.SECONDS);
 
-        RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setEndpoint(BuildConfig.URL)
-                .setClient(new OkClient(client))
-                .setLogLevel(RestAdapter.LogLevel.FULL);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.URL)
+                .client(client)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        RestAdapter restAdapter = builder.build();
-        api = restAdapter.create(RestApi.class);
+        api = retrofit.create(RestApi.class);
     }
 
     public RestApi getRestApi() {

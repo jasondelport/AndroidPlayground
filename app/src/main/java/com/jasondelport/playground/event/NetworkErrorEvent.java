@@ -1,19 +1,19 @@
 package com.jasondelport.playground.event;
 
-import retrofit.RetrofitError;
+
 
 /**
  * Created by jasondelport on 05/05/15.
  */
 public class NetworkErrorEvent {
 
-    private RetrofitError error;
+    private Throwable error;
 
-    public NetworkErrorEvent(RetrofitError error) {
+    public NetworkErrorEvent(Throwable error) {
         this.error = error;
     }
 
-    public RetrofitError getError() {
+    public Throwable getError() {
         return error;
     }
 }

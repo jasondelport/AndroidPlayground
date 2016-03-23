@@ -4,9 +4,9 @@ import com.jasondelport.playground.PlaygroundApp;
 import com.jasondelport.playground.event.NetworkErrorEvent;
 import com.jasondelport.playground.event.NetworkSuccessEvent;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 public class OttoCallback<T> implements Callback<T> {
@@ -16,13 +16,15 @@ public class OttoCallback<T> implements Callback<T> {
     }
 
     @Override
-    public void success(T t, Response response) {
+    public void onResponse(Call<T> call, Response<T> response) {
         Timber.d("callback network success");
-        PlaygroundApp.getEventBus().post(new NetworkSuccessEvent(t, response));
+        PlaygroundApp.getEventBus().post(new NetworkSuccessEvent(response.body(), response));
     }
 
     @Override
-    public void failure(RetrofitError error) {
-        PlaygroundApp.getEventBus().post(new NetworkErrorEvent(error));
+    public void onFailure(Call<T> call, Throwable t) {
+        PlaygroundApp.getEventBus().post(new NetworkErrorEvent(t));
     }
+
+
 }

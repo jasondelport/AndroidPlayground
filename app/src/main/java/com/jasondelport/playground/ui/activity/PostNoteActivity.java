@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 public class PostNoteActivity extends BaseActivity {
@@ -48,20 +48,22 @@ public class PostNoteActivity extends BaseActivity {
             Note nn = new Note();
             nn.setNote(note.getText().toString());
 
-            dataManager.getRestApi().addNote(nn, new Callback<Note>() {
+            Call<Note> call = dataManager.getRestApi().addNote(nn);
+            call.enqueue(new Callback<Note>() {
                 @Override
-                public void success(Note note, Response response) {
-                    Timber.d("new note -> %s", note.getText());
+                public void onResponse(Call<Note> call, Response<Note> response) {
+                    Timber.d("new note -> %s", response.body().getText());
                     finish();
                 }
 
                 @Override
-                public void failure(RetrofitError error) {
-                    Timber.d("error -> %s", error.toString());
+                public void onFailure(Call<Note> call, Throwable t) {
+                    Timber.d("error -> %s", t.toString());
                 }
             });
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

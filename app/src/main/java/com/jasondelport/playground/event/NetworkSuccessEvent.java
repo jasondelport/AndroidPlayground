@@ -1,6 +1,7 @@
 package com.jasondelport.playground.event;
 
-import retrofit.client.Response;
+
+import retrofit2.Response;
 
 public class NetworkSuccessEvent<T> {
     private T t;

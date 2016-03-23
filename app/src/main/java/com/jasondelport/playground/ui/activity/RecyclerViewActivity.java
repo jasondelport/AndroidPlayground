@@ -21,6 +21,7 @@ import org.parceler.Parcels;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -111,8 +112,8 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         //NetworkClient.getInstance().getNotes(new OttoCallback<NoteData>());
 
         // RXJava Version
-        subscription = dataService.getRestApi().getNotes()
-                .subscribeOn(Schedulers.newThread())
+        Observable<NoteData> observable = dataService.getRestApi().getNotes();
+        subscription = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
         .subscribe(subscriber);
     }
