@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.anupcowkur.reservoir.Reservoir;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.playground.dagger.DaggerApplicationComponent;
 import com.jasondelport.playground.dagger.DataServiceComponent;
@@ -59,6 +60,13 @@ public class PlaygroundApp extends Application {
         }
 
         Thread.setDefaultUncaughtExceptionHandler((thread, e) -> handleUncaughtException(thread, e));
+
+        try {
+            int cacheSize = 10 * 1024 * 1024; // 10 MiB
+            Reservoir.init(this, cacheSize); //in bytes
+        } catch (Exception e) {
+            Timber.e(e, "Failed to load Reservoir");
+        }
     }
 
     public void handleUncaughtException(Thread thread, Throwable ex) {

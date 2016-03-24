@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.anupcowkur.reservoir.Reservoir;
 import com.jasondelport.playground.PlaygroundApp;
 import com.jasondelport.playground.R;
 import com.jasondelport.playground.data.model.NoteData;
@@ -112,7 +113,12 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         //NetworkClient.getInstance().getNotes(new OttoCallback<NoteData>());
 
         // RXJava Version
-        Observable<NoteData> observable = dataService.getRestApi().getNotes();
+        Observable<NoteData> observable = dataService.getRestApi().getNotes(); //.cache();
+        try {
+            Reservoir.put("notes", observable);
+        } catch (Exception e) {
+            Timber.e(e, "Failed to store notes in cache.");
+        }
         subscription = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
         .subscribe(subscriber);

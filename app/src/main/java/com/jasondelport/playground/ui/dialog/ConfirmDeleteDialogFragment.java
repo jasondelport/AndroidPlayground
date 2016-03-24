@@ -21,7 +21,7 @@ import timber.log.Timber;
 public class ConfirmDeleteDialogFragment extends DialogFragment {
 
     private DialogListener mListener;
-    private DataService dataManager = new DataService();
+    private DataService dataManager;
 
     public static ConfirmDeleteDialogFragment newInstance(String key) {
         ConfirmDeleteDialogFragment f = new ConfirmDeleteDialogFragment();
@@ -57,6 +57,8 @@ public class ConfirmDeleteDialogFragment extends DialogFragment {
         android.R.style.Theme_Holo_Light_Panel;
         android.R.style.Theme_Holo_Light;
         */
+
+        dataManager = new DataService();
 
         setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme_Material_Dialog);
     }
