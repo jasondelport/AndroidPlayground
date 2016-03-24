@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jasondelport.playground.R;
+import com.jasondelport.playground.data.model.Money;
 import com.jasondelport.playground.ui.activity.AboutActivity;
 import com.jasondelport.playground.ui.activity.BluetoothScannerActivity;
 import com.jasondelport.playground.ui.activity.CoordinatorLayoutActivity;
@@ -91,6 +92,11 @@ public class MainFragment extends BaseFragment {
         this.setRetainInstance(true);
         this.setMenuVisibility(true);
         this.setHasOptionsMenu(true);
+
+        // auto value example
+        Money money = Money.create("Pounds", 522);
+        Timber.d(money.toString());
+
 
         // if retain instance is set to true these values will persist
         // orientation changes and the death of the parent activity

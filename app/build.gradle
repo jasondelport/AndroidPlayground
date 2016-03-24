@@ -175,7 +175,7 @@ dependencies {
 
     // rx java
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxjava:1.1.2'
 
     // square
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -204,12 +204,12 @@ dependencies {
     provided 'org.parceler:parceler:1.0.4'
 
     //dagger
-    compile 'com.google.dagger:dagger:2.0.2'
-    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    compile 'com.google.dagger:dagger:2.1'
+    apt 'com.google.dagger:dagger-compiler:2.1'
     compile 'javax.annotation:javax.annotation-api:1.2'
 
     //permissions
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.5.2@aar'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.6.0@aar'
 
     // captures ANR errors
     compile 'com.github.anrwatchdog:anrwatchdog:1.2.0'
