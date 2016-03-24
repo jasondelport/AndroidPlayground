@@ -76,7 +76,7 @@ public class RecyclerViewActivity extends BaseActivity implements ConfirmDeleteD
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(this, 2);
+        mLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         //mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
