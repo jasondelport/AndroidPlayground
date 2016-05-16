@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import com.jasondelport.playground.R;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class DrawerHomeFragment extends BaseFragment {
 
     private String name;
+    private Unbinder unbinder;
 
     public DrawerHomeFragment() {
 
@@ -41,7 +43,7 @@ public class DrawerHomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drawer_content_home, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -55,7 +57,7 @@ public class DrawerHomeFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

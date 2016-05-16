@@ -13,18 +13,20 @@ import com.jasondelport.playground.R;
 import com.jasondelport.playground.listener.OnNavigationEventListener;
 import com.jasondelport.playground.ui.activity.DrawerActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import timber.log.Timber;
 
 
 public class DrawerContentChildFragment extends BaseFragment implements OnNavigationEventListener {
 
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     TextView text;
     private String page;
     private boolean isDifferent;
+    private Unbinder unbinder;
     public DrawerContentChildFragment() {
 
     }
@@ -51,7 +53,7 @@ public class DrawerContentChildFragment extends BaseFragment implements OnNaviga
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_drawer_content_child, container, false);
-        ButterKnife.bind(this, view);
+        unbinder =   ButterKnife.bind(this, view);
 
         text.setText(this.page);
 
@@ -126,5 +128,11 @@ public class DrawerContentChildFragment extends BaseFragment implements OnNaviga
     @Override
     public void onBackPressed() {
         Snackbar.make(getView(), "Back Intercepted", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 }

@@ -15,8 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,8 +27,9 @@ import timber.log.Timber;
 
 public class RXJavaFragment extends BaseFragment {
 
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     TextView text;
+    private Unbinder unbinder;
 
     public RXJavaFragment() {
 
@@ -53,7 +55,7 @@ public class RXJavaFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         lifecycle("onCreateView");
         View view = inflater.inflate(R.layout.fragment_rxjava, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         if (ExampleSingleton.isNull()) {
             Timber.d("singleton is null");
         } else {
@@ -154,7 +156,7 @@ public class RXJavaFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         lifecycle("onDestroyView");
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         super.onDestroyView();
     }
 

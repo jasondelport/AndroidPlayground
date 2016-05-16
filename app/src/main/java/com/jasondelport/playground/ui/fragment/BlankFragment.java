@@ -8,14 +8,16 @@ import android.widget.TextView;
 
 import com.jasondelport.playground.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class BlankFragment extends BaseFragment {
 
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     TextView text;
+    private Unbinder unbinder;
 
     public BlankFragment() {
 
@@ -40,7 +42,7 @@ public class BlankFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         text.setText(getArguments().getString("page"));
 
@@ -50,7 +52,7 @@ public class BlankFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

@@ -60,11 +60,18 @@
             android:text="@string/rxjava_tests"/>
 
         <Button
-            android:id="@+id/main_button_percents"
+        android:id="@+id/main_button_percents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/percents_views"/>
+
+        <Button
+            android:id="@+id/main_button_flexbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/percents_views"/>
+            android:text="@string/flexbox_example"/>
 
         <Button
             android:id="@+id/main_button_coordinator"

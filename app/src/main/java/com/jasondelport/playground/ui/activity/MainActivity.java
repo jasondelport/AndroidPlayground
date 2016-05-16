@@ -1,8 +1,11 @@
 package com.jasondelport.playground.ui.activity;
 
+import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +17,7 @@ import com.jasondelport.playground.data.singleton.ExampleSingleton;
 import com.jasondelport.playground.ui.fragment.MainFragment;
 import com.jasondelport.playground.util.DebugUtils;
 import com.jasondelport.playground.util.NavUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import hugo.weaving.DebugLog;
 import timber.log.Timber;
@@ -111,7 +115,18 @@ public class MainActivity extends BaseActivity implements MainFragment.OnEventLi
         ExampleSingleton.getInstance().setHelloWorld("Hello World");
         Timber.d(ExampleSingleton.getInstance().getHelloWorld());
 
-
+        RxPermissions.getInstance(this)
+                .request(Manifest.permission.READ_PHONE_STATE)
+                .subscribe(granted -> {
+                    if (granted) { // Always true pre-M
+                        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                        Timber.d("phone number -> %s", telephonyManager.getLine1Number());
+                        Timber.d("subscriber id -> %s", telephonyManager.getSubscriberId());
+                        Timber.d("device id -> %s", telephonyManager.getDeviceId());
+                    } else {
+                        // Oups permission denied
+                    }
+                });
     }
 
     @Override

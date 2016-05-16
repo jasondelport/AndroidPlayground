@@ -12,7 +12,7 @@ import com.jasondelport.playground.util.Utils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -25,7 +25,7 @@ public class PostNoteActivity extends BaseActivity {
     private final static int RESULT_SPEECH = 1;
     private DataService dataManager = new DataService();
 
-    @Bind(R.id.note)
+    @BindView(R.id.note)
     EditText note;
 
     @Override

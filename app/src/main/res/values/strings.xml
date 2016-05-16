@@ -19,4 +19,5 @@
     <string name="rxjava_tests">RXJava Tests</string>
     <string name="percents_views">Percent Width/Height Example</string>
     <string name="coordinator_layout">Coordinator Layout Example</string>
+    <string name="flexbox_example">FlexBox Example</string>
 </resources>

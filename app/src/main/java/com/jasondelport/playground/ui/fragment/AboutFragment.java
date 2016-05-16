@@ -11,21 +11,24 @@ import android.widget.TextView;
 
 import com.jasondelport.playground.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 public class AboutFragment extends BaseFragment {
 
-    @Bind(R.id.programmer)
+    @BindView(R.id.programmer)
     TextView programmer;
-    @Bind(R.id.git_revision)
+    @BindView(R.id.git_revision)
     TextView githubRevsion;
-    @Bind(R.id.github_address)
+    @BindView(R.id.github_address)
     TextView githubAddress;
-    @Bind(R.id.build_time)
+    @BindView(R.id.build_time)
     TextView buildTime;
+
+    private Unbinder unbinder;
 
     public static Fragment newInstance() {
         Fragment fragment = new AboutFragment();
@@ -44,7 +47,7 @@ public class AboutFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         programmer.setText("Jason Delport");
         githubAddress.setText("Github");
@@ -67,6 +70,13 @@ public class AboutFragment extends BaseFragment {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 
 }

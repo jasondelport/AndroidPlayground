@@ -17,6 +17,7 @@ import com.jasondelport.playground.ui.activity.AboutActivity;
 import com.jasondelport.playground.ui.activity.BluetoothScannerActivity;
 import com.jasondelport.playground.ui.activity.CoordinatorLayoutActivity;
 import com.jasondelport.playground.ui.activity.DrawerActivity;
+import com.jasondelport.playground.ui.activity.FlexBoxActivity;
 import com.jasondelport.playground.ui.activity.KeepAwakeActivity;
 import com.jasondelport.playground.ui.activity.LocationActivity;
 import com.jasondelport.playground.ui.activity.MainActivity;
@@ -30,6 +31,7 @@ import com.jasondelport.playground.util.NavUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import timber.log.Timber;
 
 
@@ -38,6 +40,7 @@ public class MainFragment extends BaseFragment {
     private String mString;
     private int mInt;
     private OnEventListener listener;
+    private Unbinder unbinder;
 
     public MainFragment() {
         lifecycle("constructor");
@@ -117,7 +120,8 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         lifecycle("onCreateView");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, view);
+        ButterKnife.setDebug(true);
+        unbinder = ButterKnife.bind(this, view);
 
         return view;
     }
@@ -152,8 +156,13 @@ public class MainFragment extends BaseFragment {
         NavUtils.openActivity(getActivity(), RXJavaActivity.class);
     }
 
+    @OnClick(R.id.main_button_flexbox)
+    void loadFlexBox() {
+        NavUtils.openActivity(getActivity(), FlexBoxActivity.class);
+    }
+
     @OnClick(R.id.main_button_percents)
-    void loadPercents(View view) {
+    void loadPercents() {
         NavUtils.openActivity(getActivity(), PercentActivity.class);
     }
 
@@ -323,7 +332,7 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         lifecycle("onDestroyView");
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     /*

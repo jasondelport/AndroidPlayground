@@ -17,13 +17,14 @@ import com.jasondelport.playground.ui.activity.DrawerActivity;
 import com.jasondelport.playground.ui.adapter.ViewPagerAdapter;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class DrawerContentParentFragment extends BaseFragment implements OnNavigationEventListener {
 
     private String name;
     private OnNavigationEventListener onNavigationEventListener;
-
+    private Unbinder unbinder;
     public DrawerContentParentFragment() {
 
     }
@@ -48,7 +49,7 @@ public class DrawerContentParentFragment extends BaseFragment implements OnNavig
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drawer_content_parent, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -88,7 +89,7 @@ public class DrawerContentParentFragment extends BaseFragment implements OnNavig
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

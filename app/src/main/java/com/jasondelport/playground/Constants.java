@@ -9,6 +9,7 @@ public abstract class Constants {
     // navigation
     public static final String FRAGMENT_MAIN = "FragmentMain";
     public static final String FRAGMENT_RXJAVA = "FragmentRXJava";
+    public static final String FRAGMENT_FLEXBOX = "FlexBoxFragment";
     public static final String FRAGMENT_PERCENT = "FragmentPercent";
     public static final String FRAGMENT_CONTENT_HOME = "FragmentDrawerContentHome";
     public static final String FRAGMENT_MVP = "FragmentMVP";

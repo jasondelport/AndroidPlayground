@@ -12,11 +12,11 @@ import com.jasondelport.playground.R;
 import com.jasondelport.playground.data.model.Note;
 import com.jasondelport.playground.ui.dialog.ConfirmDeleteDialogFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ViewHolder2<T> extends RecyclerView.ViewHolder implements View.OnClickListener {
-    @Bind(R.id.note)
+    @BindView(R.id.note)
     TextView mTextView;
     private Note note;
 

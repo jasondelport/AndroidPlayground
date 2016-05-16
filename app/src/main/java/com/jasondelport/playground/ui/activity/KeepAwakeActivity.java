@@ -18,17 +18,17 @@ import com.jasondelport.playground.receiver.AlarmReceiver;
 
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class KeepAwakeActivity extends BaseActivity {
 
-    @Bind(R.id.button_keep_awake)
+    @BindView(R.id.button_keep_awake)
     Button button1;
-    @Bind(R.id.button_sleep)
+    @BindView(R.id.button_sleep)
     Button button2;
-    @Bind(R.id.button_alarm)
+    @BindView(R.id.button_alarm)
     Button button3;
     private BroadcastReceiver receiver;
 

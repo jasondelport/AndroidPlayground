@@ -20,6 +20,8 @@
     <!-- android.permission-group.STORAGE //-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
 
 
     <uses-feature
@@ -62,6 +64,10 @@
 
         <activity
             android:name="com.jasondelport.playground.ui.activity.PercentActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name="com.jasondelport.playground.ui.activity.FlexBoxActivity"
             android:label="@string/app_name" />
 
         <activity

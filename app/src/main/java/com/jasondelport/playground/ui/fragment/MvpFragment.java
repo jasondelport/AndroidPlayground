@@ -17,8 +17,6 @@ import com.jasondelport.playground.ui.view.MvpView;
 
 import java.util.Arrays;
 
-import butterknife.ButterKnife;
-
 
 public class MvpFragment extends BaseFragment implements MvpView, AdapterView.OnItemClickListener {
 
@@ -45,7 +43,7 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mvp, container, false);
-        ButterKnife.bind(this, view);
+
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
@@ -55,7 +53,7 @@ public class MvpFragment extends BaseFragment implements MvpView, AdapterView.On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override
