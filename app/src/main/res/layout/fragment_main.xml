@@ -95,6 +95,20 @@
             android:text="Model View Presenter"/>
 
         <Button
+            android:id="@+id/main_button_sensors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Sensors"/>
+
+        <Button
+            android:id="@+id/main_button_detectedactivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Detected Activity"/>
+
+        <Button
             android:id="@+id/main_button_throw_exception"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

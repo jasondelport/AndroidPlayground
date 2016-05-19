@@ -16,6 +16,7 @@ import com.jasondelport.playground.data.model.Money;
 import com.jasondelport.playground.ui.activity.AboutActivity;
 import com.jasondelport.playground.ui.activity.BluetoothScannerActivity;
 import com.jasondelport.playground.ui.activity.CoordinatorLayoutActivity;
+import com.jasondelport.playground.ui.activity.DetectedActivityActivity;
 import com.jasondelport.playground.ui.activity.DrawerActivity;
 import com.jasondelport.playground.ui.activity.FlexBoxActivity;
 import com.jasondelport.playground.ui.activity.KeepAwakeActivity;
@@ -26,6 +27,7 @@ import com.jasondelport.playground.ui.activity.PercentActivity;
 import com.jasondelport.playground.ui.activity.PostNoteActivity;
 import com.jasondelport.playground.ui.activity.RXJavaActivity;
 import com.jasondelport.playground.ui.activity.RecyclerViewActivity;
+import com.jasondelport.playground.ui.activity.SensorActivity;
 import com.jasondelport.playground.ui.activity.ThrowExceptionActivity;
 import com.jasondelport.playground.util.NavUtils;
 
@@ -166,13 +168,23 @@ public class MainFragment extends BaseFragment {
         NavUtils.openActivity(getActivity(), PercentActivity.class);
     }
 
+    @OnClick(R.id.main_button_sensors)
+    void loadSensors() {
+        NavUtils.openActivity(getActivity(), SensorActivity.class);
+    }
+
+    @OnClick(R.id.main_button_detectedactivity)
+    void loadDetectedActivity() {
+        NavUtils.openActivity(getActivity(), DetectedActivityActivity.class);
+    }
+
     @OnClick(R.id.main_button_throw_exception)
-    void loadThrowException(View view) {
+    void loadThrowException() {
         NavUtils.openActivity(getActivity(), ThrowExceptionActivity.class);
     }
 
     @OnClick(R.id.main_button_coordinator)
-    void loadCoordinator(View view) {
+    void loadCoordinator() {
         NavUtils.openActivity(getActivity(), CoordinatorLayoutActivity.class);
     }
 

@@ -4,11 +4,11 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.jasondelport.playground.Constants;
-import com.jasondelport.playground.ui.fragment.AboutFragment;
+import com.jasondelport.playground.ui.fragment.DetectedActivityFragment;
 import com.jasondelport.playground.util.NavUtils;
 
 
-public class AboutActivity extends BaseActivity {
+public class DetectedActivityActivity extends BaseActivity {
 
     private Fragment fragment;
 
@@ -18,12 +18,12 @@ public class AboutActivity extends BaseActivity {
 
 
         if (savedInstanceState == null) {
-            fragment = AboutFragment.newInstance();
+            fragment = DetectedActivityFragment.newInstance();
         } else {
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }
 
-        NavUtils.addFragment(getFragmentManager(), fragment, android.R.id.content, Constants.FRAGMENT_ABOUT);
+        NavUtils.addFragment(getFragmentManager(), fragment, android.R.id.content, Constants.FRAGMENT_DETECTEDACTIVITY);
 
     }
 
