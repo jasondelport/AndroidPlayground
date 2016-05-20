@@ -12,8 +12,8 @@
             android:id="@+id/demo_view"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:circleColour="@color/red"
             android:layout_gravity="center"
+            app:circleColour="@color/red"
             app:circleLabel="CustomView"
             app:labelColour="@color/white"/>
 
@@ -60,11 +60,11 @@
             android:text="@string/rxjava_tests"/>
 
         <Button
-        android:id="@+id/main_button_percents"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/percents_views"/>
+            android:id="@+id/main_button_percents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/percents_views"/>
 
         <Button
             android:id="@+id/main_button_flexbox"
@@ -93,6 +93,20 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Model View Presenter"/>
+
+        <Button
+            android:id="@+id/main_button_job_scheduler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Job Scheduler"/>
+
+        <Button
+            android:id="@+id/main_button_realm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Relam Database"/>
 
         <Button
             android:id="@+id/main_button_sensors"

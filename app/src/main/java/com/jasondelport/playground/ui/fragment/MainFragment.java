@@ -19,6 +19,7 @@ import com.jasondelport.playground.ui.activity.CoordinatorLayoutActivity;
 import com.jasondelport.playground.ui.activity.DetectedActivityActivity;
 import com.jasondelport.playground.ui.activity.DrawerActivity;
 import com.jasondelport.playground.ui.activity.FlexBoxActivity;
+import com.jasondelport.playground.ui.activity.JobSchedulerActivity;
 import com.jasondelport.playground.ui.activity.KeepAwakeActivity;
 import com.jasondelport.playground.ui.activity.LocationActivity;
 import com.jasondelport.playground.ui.activity.MainActivity;
@@ -26,6 +27,7 @@ import com.jasondelport.playground.ui.activity.MvpActivity;
 import com.jasondelport.playground.ui.activity.PercentActivity;
 import com.jasondelport.playground.ui.activity.PostNoteActivity;
 import com.jasondelport.playground.ui.activity.RXJavaActivity;
+import com.jasondelport.playground.ui.activity.RealmActivity;
 import com.jasondelport.playground.ui.activity.RecyclerViewActivity;
 import com.jasondelport.playground.ui.activity.SensorActivity;
 import com.jasondelport.playground.ui.activity.ThrowExceptionActivity;
@@ -181,6 +183,16 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.main_button_throw_exception)
     void loadThrowException() {
         NavUtils.openActivity(getActivity(), ThrowExceptionActivity.class);
+    }
+
+    @OnClick(R.id.main_button_job_scheduler)
+    void loadJobScheduler() {
+        NavUtils.openActivity(getActivity(), JobSchedulerActivity.class);
+    }
+
+    @OnClick(R.id.main_button_realm)
+    void loadRealm() {
+        NavUtils.openActivity(getActivity(), RealmActivity.class);
     }
 
     @OnClick(R.id.main_button_coordinator)
