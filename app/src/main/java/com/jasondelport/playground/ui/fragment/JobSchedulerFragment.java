@@ -29,10 +29,10 @@ import timber.log.Timber;
 public class JobSchedulerFragment extends BaseFragment {
 
     public static final int MSG_SERVICE_OBJ = 2;
-    private static int kJobId = 0;
+    private static int mJobId = 0;
     @BindView(R.id.output1)
     TextView output1;
-    TestJobService mTestService;
+    private TestJobService mTestService;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -44,12 +44,11 @@ public class JobSchedulerFragment extends BaseFragment {
             }
         }
     };
-    ComponentName mServiceComponent;
+    private ComponentName mServiceComponent;
     private Unbinder unbinder;
 
     public static Fragment newInstance() {
-        Fragment fragment = new JobSchedulerFragment();
-        return fragment;
+        return new JobSchedulerFragment();
     }
 
     @Override
@@ -67,8 +66,7 @@ public class JobSchedulerFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_job_scheduler, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        mServiceComponent = new ComponentName(getActivity(), TestJobService.class);
-
+        Timber.d("About to start service");
         Intent startServiceIntent = new Intent(getActivity(), TestJobService.class);
         startServiceIntent.putExtra("messenger", new Messenger(mHandler));
         getActivity().startService(startServiceIntent);
@@ -94,7 +92,8 @@ public class JobSchedulerFragment extends BaseFragment {
 
     public void scheduleJob() {
         Timber.d("scheduleJob");
-        JobInfo.Builder builder = new JobInfo.Builder(kJobId++, mServiceComponent);
+        mServiceComponent = new ComponentName(getActivity(), TestJobService.class);
+        JobInfo.Builder builder = new JobInfo.Builder(mJobId++, mServiceComponent);
         builder.setPeriodic(10000); // every 10 seconds
         mTestService.scheduleJob(builder.build());
     }

@@ -30,6 +30,7 @@ import com.jasondelport.playground.ui.activity.RXJavaActivity;
 import com.jasondelport.playground.ui.activity.RealmActivity;
 import com.jasondelport.playground.ui.activity.RecyclerViewActivity;
 import com.jasondelport.playground.ui.activity.SensorActivity;
+import com.jasondelport.playground.ui.activity.TelephonyActivity;
 import com.jasondelport.playground.ui.activity.ThrowExceptionActivity;
 import com.jasondelport.playground.util.NavUtils;
 
@@ -179,6 +180,12 @@ public class MainFragment extends BaseFragment {
     void loadDetectedActivity() {
         NavUtils.openActivity(getActivity(), DetectedActivityActivity.class);
     }
+
+    @OnClick(R.id.main_button_telephony)
+    void loadTelephonyActivity() {
+        NavUtils.openActivity(getActivity(), TelephonyActivity.class);
+    }
+
 
     @OnClick(R.id.main_button_throw_exception)
     void loadThrowException() {
