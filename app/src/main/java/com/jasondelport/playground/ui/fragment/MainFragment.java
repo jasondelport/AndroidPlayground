@@ -15,6 +15,7 @@ import com.jasondelport.playground.R;
 import com.jasondelport.playground.data.model.Money;
 import com.jasondelport.playground.ui.activity.AboutActivity;
 import com.jasondelport.playground.ui.activity.BluetoothScannerActivity;
+import com.jasondelport.playground.ui.activity.CameraActivity;
 import com.jasondelport.playground.ui.activity.CoordinatorLayoutActivity;
 import com.jasondelport.playground.ui.activity.DetectedActivityActivity;
 import com.jasondelport.playground.ui.activity.DrawerActivity;
@@ -195,6 +196,12 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.main_button_job_scheduler)
     void loadJobScheduler() {
         NavUtils.openActivity(getActivity(), JobSchedulerActivity.class);
+    }
+
+    @OnClick(R.id.main_button_camera)
+    void loadCamera() {
+        Timber.d("Camera clicked");
+        NavUtils.openActivity(getActivity(), CameraActivity.class);
     }
 
     @OnClick(R.id.main_button_realm)
