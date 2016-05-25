@@ -17,7 +17,9 @@ import android.widget.ImageView;
 import com.jasondelport.playground.R;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,10 +33,10 @@ import timber.log.Timber;
 public class CameraFragment extends BaseFragment {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private String mCurrentPhotoPath;
-    private Unbinder unbinder;
     @BindView(R.id.mImageView)
     ImageView mImageView;
+    private String mCurrentPhotoPath;
+    private Unbinder unbinder;
 
     public static Fragment newInstance() {
         Fragment fragment = new CameraFragment();
@@ -68,7 +70,7 @@ public class CameraFragment extends BaseFragment {
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-               Timber.e(ex,"Error -> %s", ex.getMessage());
+                Timber.e(ex, "Error -> %s", ex.getMessage());
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -103,6 +105,35 @@ public class CameraFragment extends BaseFragment {
         return image;
     }
 
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaScanIntent);
+    }
+
+
+    private void saveResizedBitmap(Bitmap bitmap, String imagePath) {
+        OutputStream outputStream;
+        try {
+            File file = new File(imagePath);
+            if (file.exists()) {
+                file.delete();
+                Timber.d("File deleted");
+            }
+            File newFile = new File(imagePath);
+            outputStream = new FileOutputStream(newFile);
+            // 100 = 511, 90 = 171, 80 = 83
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            Timber.e(e,"Error -> %s", e.getMessage());
+        }
+        galleryAddPic();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Timber.d("onActivityResult");
@@ -112,14 +143,16 @@ public class CameraFragment extends BaseFragment {
                 //Bitmap imageBitmap = (Bitmap) extras.get("data");
                 //mImageView.setImageBitmap(imageBitmap);
 
-                //BitmapFactory.Options options = new BitmapFactory.Options();
-                //options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                //Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
-                //Timber.d("Height: %d Width: %d", imageBitmap.getHeight(), imageBitmap.getWidth());
-                //mImageView.setImageBitmap(imageBitmap);
+                /*
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
+                Timber.d("Height: %d Width: %d", imageBitmap.getHeight(), imageBitmap.getWidth());
+                mImageView.setImageBitmap(imageBitmap);
+                */
                 setPic(mCurrentPhotoPath, mImageView);
             } catch (Exception e) {
-                Timber.e(e,"Error -> %s", e.getMessage());
+                Timber.e(e, "Error -> %s", e.getMessage());
             }
         }
     }
@@ -136,10 +169,10 @@ public class CameraFragment extends BaseFragment {
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
         Timber.d("Scale factor: %d", scaleFactor);
-        scaleFactor = 4;
-        Timber.d("New Scale factor: %d", scaleFactor);
+        //scaleFactor = 4;
+        //Timber.d("New Scale factor: %d", scaleFactor);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -149,8 +182,8 @@ public class CameraFragment extends BaseFragment {
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
         Timber.d("Height: %d Width: %d", bitmap.getHeight(), bitmap.getWidth());
         destination.setImageBitmap(bitmap);
+        saveResizedBitmap(bitmap, imagePath);
     }
-
 
 
     @Override
