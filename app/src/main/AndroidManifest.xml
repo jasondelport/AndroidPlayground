@@ -114,6 +114,7 @@
 
         <activity
             android:name="com.jasondelport.playground.ui.activity.JobSchedulerActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"/>
 
         <activity

@@ -25,6 +25,9 @@ public class TestJobService extends JobService {
 
     @Override
     public void onCreate() {
+        // read this
+        // https://developer.android.com/training/monitoring-device-state/doze-standby.html
+        getApplicationContext();
         Timber.d("onCreate");
         super.onCreate();
 

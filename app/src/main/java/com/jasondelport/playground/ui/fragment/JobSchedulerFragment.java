@@ -19,6 +19,9 @@ import android.widget.TextView;
 import com.jasondelport.playground.R;
 import com.jasondelport.playground.service.TestJobService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,6 +33,7 @@ public class JobSchedulerFragment extends BaseFragment {
 
     public static final int MSG_SERVICE_OBJ = 2;
     private static int mJobId = 0;
+    private String output = "";
     @BindView(R.id.output1)
     TextView output1;
     private TestJobService mTestService;
@@ -39,6 +43,8 @@ public class JobSchedulerFragment extends BaseFragment {
             switch (msg.what) {
                 case MSG_SERVICE_OBJ:
                     Timber.d("Service started");
+                    output = "Service started";
+                    setText();
                     mTestService = (TestJobService) msg.obj;
                     mTestService.setUiCallback(JobSchedulerFragment.this);
             }
@@ -94,7 +100,11 @@ public class JobSchedulerFragment extends BaseFragment {
         Timber.d("scheduleJob");
         mServiceComponent = new ComponentName(getActivity(), TestJobService.class);
         JobInfo.Builder builder = new JobInfo.Builder(mJobId++, mServiceComponent);
-        builder.setPeriodic(10000); // every 10 seconds
+        builder.setPersisted(true);
+        builder.setRequiresCharging(false);
+        builder.setRequiresDeviceIdle(false);
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        builder.setPeriodic(60000); // every 60 seconds
         mTestService.scheduleJob(builder.build());
     }
 
@@ -108,10 +118,15 @@ public class JobSchedulerFragment extends BaseFragment {
         Timber.d("cancelAllJobs");
         JobScheduler tm = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
         tm.cancelAll();
+        output = "Job Cancelled\n";
     }
 
     public void onReceivedStartJob(JobParameters params) {
         Timber.d("onReceivedStartJob. Params -> %s", params.toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+        String time = sdf.format(new Date());
+        output = "Starting Job -> "+time+"\n" + output;
+        setText();
     }
 
     public void onReceivedStopJob() {
@@ -120,6 +135,19 @@ public class JobSchedulerFragment extends BaseFragment {
 
     public void onReceivedFinishJob() {
         Timber.d("onReceivedFinishJob");
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+        String time = sdf.format(new Date());
+        output = "Finishing Job -> "+time+"\n" + output;
+        setText();
+    }
+
+    private void setText() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                output1.setText(output);
+            }
+        });
     }
 
     @Override
