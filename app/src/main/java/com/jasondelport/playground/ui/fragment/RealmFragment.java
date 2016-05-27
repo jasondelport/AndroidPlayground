@@ -17,6 +17,7 @@ import com.jasondelport.playground.data.realm.NobelPrize;
 import com.jasondelport.playground.data.realm.NobelPrizeLaureate;
 import com.jasondelport.playground.data.realm.NobelPrizes;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
@@ -66,7 +67,7 @@ public class RealmFragment extends BaseFragment {
 
     @OnClick(R.id.button_load)
     void load() {
-       loadRealmDatabase();
+        loadRealmDatabase();
     }
 
     @OnClick(R.id.button_search)
@@ -76,7 +77,12 @@ public class RealmFragment extends BaseFragment {
 
     @OnClick(R.id.button_delete)
     void delete() {
-       deleteRealmDatabase();
+        deleteRealmDatabase();
+    }
+
+    @OnClick(R.id.button_backup)
+    void backup() {
+        backupRealmDatabase();
     }
 
     @Override
@@ -101,7 +107,7 @@ public class RealmFragment extends BaseFragment {
             //List<City> cities = gson.fromJson(json, new TypeToken<List<City>>() {}.getType());
             NobelPrizes prizes = gson.fromJson(json, NobelPrizes.class);
             Timber.d("Prizes -> %d", prizes.getNobelPrizes().size());
-            output += "Size from JSON = " +prizes.getNobelPrizes().size()+ "\n";
+            output += "Size from JSON = " + prizes.getNobelPrizes().size() + "\n";
             realm.beginTransaction();
             Collection<NobelPrize> realmNobelPrizes = realm.copyToRealm(prizes.getNobelPrizes());
             realm.commitTransaction();
@@ -124,9 +130,9 @@ public class RealmFragment extends BaseFragment {
         String output = "Data: \n";
         for (NobelPrize prize : nps) {
             output += prize.getYear() + " | " + prize.getCategory() + " | " + prize.getLaureates().size() + " laureate(s)" + "\n";
-            for (NobelPrizeLaureate laureate  : prize.getLaureates()) {
+            for (NobelPrizeLaureate laureate : prize.getLaureates()) {
                 output += laureate.getFirstname() + " " + laureate.getSurname();
-                output += " -> " + laureate.getMotivation().substring(1, laureate.getMotivation().length()-1) + "\n";
+                output += " -> " + laureate.getMotivation().substring(1, laureate.getMotivation().length() - 1) + "\n";
             }
             output += "\n";
         }
@@ -144,12 +150,30 @@ public class RealmFragment extends BaseFragment {
         }
     }
 
+    public void backupRealmDatabase() {
+        //https://github.com/realm/realm-java/issues/1305
+        // adb pull /storage/emulated/0/Android/data/com.jasondelport.playground/files/ .
+        try {
+            File path = getActivity().getExternalFilesDir(null);
+            String name = "default.realm";
+            File file = new File(path, name);
+            Timber.i("Backup path -> %s/%s", path, name);
+            // if backup file already exists, delete it
+            if (file.exists()) file.delete();
+            output1.setText("Copied to SD card");
+            realm.writeCopyTo(file);
+        } catch (Exception ex) {
+            Timber.e(ex, "Error -> %s", ex.getMessage());
+        }
+
+    }
 
 
     @Override
     public void onResume() {
         super.onResume();
         realm = Realm.getInstance(realmConfiguration);
+        Timber.i("Realm path -> %s", realm.getPath());
     }
 
     @Override

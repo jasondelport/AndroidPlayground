@@ -20,6 +20,13 @@
         android:text="Search Realm Database"/>
 
     <Button
+        android:id="@+id/button_backup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Copy to SD Card"/>
+
+    <Button
         android:id="@+id/button_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
