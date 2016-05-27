@@ -33,9 +33,9 @@ public class JobSchedulerFragment extends BaseFragment {
 
     public static final int MSG_SERVICE_OBJ = 2;
     private static int mJobId = 0;
-    private String output = "";
     @BindView(R.id.output1)
     TextView output1;
+    private String output = "";
     private TestJobService mTestService;
     Handler mHandler = new Handler() {
         @Override
@@ -125,7 +125,7 @@ public class JobSchedulerFragment extends BaseFragment {
         Timber.d("onReceivedStartJob. Params -> %s", params.toString());
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
         String time = sdf.format(new Date());
-        output = "Starting Job -> "+time+"\n" + output;
+        output = "Starting Job -> " + time + "\n" + output;
         setText();
     }
 
@@ -137,7 +137,7 @@ public class JobSchedulerFragment extends BaseFragment {
         Timber.d("onReceivedFinishJob");
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
         String time = sdf.format(new Date());
-        output = "Finishing Job -> "+time+"\n" + output;
+        output = "Finishing Job -> " + time + "\n" + output;
         setText();
     }
 
