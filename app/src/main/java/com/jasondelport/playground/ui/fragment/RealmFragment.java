@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.jasondelport.playground.R;
 import com.jasondelport.playground.data.realm.NobelPrize;
+import com.jasondelport.playground.data.realm.NobelPrizeLaureate;
 import com.jasondelport.playground.data.realm.NobelPrizes;
 
 import java.io.InputStream;
@@ -36,6 +37,7 @@ public class RealmFragment extends BaseFragment {
     TextView output1;
     private Realm realm;
     private Unbinder unbinder;
+    private RealmConfiguration realmConfiguration;
 
     public static Fragment newInstance() {
         Fragment fragment = new RealmFragment();
@@ -50,10 +52,8 @@ public class RealmFragment extends BaseFragment {
         this.setMenuVisibility(false);
         this.setHasOptionsMenu(false);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(getActivity()).build();
-        Realm.deleteRealm(realmConfiguration);
-        realm = Realm.getInstance(realmConfiguration);
-
+        realmConfiguration = new RealmConfiguration.Builder(getActivity()).build();
+        //Realm.deleteRealm(realmConfiguration);
     }
 
     @Override
@@ -119,11 +119,16 @@ public class RealmFragment extends BaseFragment {
     }
 
     private void searchRealmDatabase() {
-        final RealmResults<NobelPrize> nps = realm.where(NobelPrize.class).equalTo("year", 2000).findAll();
+        RealmResults<NobelPrize> nps = realm.where(NobelPrize.class).equalTo("year", 2000).findAll();
         Timber.d("Realm Results: %d", nps.size());
         String output = "Data: \n";
         for (NobelPrize prize : nps) {
-            output += prize.getYear() + " " + prize.getCategory() + "\n";
+            output += prize.getYear() + " | " + prize.getCategory() + " | " + prize.getLaureates().size() + " laureate(s)" + "\n";
+            for (NobelPrizeLaureate laureate  : prize.getLaureates()) {
+                output += laureate.getFirstname() + " " + laureate.getSurname();
+                output += " -> " + laureate.getMotivation().substring(1, laureate.getMotivation().length()-1) + "\n";
+            }
+            output += "\n";
         }
         output1.setText(output);
     }
@@ -144,10 +149,12 @@ public class RealmFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        realm = Realm.getInstance(realmConfiguration);
     }
 
     @Override
     public void onPause() {
+        realm.close();
         super.onPause();
     }
 }
