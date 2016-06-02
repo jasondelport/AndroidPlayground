@@ -104,6 +104,7 @@ public class RealmFragment extends BaseFragment {
             InputStream stream = assetManager.open("prize.json");
             Gson gson = new GsonBuilder().create();
             JsonElement json = new JsonParser().parse(new InputStreamReader(stream));
+            // For when GSON rejects the RealmObject as a wrong TypeToken
             //List<City> cities = gson.fromJson(json, new TypeToken<List<City>>() {}.getType());
             NobelPrizes prizes = gson.fromJson(json, NobelPrizes.class);
             Timber.d("Prizes -> %d", prizes.getNobelPrizes().size());

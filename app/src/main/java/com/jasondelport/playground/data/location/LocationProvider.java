@@ -13,6 +13,8 @@ import com.google.android.gms.location.LocationServices;
 import com.jasondelport.playground.PlaygroundApp;
 import com.jasondelport.playground.event.LocationUpdateEvent;
 
+import timber.log.Timber;
+
 
 public class LocationProvider implements
         GoogleApiClient.ConnectionCallbacks,
@@ -55,11 +57,15 @@ public class LocationProvider implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            PlaygroundApp.getEventBus().post(new LocationUpdateEvent(location));
+        try {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (location != null) {
+                PlaygroundApp.getEventBus().post(new LocationUpdateEvent(location));
+            }
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mFusedLocationCallback, null);
+        } catch (SecurityException e) {
+            Timber.e(e, "Error -> %s", e.getMessage());
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mFusedLocationCallback, null);
     }
 
     @Override

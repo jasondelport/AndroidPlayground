@@ -10,6 +10,7 @@ import com.anupcowkur.reservoir.Reservoir;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.jasondelport.playground.dagger.DaggerApplicationComponent;
 import com.jasondelport.playground.dagger.DataServiceComponent;
+import com.jasondelport.playground.service.OnClearFromRecentService;
 import com.jasondelport.playground.ui.activity.MainActivity;
 import com.squareup.otto.Bus;
 
@@ -23,6 +24,7 @@ public class PlaygroundApp extends Application {
     private static Bus sBus;
     private static DataServiceComponent sDataServiceComponent;
     private static PlaygroundApp sInstance;
+    private Thread.UncaughtExceptionHandler defaultUEH;
 
     public static Bus getEventBus() {
         if (sBus == null) {
@@ -38,8 +40,6 @@ public class PlaygroundApp extends Application {
     public static DataServiceComponent getsDataServiceComponent() {
         return sDataServiceComponent;
     }
-
-    private Thread.UncaughtExceptionHandler defaultUEH;
 
     @Override
     public void onCreate() {
@@ -67,6 +67,9 @@ public class PlaygroundApp extends Application {
         } catch (Exception e) {
             Timber.e(e, "Failed to load Reservoir");
         }
+
+        Intent intent = new Intent(this, OnClearFromRecentService.class);
+        startService(intent);
     }
 
     public void handleUncaughtException(Thread thread, Throwable ex) {
@@ -76,7 +79,7 @@ public class PlaygroundApp extends Application {
                 1001, new Intent(getContext(), MainActivity.class),
                 PendingIntent.FLAG_ONE_SHOT);
 
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 10000, intent);
 
         System.exit(2);
