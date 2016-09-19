@@ -71,6 +71,7 @@ task findbugs(type: FindBugs, dependsOn: ['compileDebugSources', 'compileRelease
     }
 
     classpath = files()
+
 }
 
 

@@ -144,6 +144,20 @@
             android:text="Telephony &amp; Network"/>
 
         <Button
+            android:id="@+id/main_button_hide_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Hide Nav"/>
+
+        <Button
+            android:id="@+id/main_button_show_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Show Nav"/>
+
+        <Button
             android:id="@+id/main_button_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
